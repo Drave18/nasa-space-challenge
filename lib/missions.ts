@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 export type CelestialBody = 'Moon' | 'Mars';
 export type OperationalStatus = 'active' | 'ended' | 'failed' | 'planned' | 'unknown';
 export type EndBasis = 'mission_end' | 'last_contact';
@@ -42,4 +45,10 @@ export interface MissionRecord {
   source_errors: SourceError[];
 }
 
-export function loadMissions(url?: string | URL): Promise<MissionRecord[]>;
+/** Server-only: reads public/data/missions.json and returns the records whose id is listed (missing ids are skipped). */
+export function readMissionRecords(ids: string[]): MissionRecord[] {
+  if (ids.length === 0) return [];
+  const full = path.join(process.cwd(), 'public/data/missions.json');
+  const all = JSON.parse(fs.readFileSync(full, 'utf8')) as MissionRecord[];
+  return ids.flatMap((id) => all.filter((r) => r.id === id));
+}

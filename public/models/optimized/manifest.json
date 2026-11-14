@@ -1,0 +1,50 @@
+{
+  "apollo-11": {
+    "src": "/models/optimized/apollo-11.glb",
+    "bytes": 2562948,
+    "sha256": "41e49ab0402dde0add0ed1c6209cada98e243fc185f680fa356c3fe377aae77f",
+    "sourceBytes": 13319374
+  },
+  "viking-1": {
+    "src": "/models/optimized/viking-1.glb",
+    "bytes": 611544,
+    "sha256": "07efdef94bfd1c6b2657dbf07c46d4d99a10c78085f99575c92b90c0d498c49a",
+    "sourceBytes": 1849384
+  },
+  "mars-pathfinder": {
+    "src": "/models/optimized/mars-pathfinder.glb",
+    "bytes": 1483112,
+    "sha256": "e055a28db47f3050baf7f59aea6d3c8b1798919655d524fdb2fd6e4115a5916a",
+    "sourceBytes": 9279540
+  },
+  "mars-exploration-rovers": {
+    "src": "/models/optimized/mars-exploration-rovers.glb",
+    "bytes": 2308412,
+    "sha256": "1ff16cc70ad24150a87835aebf63714f51b45c1df0c074504945500d0fe4f49d",
+    "sourceBytes": 11910084
+  },
+  "insight": {
+    "src": "/models/optimized/insight.glb",
+    "bytes": 5021288,
+    "sha256": "90c5cf71d95ba4a550e5803cd83da9035279ade06ae9f5e3a3993ad641de8c86",
+    "sourceBytes": 22357936
+  },
+  "ingenuity": {
+    "src": "/models/optimized/ingenuity.glb",
+    "bytes": 4065688,
+    "sha256": "958868d136af0fe6d10ab0506909c0bd83b8e733c788e1a08d70439785c2d202",
+    "sourceBytes": 1809044
+  },
+  "pioneer-10": {
+    "src": "/models/optimized/pioneer-10.glb",
+    "bytes": 227888,
+    "sha256": "250b651b380977983c4037b05e1757b2573b08335d28b688a0cdcdcae04ee69c",
+    "sourceBytes": 2049840
+  },
+  "near-shoemaker": {
+    "src": "/models/optimized/near-shoemaker.glb",
+    "bytes": 136444,
+    "sha256": "0d066e67d198694a924f427b0200abf035a35a160976181d89ead3e55fcf99a6",
+    "sourceBytes": 701808
+  }
+}

@@ -1,0 +1,83 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.root canvas {
+  display: block;
+  opacity: 0;
+  transition: opacity 250ms linear;
+}
+
+.root[data-model-state='ready'] canvas { opacity: 1; }
+.root[data-mode='story'] { pointer-events: none; }
+.root[data-mode='story'] .progress { bottom: 4rem; }
+
+.labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tag {
+  position: absolute;
+  transform: translate(-50%, -120%);
+  padding: 0.15rem 0.45rem;
+  border: 1px solid rgba(90, 169, 255, 0.6);
+  border-radius: 4px;
+  background: rgba(2, 3, 10, 0.75);
+  color: var(--fg);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.tag::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 8px;
+  background: rgba(90, 169, 255, 0.8);
+}
+
+
+.toolbar {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.toolbar button {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.toolbar button[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.progress {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root canvas { transition: none; }
+}

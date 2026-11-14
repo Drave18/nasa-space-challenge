@@ -1,6 +1,10 @@
 node_modules/
 target/
-dist/
+.next/
+next-env.d.ts
 *.zip
 .DS_Store
 *.log
+tsconfig.tsbuildinfo
+test-results/
+playwright-report/
