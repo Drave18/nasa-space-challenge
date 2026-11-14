@@ -1,0 +1,2792 @@
+[
+  {
+    "id": "1969-059C",
+    "craft_name": "Apollo 11 Lunar Module / EASEP",
+    "celestial_body": "Moon",
+    "landing_site": "Mare Tranquilitatis",
+    "landing_coordinates": {
+      "latitude_deg": 0.674,
+      "longitude_deg": 23.473
+    },
+    "landing_coordinates_raw": "0.674 N, 23.473 E",
+    "launch_date": "1969-07-16",
+    "launch_date_raw": "16 Jul 1969",
+    "end_of_mission_date": "1969-08-27",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The instrument was turned on again on the next lunar day but on 27 August 1969, near noon of this second lunar day, the EASEP no longer accepted commands from Earth stations and the experiment was terminated.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The instrument was turned on again on the next lunar day but on 27 August 1969, near noon of this second lunar day, the EASEP no longer accepted commands from Earth stations and the experiment was terminated.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1969-059C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1969-059C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1969-059C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1969-099C",
+    "craft_name": "Apollo 12 Lunar Module / ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Oceanus Procellarum",
+    "landing_coordinates": {
+      "latitude_deg": -3.013,
+      "longitude_deg": -23.422
+    },
+    "landing_coordinates_raw": "3.013 S, 23.422 W",
+    "launch_date": "1969-11-14",
+    "launch_date_raw": "14 Nov 1969",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The central station, located at 3.0094 S latitude, 23.4246 W longitude, was turned on at 14:21 UT on 19 November 1969 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The central station, located at 3.0094 S latitude, 23.4246 W longitude, was turned on at 14:21 UT on 19 November 1969 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1969-099C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1969-099C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1969-099C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1970-029C",
+    "craft_name": "Apollo 13 Lunar Module/ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1970-04-11",
+    "launch_date_raw": "1970-04-11",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Crewed Landing (aborted)",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 13 Lunar Module/ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1970-029C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 13 Lunar Module/ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1970-029C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 13 Lunar Module/ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1970-029C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-029C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo13info.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1971-008C",
+    "craft_name": "Apollo 14 Lunar Module /ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Fra Mauro",
+    "landing_coordinates": {
+      "latitude_deg": -3.646,
+      "longitude_deg": -17.472
+    },
+    "landing_coordinates_raw": "3.646 S, 17.472 W",
+    "launch_date": "1971-01-31",
+    "launch_date_raw": "31 Jan 1971",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The Apollo 14 ALSEP was shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The Apollo 14 ALSEP was shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 14 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1971-008C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 14 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1971-008C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 14 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1971-008C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1971-063C",
+    "craft_name": "Apollo 15 Lunar Module /ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Hadley Rille",
+    "landing_coordinates": {
+      "latitude_deg": 26.132,
+      "longitude_deg": 3.633
+    },
+    "landing_coordinates_raw": "26.132 N, 3.633 E",
+    "launch_date": "1971-07-26",
+    "launch_date_raw": "26 Jul 1971",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The central station, located at 26.1341 N latitude, 3.6298 E longitude, was turned on at 18:37 UT on 31 July 1971 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The central station, located at 26.1341 N latitude, 3.6298 E longitude, was turned on at 18:37 UT on 31 July 1971 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1971-063C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1971-063C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1971-063C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1972-031C",
+    "craft_name": "Apollo 16 Lunar Module /ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Descartes",
+    "landing_coordinates": {
+      "latitude_deg": -8.973,
+      "longitude_deg": 15.501
+    },
+    "landing_coordinates_raw": "8.973 S, 15.501 E",
+    "launch_date": "1972-04-16",
+    "launch_date_raw": "16 Apr 1972",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The central station, located at 8.9754 S latitude, 15.4981 E longitude, was turned on at 19:38 UT on 21 April 1972 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The central station, located at 8.9754 S latitude, 15.4981 E longitude, was turned on at 19:38 UT on 21 April 1972 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 16 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1972-031C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 16 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1972-031C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 16 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1972-031C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1972-096C",
+    "craft_name": "Apollo 17 Lunar Module /ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Taurus-Littrow",
+    "landing_coordinates": {
+      "latitude_deg": 20.191,
+      "longitude_deg": 30.772
+    },
+    "landing_coordinates_raw": "20.191 N, 30.772 E",
+    "launch_date": "1972-12-07",
+    "launch_date_raw": "07 Dec 1972",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The central station, located at 20.1921 N latitude, 30.7649 E longitude, was turned on at 02:53 UT on 12 December 1972 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The central station, located at 20.1921 N latitude, 30.7649 E longitude, was turned on at 02:53 UT on 12 December 1972 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 17 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1972-096C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 17 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1972-096C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 17 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1972-096C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2019-009B",
+    "craft_name": "Beresheet",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 32.5956,
+      "longitude_deg": 19.3496
+    },
+    "landing_coordinates_raw": "32.5956, 19.3496",
+    "launch_date": "2019-02-22",
+    "launch_date_raw": "22 February 2019",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2019-009B",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2019-009B",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "BLUEGHOST",
+    "craft_name": "Blue Ghost 1 (Firefly)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 18.562,
+      "longitude_deg": 61.81
+    },
+    "landing_coordinates_raw": "18.562, 61.810",
+    "launch_date": "2025-01-15",
+    "launch_date_raw": "15 January 2025",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=BLUEGHOST",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=BLUEGHOST",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "BLUEGHOS2",
+    "craft_name": "Blue Ghost Mission 2 (Firefly)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "2026",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Blue Ghost Mission 2 (Firefly)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=BLUEGHOS2",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Blue Ghost Mission 2 (Firefly)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=BLUEGHOS2",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Blue Ghost Mission 2 (Firefly)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=BLUEGHOS2",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=BLUEGHOS2",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2019-042A",
+    "craft_name": "Chandrayaan 2",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -70.881,
+      "longitude_deg": 22.784
+    },
+    "landing_coordinates_raw": "-70.8810, 22.7840",
+    "launch_date": null,
+    "launch_date_raw": "April 2019",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2019-042A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2019-042A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2023-098A",
+    "craft_name": "Chandrayaan 3",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -69.3741,
+      "longitude_deg": 32.32
+    },
+    "landing_coordinates_raw": "-69.3741, 32.32",
+    "launch_date": "2023-07-14",
+    "launch_date_raw": "14 July 2023",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-098A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-098A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2013-070A",
+    "craft_name": "Chang'e 3",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 44.1214,
+      "longitude_deg": -19.5117
+    },
+    "landing_coordinates_raw": "44.1214, 340.4883",
+    "launch_date": "2013-12-01",
+    "launch_date_raw": "01 December 2013",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-070A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-070A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2018-103A",
+    "craft_name": "Chang'e 4",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2018-12-07",
+    "launch_date_raw": "7 December 2018",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-103A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-103A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      },
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+        "message": "field conflict: artifact table lists differing coordinates for 2018-103A; none used"
+      }
+    ]
+  },
+  {
+    "id": "2020-087A",
+    "craft_name": "Chang'e 5",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2020-11-23",
+    "launch_date_raw": "23 November 2020",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-087A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-087A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      },
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+        "message": "field conflict: artifact table lists differing coordinates for 2020-087A; none used"
+      }
+    ]
+  },
+  {
+    "id": "CHANG-E-6",
+    "craft_name": "Chang'e 6",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -41.6385,
+      "longitude_deg": -153.9852
+    },
+    "landing_coordinates_raw": "-41.6385, 206.0148",
+    "launch_date": "2024-05-03",
+    "launch_date_raw": "3 May 2024",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=CHANG-E-6",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=CHANG-E-6",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "DRAPER",
+    "craft_name": "Draper Lunar Lander",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "2026",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Draper Lunar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=DRAPER",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Draper Lunar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=DRAPER",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Draper Lunar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=DRAPER",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DRAPER",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "VIPER",
+    "craft_name": "Griffin Mission 1",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "Fall 2025",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=VIPER",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=VIPER",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2022-168A",
+    "craft_name": "Hakuto-R M1",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 47.581,
+      "longitude_deg": 44.094
+    },
+    "landing_coordinates_raw": "47.581, 44.094",
+    "launch_date": "2022-12-11",
+    "launch_date_raw": "11 December 2022",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2022-168A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2022-168A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "IM-1-NOVA",
+    "craft_name": "Intuitive Machines 1 (Odysseus)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -80.13,
+      "longitude_deg": 1.44
+    },
+    "landing_coordinates_raw": "-80.13, 1.44",
+    "launch_date": "2024-02-15",
+    "launch_date_raw": "15 February 2024",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=IM-1-NOVA",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=IM-1-NOVA",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "PRIME-1",
+    "craft_name": "Intuitive Machines 2 (PRIME 1)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -84.7906,
+      "longitude_deg": 29.1957
+    },
+    "landing_coordinates_raw": "-84.7906, 29.1957",
+    "launch_date": "2025-02-27",
+    "launch_date_raw": "2025-02-27",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Intuitive Machines 2 (PRIME 1)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=PRIME-1",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Intuitive Machines 2 (PRIME 1)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=PRIME-1",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Intuitive Machines 2 (PRIME 1)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=PRIME-1",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=PRIME-1",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "IM-3-NOVA",
+    "craft_name": "Intuitive Machines 3 (PRISM)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "2025",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Intuitive Machines 3 (PRISM)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=IM-3-NOVA",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Intuitive Machines 3 (PRISM)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=IM-3-NOVA",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Intuitive Machines 3 (PRISM)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=IM-3-NOVA",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=IM-3-NOVA",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "TO-CP-22",
+    "craft_name": "Intuitive Machines 4 (IM 4)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "2027",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "planned",
+    "operational_status_evidence": "2027",
+    "data_links": [
+      {
+        "label": "Data collections from Intuitive Machines 4 (IM 4)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=TO-CP-22",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Intuitive Machines 4 (IM 4)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=TO-CP-22",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Intuitive Machines 4 (IM 4)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=TO-CP-22",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=TO-CP-22",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1966-116A",
+    "craft_name": "Luna 13",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 18.87,
+      "longitude_deg": -62.05
+    },
+    "landing_coordinates_raw": "18.87, 297.95",
+    "launch_date": "1966-12-21",
+    "launch_date_raw": "Dec 21, 1966",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-116A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-116A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1970-072A",
+    "craft_name": "Luna 16",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -0.5137,
+      "longitude_deg": 56.3638
+    },
+    "landing_coordinates_raw": "-0.5137, 56.3638",
+    "launch_date": "1970-09-12",
+    "launch_date_raw": "Sep 12, 1970",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-072A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-072A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1970-095A",
+    "craft_name": "Luna 17",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1970-11-10",
+    "launch_date_raw": "Nov 10, 1970",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-095A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-095A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      },
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+        "message": "field conflict: artifact table lists differing coordinates for 1970-095A; none used"
+      }
+    ]
+  },
+  {
+    "id": "1971-073A",
+    "craft_name": "Luna 18",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 3.76,
+      "longitude_deg": 56.66
+    },
+    "landing_coordinates_raw": "3.76, 56.66",
+    "launch_date": "1971-09-02",
+    "launch_date_raw": "Sep 2, 1971",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-073A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-073A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1959-014A",
+    "craft_name": "Luna 2",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 30.0,
+      "longitude_deg": 0.0
+    },
+    "landing_coordinates_raw": "30., 0.",
+    "launch_date": "1959-09-12",
+    "launch_date_raw": "Sep 12, 1959",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1959-014A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1959-014A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1972-007A",
+    "craft_name": "Luna 20",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 3.7863,
+      "longitude_deg": 56.6242
+    },
+    "landing_coordinates_raw": "3.7863, 56.6242",
+    "launch_date": "1972-02-14",
+    "launch_date_raw": "Feb 14, 1972",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-007A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-007A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1973-001A",
+    "craft_name": "Luna 21",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1973-01-08",
+    "launch_date_raw": "Jan 8, 1973",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-001A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-001A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      },
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+        "message": "field conflict: artifact table lists differing coordinates for 1973-001A; none used"
+      }
+    ]
+  },
+  {
+    "id": "1974-084A",
+    "craft_name": "Luna 23",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 12.6667,
+      "longitude_deg": 62.1511
+    },
+    "landing_coordinates_raw": "12.6667, 62.1511",
+    "launch_date": "1974-10-28",
+    "launch_date_raw": "Oct 28, 1974",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1974-084A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1974-084A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1976-081A",
+    "craft_name": "Luna 24",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 12.7142,
+      "longitude_deg": 62.2129
+    },
+    "landing_coordinates_raw": "12.7142, 62.2129",
+    "launch_date": "1976-08-14",
+    "launch_date_raw": "Aug 14, 1976",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1976-081A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1976-081A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2023-118A",
+    "craft_name": "Luna 25",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -57.865,
+      "longitude_deg": 61.36
+    },
+    "landing_coordinates_raw": "-57.865, 61.360",
+    "launch_date": "2023-08-10",
+    "launch_date_raw": "10 August 2023",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-118A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-118A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1965-036A",
+    "craft_name": "Luna 5",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -1.35,
+      "longitude_deg": -25.48
+    },
+    "landing_coordinates_raw": "-1.35, 334.52",
+    "launch_date": "1965-05-09",
+    "launch_date_raw": "May 9, 1965",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-036A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-036A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1965-044A",
+    "craft_name": "Luna 6",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1965-06-08",
+    "launch_date_raw": "Jun 8, 1965",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Lander",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-044A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-044A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1965-077A",
+    "craft_name": "Luna 7",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 9.0,
+      "longitude_deg": -49.0
+    },
+    "landing_coordinates_raw": "9., 311.",
+    "launch_date": "1965-10-04",
+    "launch_date_raw": "Oct 4, 1965",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-077A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-077A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1965-099A",
+    "craft_name": "Luna 8",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 9.1,
+      "longitude_deg": -63.3
+    },
+    "landing_coordinates_raw": "9.1, 296.7",
+    "launch_date": "1965-12-03",
+    "launch_date_raw": "Dec 3, 1965",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-099A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-099A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1966-006A",
+    "craft_name": "Luna 9",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 7.13,
+      "longitude_deg": -64.37
+    },
+    "landing_coordinates_raw": "7.13, 295.63",
+    "launch_date": "1966-01-31",
+    "launch_date_raw": "Jan 31, 1966",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-006A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-006A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2009-031B",
+    "craft_name": "Lunar Crater Observation and Sensing Satellite (LCROSS)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -84.719,
+      "longitude_deg": -49.61
+    },
+    "landing_coordinates_raw": "-84.719, 310.39",
+    "launch_date": "2009-06-18",
+    "launch_date_raw": "2009-06-18",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Lunar Crater Observation and Sensing Satellite (LCROSS)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2009-031B",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Lunar Crater Observation and Sensing Satellite (LCROSS)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2009-031B",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Lunar Crater Observation and Sensing Satellite (LCROSS)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2009-031B",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2022-156D",
+    "craft_name": "OMOTENASHI",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2022-11-16",
+    "launch_date_raw": "16 November 2022",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2022-156D",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2022-156D",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "PEREGRN-1",
+    "craft_name": "Peregrine Mission 1 (Astrobotic)",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2024-01-08",
+    "launch_date_raw": "8 January 2024",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=PEREGRN-1",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=PEREGRN-1",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1962-001A",
+    "craft_name": "Ranger 3",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1962-01-26",
+    "launch_date_raw": "1962-01-26",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Impact",
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1962-001A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1962-001A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1962-001A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-001A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1962-012A",
+    "craft_name": "Ranger 4",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -15.5,
+      "longitude_deg": -130.7
+    },
+    "landing_coordinates_raw": "-15.5, 229.3",
+    "launch_date": "1962-04-23",
+    "launch_date_raw": "1962-04-23",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1962-012A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1962-012A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1962-012A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-012A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1962-055A",
+    "craft_name": "Ranger 5",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1962-10-18",
+    "launch_date_raw": "1962-10-18",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Impact",
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1962-055A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1962-055A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1962-055A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-055A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1964-007A",
+    "craft_name": "Ranger 6",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 9.3864,
+      "longitude_deg": 21.4806
+    },
+    "landing_coordinates_raw": "9.3864, 21.4806",
+    "launch_date": "1964-01-30",
+    "launch_date_raw": "1964-01-30",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1964-007A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1964-007A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1964-007A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1964-041A",
+    "craft_name": "Ranger 7",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -10.634,
+      "longitude_deg": -20.677
+    },
+    "landing_coordinates_raw": "-10.6340, 339.3230",
+    "launch_date": "1964-07-28",
+    "launch_date_raw": "1964-07-28",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1964-041A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1964-041A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1964-041A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1965-010A",
+    "craft_name": "Ranger 8",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 2.6376,
+      "longitude_deg": 24.7881
+    },
+    "landing_coordinates_raw": "2.6376, 24.7881",
+    "launch_date": "1965-02-17",
+    "launch_date_raw": "1965-02-17",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1965-010A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1965-010A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1965-010A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1965-023A",
+    "craft_name": "Ranger 9",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -12.8281,
+      "longitude_deg": -2.3884
+    },
+    "landing_coordinates_raw": "-12.8281, 357.6116",
+    "launch_date": "1965-03-21",
+    "launch_date_raw": "1965-03-21",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1965-023A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1965-023A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1965-023A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "RESILIENC",
+    "craft_name": "Resilience/M2",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 60.4445,
+      "longitude_deg": -4.588
+    },
+    "landing_coordinates_raw": "60.4445, 355.412",
+    "launch_date": "2025-01-15",
+    "launch_date_raw": "15 January 2025",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=RESILIENC",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=RESILIENC",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2023-137D",
+    "craft_name": "SLIM",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -13.316,
+      "longitude_deg": 25.251
+    },
+    "landing_coordinates_raw": "-13.3160, 25.2510",
+    "launch_date": "2023-09-06",
+    "launch_date_raw": "6 September 2023",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-137D",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2023-137D",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1966-045A",
+    "craft_name": "Surveyor 1",
+    "celestial_body": "Moon",
+    "landing_site": "lunar surface",
+    "landing_coordinates": {
+      "latitude_deg": -2.4745,
+      "longitude_deg": -43.3398
+    },
+    "landing_coordinates_raw": "-2.4745, 316.6602",
+    "launch_date": "1966-05-30",
+    "launch_date_raw": "1966-05-30",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1966-045A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1966-045A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1966-045A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1966-084A",
+    "craft_name": "Surveyor 2",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 5.5,
+      "longitude_deg": -12.0
+    },
+    "landing_coordinates_raw": "5.5, 348.0",
+    "launch_date": "1966-09-20",
+    "launch_date_raw": "1966-09-20",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Lander",
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1966-084A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1966-084A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1966-084A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-084A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1967-035A",
+    "craft_name": "Surveyor 3",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -3.0162,
+      "longitude_deg": -23.418
+    },
+    "landing_coordinates_raw": "-3.0162, 336.5820",
+    "launch_date": "1967-04-17",
+    "launch_date_raw": "1967-04-17",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1967-035A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1967-035A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1967-035A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1967-068A",
+    "craft_name": "Surveyor 4",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1967-07-14",
+    "launch_date_raw": "1967-07-14",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Lander",
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1967-068A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1967-068A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 4",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1967-068A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-068A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1967-084A",
+    "craft_name": "Surveyor 5",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 1.4551,
+      "longitude_deg": 23.1943
+    },
+    "landing_coordinates_raw": "1.4551, 23.1943",
+    "launch_date": "1967-09-08",
+    "launch_date_raw": "1967-09-08",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1967-084A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1967-084A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1967-084A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1967-112A",
+    "craft_name": "Surveyor 6",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 0.4742,
+      "longitude_deg": -1.4275
+    },
+    "landing_coordinates_raw": "0.4742, 358.5725",
+    "launch_date": "1967-11-07",
+    "launch_date_raw": "1967-11-07",
+    "end_of_mission_date": "1967-12-14",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "Contact with the spacecraft was resumed on 14 December for a short period, but no useful data were returned and the last transmission was received at 19:14 UT on 14 December 1967.",
+    "operational_status": "ended",
+    "operational_status_evidence": "Contact with the spacecraft was resumed on 14 December for a short period, but no useful data were returned and the last transmission was received at 19:14 UT on 14 December 1967.",
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1967-112A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1967-112A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1967-112A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1968-001A",
+    "craft_name": "Surveyor 7",
+    "celestial_body": "Moon",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": -40.9812,
+      "longitude_deg": -11.5127
+    },
+    "landing_coordinates_raw": "-40.9812, 348.4873",
+    "launch_date": "1968-01-07",
+    "launch_date_raw": "1968-01-07",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1968-001A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1968-001A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1968-001A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1971-042A",
+    "craft_name": "Cosmos 419",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1971-05-10",
+    "launch_date_raw": "10 May 1971",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Mars Orbiter/Lander",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-042A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-042A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "DEEPSP2",
+    "craft_name": "Deep Space 2",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1999-01-03",
+    "launch_date_raw": "1999-01-03",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Mars Penetrators",
+    "data_links": [
+      {
+        "label": "Data collections from Deep Space 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=DEEPSP2",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Deep Space 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=DEEPSP2",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Deep Space 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=DEEPSP2",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DEEPSP2",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2016-017A",
+    "craft_name": "ExoMars 2016",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2016-03-14",
+    "launch_date_raw": "14 March 2016",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-017A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-017A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "EXOMARS22",
+    "craft_name": "ExoMars Rover",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": null,
+    "launch_date_raw": "2028",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "planned",
+    "operational_status_evidence": "2028",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=EXOMARS22",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=EXOMARS22",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2018-042A",
+    "craft_name": "InSight",
+    "celestial_body": "Mars",
+    "landing_site": "western Elysium Planitia",
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2018-05-05",
+    "launch_date_raw": "2018-05-05",
+    "end_of_mission_date": "2022-12-15",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "The last transmission from InSight was received on 15 December 2022.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The last transmission from InSight was received on 15 December 2022.",
+    "data_links": [
+      {
+        "label": "Data collections from InSight",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2018-042A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on InSight",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2018-042A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for InSight",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2018-042A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2020-052A",
+    "craft_name": "MARS 2020",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2020-07-30",
+    "launch_date_raw": "2020-07-30",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from MARS 2020",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2020-052A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on MARS 2020",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2020-052A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for MARS 2020",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2020-052A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1971-045A",
+    "craft_name": "Mars 2",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1971-05-19",
+    "launch_date_raw": "19 May 1971",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Mars Orbiter/ Attempted Lander",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-045A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-045A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1971-049A",
+    "craft_name": "Mars 3",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1971-05-28",
+    "launch_date_raw": "28 May 1971",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-049A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-049A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1973-052A",
+    "craft_name": "Mars 6",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1973-08-05",
+    "launch_date_raw": "5 August 1973",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Mars Lander (Contact Lost)",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-052A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-052A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1973-053A",
+    "craft_name": "Mars 7",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1973-08-09",
+    "launch_date_raw": "9 August 1973",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Mars Flyby (Attempted Mars Lander)",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-053A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-053A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1996-064A",
+    "craft_name": "Mars 96",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1996-11-16",
+    "launch_date_raw": "16 November 1996",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Mars Orbiter/Landers",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-064A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-064A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2003-022A",
+    "craft_name": "Mars Express",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2003-06-02",
+    "launch_date_raw": "2 June 2003",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-022A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-022A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1996-068A",
+    "craft_name": "Mars Pathfinder",
+    "celestial_body": "Mars",
+    "landing_site": "Ares Vallis",
+    "landing_coordinates": {
+      "latitude_deg": 19.33,
+      "longitude_deg": -33.55
+    },
+    "landing_coordinates_raw": "19.33 N, 33.55 W",
+    "launch_date": "1996-12-04",
+    "launch_date_raw": "1996-12-04",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1996-068A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1996-068A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1996-068A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/mesur.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "MESURPR",
+    "craft_name": "Mars Pathfinder Rover",
+    "celestial_body": "Mars",
+    "landing_site": "Ares Vallis",
+    "landing_coordinates": {
+      "latitude_deg": 19.33,
+      "longitude_deg": -33.55
+    },
+    "landing_coordinates_raw": "19.33 N, 33.55 W",
+    "launch_date": "1996-12-04",
+    "launch_date_raw": "1996-12-04",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Mars Pathfinder Rover",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=MESURPR",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Mars Pathfinder Rover",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=MESURPR",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Mars Pathfinder Rover",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=MESURPR",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=MESURPR",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/mesur.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1999-001A",
+    "craft_name": "Mars Polar Lander",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1999-01-03",
+    "launch_date_raw": "1999-01-03",
+    "end_of_mission_date": "1999-12-03",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "The last telemetry from Mars Polar Lander was sent just prior to atmospheric entry on 3 December 1999.",
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Mars Lander",
+    "data_links": [
+      {
+        "label": "Data collections from Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1999-001A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1999-001A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1999-001A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2011-070A",
+    "craft_name": "Mars Science Laboratory (MSL)",
+    "celestial_body": "Mars",
+    "landing_site": "Gale Crater",
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2011-11-26",
+    "launch_date_raw": "2011-11-26",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [
+      {
+        "label": "Data collections from Mars Science Laboratory (MSL)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2011-070A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Mars Science Laboratory (MSL)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2011-070A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Mars Science Laboratory (MSL)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2011-070A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-070A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2003-032A",
+    "craft_name": "Opportunity",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2003-07-08",
+    "launch_date_raw": "2003-07-08",
+    "end_of_mission_date": "2018-06-10",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "The final communication from the rover was received on 10 June 2018.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The final communication from the rover was received on 10 June 2018.",
+    "data_links": [
+      {
+        "label": "Data collections from Opportunity",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2003-032A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Opportunity",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2003-032A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Opportunity",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2003-032A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2007-034A",
+    "craft_name": "Phoenix Mars Lander",
+    "celestial_body": "Mars",
+    "landing_site": "high northern area of Mars",
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2007-08-04",
+    "launch_date_raw": "2007-08-04",
+    "end_of_mission_date": "2008-11-02",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The Phoenix mission has officially ended, its last signal was received on 02 November 2008.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The Phoenix mission has officially ended, its last signal was received on 02 November 2008.",
+    "data_links": [
+      {
+        "label": "Data collections from Phoenix Mars Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2007-034A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Phoenix Mars Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2007-034A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Phoenix Mars Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2007-034A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "2003-027A",
+    "craft_name": "Spirit",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2003-06-10",
+    "launch_date_raw": "2003-06-10",
+    "end_of_mission_date": "2010-03-22",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "The last transmission from Spirit occurred on 22 March 2010.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The last transmission from Spirit occurred on 22 March 2010.",
+    "data_links": [
+      {
+        "label": "Data collections from Spirit",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=2003-027A",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Spirit",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=2003-027A",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Spirit",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=2003-027A",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1962-062A",
+    "craft_name": "Sputnik 24",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "1962-11-04",
+    "launch_date_raw": "4 November 1962",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "failed",
+    "operational_status_evidence": "Attempted Mars Lander",
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-062A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-062A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "2020-049A",
+    "craft_name": "Tianwen 1",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": null,
+    "landing_coordinates_raw": null,
+    "launch_date": "2020-07-23",
+    "launch_date_raw": "23 July 2020",
+    "end_of_mission_date": null,
+    "end_of_mission_date_basis": null,
+    "end_of_mission_evidence": null,
+    "operational_status": "unknown",
+    "operational_status_evidence": null,
+    "data_links": [],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-049A",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html"
+    ],
+    "extraction_status": "partial",
+    "source_errors": [
+      {
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-049A",
+        "message": "parse failed: archive returned an error page instead of a spacecraft record"
+      }
+    ]
+  },
+  {
+    "id": "1975-075C",
+    "craft_name": "Viking 1 Lander",
+    "celestial_body": "Mars",
+    "landing_site": "western Chryse Planitia",
+    "landing_coordinates": {
+      "latitude_deg": 22.27,
+      "longitude_deg": -47.95
+    },
+    "landing_coordinates_raw": "22.27 deg N latitude and 312.05 deg E",
+    "launch_date": "1975-08-20",
+    "launch_date_raw": "1975-08-20",
+    "end_of_mission_date": "1982-11-13",
+    "end_of_mission_date_basis": "last_contact",
+    "end_of_mission_evidence": "It operated until 13 November 1982 when contact was lost.",
+    "operational_status": "ended",
+    "operational_status_evidence": "It operated until 13 November 1982 when contact was lost.",
+    "data_links": [
+      {
+        "label": "Data collections from Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1975-075C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1975-075C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1975-075C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/viking.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1975-083C",
+    "craft_name": "Viking 2 Lander",
+    "celestial_body": "Mars",
+    "landing_site": null,
+    "landing_coordinates": {
+      "latitude_deg": 47.6673,
+      "longitude_deg": 134.2809
+    },
+    "landing_coordinates_raw": "47.6673 deg N latitude and 134.2809 deg E",
+    "launch_date": "1975-09-09",
+    "launch_date_raw": "1975-09-09",
+    "end_of_mission_date": "1980-04-11",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The Viking 2 Lander operated on the surface for 1281 Mars days and was turned off on April 11, 1980 when its batteries failed.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The Viking 2 Lander operated on the surface for 1281 Mars days and was turned off on April 11, 1980 when its batteries failed.",
+    "data_links": [
+      {
+        "label": "Data collections from Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1975-083C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1975-083C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1975-083C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C",
+      "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/viking.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  }
+]

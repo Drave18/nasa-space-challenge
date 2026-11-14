@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1969-059C",
+    "craft_name": "Apollo 11 Lunar Module / EASEP",
+    "celestial_body": "Moon",
+    "landing_site": "Mare Tranquilitatis",
+    "landing_coordinates": {
+      "latitude_deg": 0.674,
+      "longitude_deg": 23.473
+    },
+    "landing_coordinates_raw": "0.674 N, 23.473 E",
+    "launch_date": "1969-07-16",
+    "launch_date_raw": "16 Jul 1969",
+    "end_of_mission_date": "1969-08-27",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The instrument was turned on again on the next lunar day but on 27 August 1969, near noon of this second lunar day, the EASEP no longer accepted commands from Earth stations and the experiment was terminated.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The instrument was turned on again on the next lunar day but on 27 August 1969, near noon of this second lunar day, the EASEP no longer accepted commands from Earth stations and the experiment was terminated.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1969-059C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1969-059C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1969-059C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  },
+  {
+    "id": "1971-063C",
+    "craft_name": "Apollo 15 Lunar Module /ALSEP",
+    "celestial_body": "Moon",
+    "landing_site": "Hadley Rille",
+    "landing_coordinates": {
+      "latitude_deg": 26.132,
+      "longitude_deg": 3.633
+    },
+    "landing_coordinates_raw": "26.132 N, 3.633 E",
+    "launch_date": "1971-07-26",
+    "launch_date_raw": "26 Jul 1971",
+    "end_of_mission_date": "1977-09-30",
+    "end_of_mission_date_basis": "mission_end",
+    "end_of_mission_evidence": "The central station, located at 26.1341 N latitude, 3.6298 E longitude, was turned on at 18:37 UT on 31 July 1971 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "operational_status": "ended",
+    "operational_status_evidence": "The central station, located at 26.1341 N latitude, 3.6298 E longitude, was turned on at 18:37 UT on 31 July 1971 and shut down along with the other ALSEP stations on 30 September 1977.",
+    "data_links": [
+      {
+        "label": "Data collections from Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayDataset.action?spacecraftId=1971-063C",
+        "kind": "data_collection"
+      },
+      {
+        "label": "Experiments on Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayExperiment.action?spacecraftId=1971-063C",
+        "kind": "experiment"
+      },
+      {
+        "label": "Telecommunications information for Apollo 15 Lunar Module /ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/displayTelemetry.action?id=1971-063C",
+        "kind": "telemetry"
+      }
+    ],
+    "source_urls": [
+      "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/apolloland.html",
+      "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html"
+    ],
+    "extraction_status": "complete",
+    "source_errors": []
+  }
+]

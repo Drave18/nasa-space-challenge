@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Apollo 11 Lunar Module</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font:12px/1.2 system-ui,sans-serif;color:#eee}
+canvas{display:block}
+#labels{position:fixed;inset:0;pointer-events:none}
+.tag{position:absolute;transform:translate(8px,-50%);white-space:nowrap;padding:2px 6px;background:#000a;border:1px solid #fff5;border-radius:3px;letter-spacing:.04em;text-transform:uppercase;font-size:11px}
+.tag::before{content:"";position:absolute;left:-8px;top:50%;width:8px;border-top:1px solid #fff9}
+.tag.hide{display:none}
+#ui{position:fixed;top:10px;left:12px}
+#ui h1{margin:0 0 6px;font-size:16px;letter-spacing:.08em}
+#ui label{display:block;margin:3px 0;cursor:pointer}
+#credit{position:fixed;bottom:6px;left:12px;font-size:10px;opacity:.6;max-width:70ch}
+#credit a{color:inherit}
+</style>
+</head>
+<body>
+<div id="labels"></div>
+<div id="ui"><h1>LUNAR MODULE</h1>
+<label><input type="checkbox" id="lab" checked> Labels</label>
+<label><input type="checkbox" id="spin"> Auto-rotate</label></div>
+<div id="credit">Based on "Apollo 11 Lunar Module" by <a href="https://sketchfab.com/3d-models/apollo-11-lunar-module-d5eea68f5d464515a6fb2d2aee7ac979">CMFDesign</a>, CC-BY-4.0.</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
