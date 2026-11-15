@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { loadStoryChapters } from '@/lib/story';
 import { loadMissionLessons } from '@/lib/lesson';
 import { ExpeditionExperience, type ChapterDescriptor } from './ExpeditionExperience';
+import { buildModelTour } from '@/lib/model-tour';
 import { LessonTimeline } from './LessonTimeline';
 import { LessonInspect } from './LessonInspect';
 import { MissionQuiz } from './MissionQuiz';
+import { Preloader } from './Preloader';
 import styles from './Expedition.module.css';
 import lessonStyles from './Lesson.module.css';
 
@@ -17,6 +19,8 @@ export function Expedition() {
   }));
 
   return (
+    <>
+    <Preloader />
     <ExpeditionExperience chapters={descriptors}>
       <main className={styles.document}>
         <header id="top" className={styles.hero}>
@@ -89,21 +93,21 @@ export function Expedition() {
                   <li><a href={`#${chapter.slug}-quiz`}>Take command</a></li>
                 </ul>
               </nav>
-              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-journey`}>
+              <section className={`${lessonStyles.step} ${lessonStyles.journey}`} aria-labelledby={`${chapter.slug}-journey`}>
                 <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">01</span><h3 id={`${chapter.slug}-journey`} tabIndex={-1}>Follow the journey</h3></div>
-                <p>Choose a moment to see how this mission unfolded.</p>
+                <p>Explore the key moments of this mission.</p>
                 <LessonTimeline milestones={lessons[index].milestones} name={chapter.shortName} />
               </section>
-              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-craft`}>
+              <section className={`${lessonStyles.step} ${lessonStyles.craft}`} aria-labelledby={`${chapter.slug}-craft`}>
                 <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">02</span><h3 id={`${chapter.slug}-craft`} tabIndex={-1}>{lessons[index].headings.craft}</h3></div>
                 {lessons[index].craft.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
-                {chapter.media.kind === 'model' ? <LessonInspect media={chapter.media} slug={chapter.slug} /> : <figure className={lessonStyles.still}><img src={chapter.media.src} alt={chapter.media.alt} loading="lazy" />{chapter.media.credit && <figcaption>{chapter.media.credit}</figcaption>}</figure>}
+                {chapter.media.kind === 'model' ? <LessonInspect media={chapter.media} slug={chapter.slug} tour={buildModelTour(lessons[index])} /> : <figure className={lessonStyles.still}><img src={chapter.media.src} alt={chapter.media.alt} loading="lazy" />{chapter.media.credit && <figcaption>{chapter.media.credit}</figcaption>}</figure>}
               </section>
-              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-learned`}>
+              <section className={`${lessonStyles.step} ${lessonStyles.learned}`} aria-labelledby={`${chapter.slug}-learned`}>
                 <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">03</span><h3 id={`${chapter.slug}-learned`} tabIndex={-1}>{lessons[index].headings.learned}</h3></div>
                 {lessons[index].learned.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
               </section>
-              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-quiz`}>
+              <section className={`${lessonStyles.step} ${lessonStyles.quiz}`} aria-labelledby={`${chapter.slug}-quiz`}>
                 <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">04</span><h3 id={`${chapter.slug}-quiz`} tabIndex={-1}>Your mission challenge</h3></div>
                 <MissionQuiz name={chapter.shortName} questions={lessons[index].quiz} />
                 <Link className={styles.recordLink} href={`/mission/${chapter.slug}`} prefetch={false}>Explore the full mission <span aria-hidden="true">↗</span></Link>
@@ -132,5 +136,6 @@ export function Expedition() {
         </footer>
       </main>
     </ExpeditionExperience>
+    </>
   );
 }

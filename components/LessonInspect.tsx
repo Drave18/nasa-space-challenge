@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { Media } from '@/lib/catalog';
+import type { ModelTour } from '@/lib/model-tour';
 import { InspectModel } from './InspectModel';
 import styles from './Lesson.module.css';
 
-export function LessonInspect({ media, slug }: { media: Extract<Media, { kind: 'model' }>; slug: string }) {
+export function LessonInspect({ media, slug, tour }: { media: Extract<Media, { kind: 'model' }>; slug: string; tour?: ModelTour }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -16,7 +17,7 @@ export function LessonInspect({ media, slug }: { media: Extract<Media, { kind: '
     return () => { observer.disconnect(); window.dispatchEvent(new CustomEvent('lesson-inspect', { detail: null })); };
   }, [open, slug]);
   return <div ref={root} className={styles.inspect}>
-    {open ? <><button type="button" onClick={() => setOpen(false)}>Close inspection</button><InspectModel media={media} initialOpen /></> :
+    {open ? <><button type="button" onClick={() => setOpen(false)}>Close inspection</button><InspectModel media={media} initialOpen tour={tour} /></> :
       <button type="button" onClick={() => setOpen(true)}>Explore the 3D spacecraft</button>}
   </div>;
 }

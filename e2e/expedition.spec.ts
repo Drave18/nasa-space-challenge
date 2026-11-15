@@ -196,10 +196,7 @@ test('homepage has expanded paragraphs, timeline, quiz and model inspection', as
   await expect(page.locator('#apollo-11 h3').filter({ hasText: 'Could people land and return?' })).toBeAttached();
   await expect(lesson.getByText('Funding Agency')).toHaveCount(0);
   await expect(lesson.getByText('Complete captured page text')).toHaveCount(0);
-  const choices = lesson.getByRole('group', { name: 'Choose a milestone' }).getByRole('button');
-  await choices.last().click();
-  await expect(choices.last()).toHaveAttribute('aria-pressed', 'true');
-  await expect(lesson.getByLabel('Apollo 11 LM timeline').locator('[aria-live="polite"]')).toContainText('Rejoining Michael Collins');
+  await expect(lesson.getByLabel('Apollo 11 LM timeline')).toContainText('Rejoining Michael Collins');
   await expect(lesson.locator('section[aria-labelledby="apollo-11-craft"] > p')).toHaveCount(2);
   await expect(lesson.locator('section[aria-labelledby="apollo-11-learned"] > p')).toHaveCount(2);
   await lesson.getByRole('button', { name: 'Explore the 3D spacecraft' }).click();
@@ -340,10 +337,8 @@ test('reading navigation reaches its field guide section', async ({ page }) => {
     expect((await heading.boundingBox())!.y).toBeGreaterThanOrEqual(80);
   }
   const milestones = LESSONS[0].milestones;
-  const choices = lesson.getByRole('group', { name: 'Choose a milestone' }).getByRole('button');
-  await choices.last().click();
-  await expect(lesson.getByLabel('Apollo 11 LM timeline').locator('[aria-live="polite"]')).toContainText('Rejoining Michael Collins');
-  await expect(lesson.getByRole('link', { name: 'Read the NASA reference' })).toHaveAttribute('href', milestones[milestones.length - 1].source);
+  await expect(lesson.getByLabel('Apollo 11 LM timeline')).toContainText('Rejoining Michael Collins');
+  await expect(lesson.getByLabel('Apollo 11 LM timeline').getByRole('link', { name: 'Read the NASA reference' }).last()).toHaveAttribute('href', milestones[milestones.length - 1].source);
   const calm = await page.context().browser()!.newContext({ reducedMotion: 'reduce' });
   const still = await calm.newPage();
   await still.goto('/#apollo-11-lesson');
@@ -500,3 +495,192 @@ for (const scenario of [
     await context.close();
   });
 }
+
+const tourSection = (page: Page) => page.getByRole('region', { name: 'Guided model tour' });
+
+test('guided tour: starts only on request, pages by visitor, and never auto-advances', async ({ page }) => {
+  const glb: string[] = [];
+  page.on('request', request => { if (request.url().endsWith('.glb')) glb.push(request.url()); });
+  const { canvas, shot } = await openViewer(page, 'apollo-11');
+  const tour = tourSection(page);
+  const start = tour.getByRole('button', { name: 'Take a tour' });
+  await expect(start).toBeEnabled();
+  await expect(tour.getByRole('heading')).toHaveCount(0);
+  const natural = await shot();
+  await start.focus();
+  await page.keyboard.press('Enter');
+  await expect(tour.getByRole('heading', { name: 'Front profile' })).toBeFocused();
+  await expect(tour).toContainText('1 / 3');
+  const milestoneSource = tour.getByRole('link', { name: /NASA reference/ });
+  await expect(milestoneSource).toHaveAttribute('target', '_blank');
+  await expect(milestoneSource).toHaveAttribute('href', /nasa\.gov/);
+  await expect(tour.getByRole('button', { name: 'Previous stop' })).toBeDisabled();
+  const front = await shot();
+  expect(Buffer.compare(front, natural)).not.toBe(0);
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  await expect(tour.getByRole('heading', { name: 'Side profile' })).toBeFocused();
+  const side = await shot();
+  expect(Buffer.compare(side, front)).not.toBe(0);
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  await expect(tour.getByRole('heading', { name: 'Overhead view' })).toBeFocused();
+  await expect(tour.getByRole('button', { name: 'Next stop' })).toHaveCount(0);
+  await tour.getByRole('button', { name: 'Previous stop' }).click();
+  await tour.getByRole('button', { name: 'Previous stop' }).click();
+  await expect(tour.getByRole('heading', { name: 'Front profile' })).toBeVisible();
+  expect(Buffer.compare(await shot(), front)).toBe(0);
+  await page.waitForTimeout(3000);
+  await expect(tour).toContainText('1 / 3');
+  // Tour sits below the stage and never overlays the canvas.
+  const box = (await canvas.boundingBox())!;
+  expect((await tour.boundingBox())!.y).toBeGreaterThanOrEqual(box.y + box.height - 1);
+  await tour.getByRole('button', { name: 'Exit tour' }).click();
+  await expect(start).toBeFocused();
+  expect(glb.length).toBe(1);
+});
+
+for (const slug of MODEL_ROUTES) {
+  test(`guided tour: ${slug} visits three stops and restarts at the first`, async ({ page }) => {
+    await openViewer(page, slug);
+    const tour = tourSection(page);
+    await tour.getByRole('button', { name: 'Take a tour' }).click();
+    await expect(tour).toContainText('1 / 3');
+    await tour.getByRole('button', { name: 'Next stop' }).click();
+    await tour.getByRole('button', { name: 'Next stop' }).click();
+    await expect(tour).toContainText('3 / 3');
+    await tour.getByRole('button', { name: 'Finish tour' }).click();
+    await expect(tour.getByRole('button', { name: 'Take a tour' })).toBeFocused();
+    await tour.getByRole('button', { name: 'Take a tour' }).click();
+    await expect(tour).toContainText('1 / 3');
+  });
+}
+
+test('guided tour: manual input, commands and Escape end the tour; Reset matches Natural', async ({ page }) => {
+  const { canvas } = await openViewer(page, 'apollo-11');
+  // Focus moves scroll the page by sub-pixels; compare the canvas interior only.
+  const shot = async () => {
+    await page.waitForTimeout(450);
+    await canvas.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo({ top: Math.round(window.scrollY), behavior: 'instant' }));
+    const b = (await canvas.boundingBox())!;
+    return page.screenshot({ clip: { x: b.x + 2, y: b.y + 2, width: b.width - 4, height: b.height - 4 }, animations: 'disabled' });
+  };
+  const tour = tourSection(page);
+  const start = tour.getByRole('button', { name: 'Take a tour' });
+  const natural = await shot();
+  await start.click();
+  const front = await shot();
+  await tour.getByRole('button', { name: 'Exit tour' }).click();
+  await page.getByRole('button', { name: 'Reset view' }).click();
+  await start.click();
+  await page.waitForTimeout(100);
+  const box = (await canvas.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 + 80, box.y + box.height / 2 + 10, { steps: 4 });
+  await page.mouse.up();
+  await expect(start).toBeVisible();
+  // An interrupted move must not complete later and snap to the front pose.
+  await page.waitForTimeout(1500);
+  expect(Buffer.compare(await shot(), front)).not.toBe(0);
+  for (const name of ['Raking light', 'Top view', 'Spin']) {
+    await start.click();
+    await expect(tour).toContainText('1 / 3');
+    await page.getByRole('button', { name }).click();
+    await expect(start).toBeVisible();
+    if (name === 'Spin') await page.getByRole('button', { name: 'Spin' }).click();
+  }
+  await start.click();
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  await page.keyboard.press('Escape');
+  await expect(start).toBeFocused();
+  await start.click();
+  await page.getByRole('button', { name: 'Reset view' }).click();
+  await expect(start).toBeVisible();
+  expect(Buffer.compare(await shot(), natural)).toBe(0);
+});
+
+test('guided tour: rapid paging lands on the last stop and expanding exits cleanly without reloading the model', async ({ page }) => {
+  const glb: string[] = [];
+  page.on('request', request => { if (request.url().endsWith('.glb')) glb.push(request.url()); });
+  await openViewer(page, 'insight');
+  const tour = tourSection(page);
+  await tour.getByRole('button', { name: 'Take a tour' }).click();
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  await tour.getByRole('button', { name: 'Previous stop' }).click();
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  await expect(tour).toContainText('2 / 3');
+  await page.getByRole('button', { name: 'Expand viewer' }).click();
+  await expect(tour.getByRole('button', { name: 'Take a tour' })).toBeVisible();
+  await page.getByRole('button', { name: 'Collapse viewer' }).click();
+  expect(glb.length).toBe(1);
+});
+
+test('guided tour: homepage lesson restarts after close and mobile layouts stay reachable', async ({ page }) => {
+  for (const size of [{ width: 390, height: 844 }, { width: 844, height: 390 }]) {
+    await page.setViewportSize(size);
+    await page.goto('/#apollo-11-lesson');
+    const lesson = page.locator('#apollo-11-lesson');
+    await expect(async () => {
+      const explore = lesson.getByRole('button', { name: 'Explore the 3D spacecraft' });
+      if (await explore.count()) await explore.click({ timeout: 2000 });
+      await expect(lesson.locator('canvas')).toBeAttached({ timeout: 2000 });
+    }).toPass({ timeout: 30000 });
+    await lesson.locator('canvas').scrollIntoViewIfNeeded();
+    const tour = tourSection(page);
+    await expect(tour.getByRole('button', { name: 'Take a tour' })).toBeEnabled({ timeout: 60000 });
+    await tour.getByRole('button', { name: 'Take a tour' }).click();
+    for (const name of ['Previous stop', 'Next stop', 'Exit tour']) {
+      const button = tour.getByRole('button', { name });
+      await button.scrollIntoViewIfNeeded();
+      expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    await expect(lesson.locator('canvas')).toHaveCount(1);
+    await lesson.getByRole('button', { name: 'Close inspection' }).click();
+    await lesson.getByRole('button', { name: 'Explore the 3D spacecraft' }).click();
+    await expect(tour.getByRole('button', { name: 'Take a tour' })).toBeVisible();
+    await expect(tour.getByRole('heading')).toHaveCount(0);
+  }
+});
+
+test('guided tour: reduced motion applies each stop immediately; failed loads never offer a tour', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const { shot } = await openViewer(page, 'apollo-11');
+  const tour = tourSection(page);
+  await tour.getByRole('button', { name: 'Take a tour' }).click();
+  const first = await shot();
+  await tour.getByRole('button', { name: 'Next stop' }).click();
+  const second = await shot();
+  expect(Buffer.compare(first, second)).not.toBe(0);
+  expect(Buffer.compare(await shot(), second)).toBe(0);
+  const failed = await page.context().newPage();
+  await failed.route('**/models/**', route => route.abort());
+  await failed.goto('/mission/apollo-11');
+  await launchViewer(failed);
+  await expect(failed.getByText('Could not load model')).toBeVisible();
+  await expect(failed.getByRole('button', { name: 'Take a tour' })).toHaveCount(0);
+});
+
+const APOLLO = LESSONS[0].milestones;
+
+test('journey timeline: every Apollo milestone is visible without clicking, with its source', async ({ page }) => {
+  await page.goto('/#apollo-11-lesson');
+  const timeline = page.locator('#apollo-11-lesson').getByLabel('Apollo 11 LM timeline');
+  await expect(timeline.getByRole('listitem')).toHaveCount(APOLLO.length);
+  await expect(timeline.getByRole('button')).toHaveCount(0);
+  for (const [index, moment] of APOLLO.entries()) {
+    const item = timeline.getByRole('listitem').nth(index);
+    await expect(item.getByRole('heading', { name: moment.title })).toBeAttached();
+    await expect(item).toContainText(moment.explanation.slice(0, 40));
+    await expect(item.getByRole('link', { name: 'Read the NASA reference' })).toHaveAttribute('href', moment.source);
+  }
+});
+
+test('journey timeline: mobile has no horizontal overflow', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await page.goto('/#apollo-11-lesson');
+  await expect(page.locator('#apollo-11-lesson').getByLabel('Apollo 11 LM timeline')).toBeAttached();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+  await context.close();
+});

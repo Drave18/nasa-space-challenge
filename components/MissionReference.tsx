@@ -3,6 +3,8 @@ import Link from 'next/link';
 import type { LoadedMission } from '@/lib/catalog';
 import type { Block } from '@/lib/content';
 import { mergeMissionFacts } from '@/lib/story';
+import { buildMissionLesson } from '@/lib/lesson';
+import { buildModelTour } from '@/lib/model-tour';
 import { InspectModel } from './InspectModel';
 import { MissionArticleMotion } from './MissionArticleMotion';
 import styles from './MissionReference.module.css';
@@ -46,7 +48,7 @@ export function MissionReference({ mission }: { mission: LoadedMission }) {
           <Image src={entry.media.src} alt={entry.media.alt} fill sizes="(min-width: 1264px) 1200px, 100vw" />
           <figcaption>{entry.media.credit}</figcaption>
         </figure>
-      ) : <InspectModel media={entry.media} />}
+      ) : <InspectModel media={entry.media} tour={buildModelTour(buildMissionLesson(mission))} />}
       {facts.length > 0 && (
         <dl className={styles.facts}>
           {facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}

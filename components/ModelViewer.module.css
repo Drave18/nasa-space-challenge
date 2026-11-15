@@ -33,8 +33,7 @@
   transform: translate(-50%, -120%);
   padding: 0.15rem 0.45rem;
   border: 1px solid rgba(225, 225, 215, 0.55);
-  border-radius: 4px;
-  background: var(--glass-surface), rgba(5, 5, 5, 0.55);
+  background: #050505;
   color: var(--fg);
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
@@ -70,9 +69,7 @@
   min-height: 44px;
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--glass-surface);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  background: var(--surface);
   transition: border-color 180ms ease;
   color: var(--fg);
   cursor: pointer;

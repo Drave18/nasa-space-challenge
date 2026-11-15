@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useImperativeHandle, useRef, useState, type Ref } from 'react';
+import gsap from 'gsap';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from 'three-mesh-bvh';
@@ -9,17 +10,23 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { ModelAssetStore } from '@/lib/model-assets';
 import type { Media } from '@/lib/catalog';
+import type { ModelTourView } from '@/lib/model-tour';
 import styles from './ModelViewer.module.css';
 
 type ModelMedia = Extract<Media, { kind: 'model' }>;
 export type ModelLoadState = 'idle' | 'loading' | 'preparing' | 'ready' | 'error' | 'unavailable';
-export interface ModelViewerHandle { setStoryProgress(progress: number): void }
+export interface ModelViewerHandle {
+  setStoryProgress(progress: number): void;
+  tourView(preset: ModelTourView): void;
+  cancelTourMove(): void;
+}
 export interface ModelViewerProps {
   media: ModelMedia | null;
   mode: 'story' | 'inspect';
   active: boolean;
   prefetchSrc?: string | null;
   onStateChange?: (state: ModelLoadState) => void;
+  onInspectInteraction?: () => void;
   ref?: Ref<ModelViewerHandle>;
 }
 
@@ -101,6 +108,9 @@ type Runtime = {
   invalidate(): void;
   pose(): void;
   reset(): void;
+  interrupt(): void;
+  tourView(preset: ViewPreset): void;
+  cancelTourMove(): void;
   view(preset: ViewPreset): void;
   light(preset: LightingPreset): void;
   zoom(factor: number): void;
@@ -128,6 +138,8 @@ export function ModelViewer(props: ModelViewerProps) {
       runtime.current?.pose();
       runtime.current?.invalidate();
     },
+    tourView(preset) { runtime.current?.tourView(preset); },
+    cancelTourMove() { runtime.current?.cancelTourMove(); },
   }), []);
 
   useEffect(() => {
@@ -185,6 +197,10 @@ export function ModelViewer(props: ModelViewerProps) {
     ray.firstHitOnly = true;
     const size = new THREE.Vector3();
     const target = new THREE.Vector3();
+    const startTarget = new THREE.Vector3();
+    // One scalar 0-1 drives a tour move; spherical endpoints are snapshotted when it starts.
+    const move = { t: 0, r0: 0, r1: 0, p0: 0, p1: 0, th0: 0, dth: 0 };
+    let tween: gsap.core.Tween | null = null;
     let model: THREE.Object3D | null = null;
     let current: ModelMedia | null = null;
     let generation = 0;
@@ -301,9 +317,35 @@ export function ModelViewer(props: ModelViewerProps) {
       controls.update();
       needsReset = false;
     };
+    const notifyInteraction = () => { if (!disposed) latest.current.onInspectInteraction?.(); };
+    // Kill an in-flight tour move where it is; returns whether one was running.
+    const stopMove = () => {
+      if (!tween) return false;
+      tween.kill();
+      tween = null;
+      controls.enableDamping = true;
+      return true;
+    };
+    const leaveTour = () => { stopMove(); notifyInteraction(); };
+    const interrupt = () => { stopMove(); notifyInteraction(); };
+    const applyMove = (t: number) => {
+      controls.target.lerpVectors(startTarget, target, t);
+      orbitSpherical.set(
+        THREE.MathUtils.lerp(move.r0, move.r1, t),
+        THREE.MathUtils.lerp(move.p0, move.p1, t),
+        move.th0 + move.dth * t,
+      );
+      orbitSpherical.makeSafe();
+      offset.setFromSpherical(orbitSpherical);
+      camera.position.copy(controls.target).add(offset);
+      controls.update();
+      labelsDirty = true;
+      invalidate();
+    };
     const fit = () => {
       const w = root.clientWidth, h = root.clientHeight;
       if (!w || !h) return;
+      if (tween) leaveTour();
       width = w; height = h;
       renderer.setPixelRatio(Math.min(devicePixelRatio, w < 900 ? 1.25 : 1.5));
       renderer.setSize(w, h);
@@ -334,6 +376,7 @@ export function ModelViewer(props: ModelViewerProps) {
       invalidate();
     };
     const clear = () => {
+      stopMove();
       cancelAnimationFrame(frame); frame = 0;
       clearTimeout(settle); settle = 0;
       compiled = ready = bvhReady = false;
@@ -362,6 +405,7 @@ export function ModelViewer(props: ModelViewerProps) {
       }
     };
     const load = (media: ModelMedia | null) => {
+      leaveTour();
       const token = ++generation;
       clear();
       current = media;
@@ -440,13 +484,13 @@ export function ModelViewer(props: ModelViewerProps) {
       if (inspect && lastMode !== 'inspect') needsReset = true;
       lastMode = latest.current.mode;
       if (inspect) { prepareBVH(); if (needsReset && model) resetView(); }
-      describe();
+      else leaveTour();
       controls.enabled = inspect && latest.current.active;
       controls.autoRotate = inspect && options.current.spin;
       labels.hidden = !inspect || !options.current.showLabels;
       labelsDirty = true;
       applyLighting(inspect ? options.current.lighting : 'natural');
-      if (!latest.current.active) { cancelAnimationFrame(frame); frame = 0; }
+      if (!latest.current.active) { leaveTour(); cancelAnimationFrame(frame); frame = 0; }
       else { pose(); invalidate(); }
     };
     const change = () => { labelsDirty = true; invalidate(); };
@@ -461,6 +505,7 @@ export function ModelViewer(props: ModelViewerProps) {
     const commanded = () => { controls.update(); labelsDirty = true; invalidate(); };
     const light = (preset: LightingPreset) => {
       if (!canCommand()) return;
+      interrupt();
       stopSpin();
       options.current.lighting = preset;
       setLighting(preset);
@@ -470,20 +515,51 @@ export function ModelViewer(props: ModelViewerProps) {
     const reset = () => {
       if (!canCommand()) return;
       light('natural');
+      interrupt();
       flushInertia(); resetView(); commanded();
     };
-    const view = (preset: ViewPreset) => {
-      if (!canCommand()) return;
-      stopSpin();
-      flushInertia();
+    const presetDirection = (preset: ViewPreset) => {
       if (preset === 'front') direction.set(0, 0, 1);
       else if (preset === 'side') direction.set(1, 0, 0);
       else direction.set(0, 1, 0.02);
-      camera.position.copy(direction.normalize().multiplyScalar(distance)).add(controls.target);
+      return direction.normalize();
+    };
+    const view = (preset: ViewPreset) => {
+      if (!canCommand()) return;
+      interrupt();
+      stopSpin();
+      flushInertia();
+      camera.position.copy(presetDirection(preset).multiplyScalar(distance)).add(controls.target);
       commanded();
+    };
+    // Animated preset: recentres on the model and returns to a fitted full-model view.
+    const tourView = (preset: ViewPreset) => {
+      if (!canCommand() || !latest.current.active || document.hidden) return;
+      stopSpin();
+      stopMove();
+      flushInertia();
+      startTarget.copy(controls.target);
+      offset.copy(camera.position).sub(controls.target);
+      orbitSpherical.setFromVector3(offset);
+      move.r0 = orbitSpherical.radius;
+      move.p0 = orbitSpherical.phi;
+      move.th0 = orbitSpherical.theta;
+      orbitSpherical.setFromVector3(presetDirection(preset).multiplyScalar(distance));
+      move.r1 = THREE.MathUtils.clamp(orbitSpherical.radius, controls.minDistance, controls.maxDistance);
+      move.p1 = THREE.MathUtils.clamp(orbitSpherical.phi, controls.minPolarAngle, controls.maxPolarAngle);
+      move.dth = THREE.MathUtils.euclideanModulo(orbitSpherical.theta - move.th0 + Math.PI, Math.PI * 2) - Math.PI;
+      if (motion.matches) { applyMove(1); return; }
+      controls.enableDamping = false;
+      move.t = 0;
+      tween = gsap.to(move, {
+        t: 1, duration: 0.85, ease: 'power2.inOut',
+        onUpdate: () => applyMove(move.t),
+        onComplete: () => { tween = null; controls.enableDamping = true; },
+      });
     };
     const zoom = (factor: number) => {
       if (!canCommand()) return;
+      interrupt();
       stopSpin();
       flushInertia();
       offset.copy(camera.position).sub(controls.target);
@@ -492,6 +568,7 @@ export function ModelViewer(props: ModelViewerProps) {
       commanded();
     };
     const orbit = (theta: number, phi: number) => {
+      interrupt();
       stopSpin();
       flushInertia();
       offset.copy(camera.position).sub(controls.target);
@@ -518,26 +595,32 @@ export function ModelViewer(props: ModelViewerProps) {
       event.preventDefault();
     };
     const visibility = () => {
-      if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+      if (document.hidden) { leaveTour(); cancelAnimationFrame(frame); frame = 0; }
       else invalidate();
     };
+    // Reduced motion mid-move settles at the requested endpoint and keeps the current note.
     const reduced = () => {
-      if (motion.matches) stopSpin();
+      if (motion.matches) {
+        stopSpin();
+        if (stopMove()) applyMove(1);
+      }
       pose(); invalidate();
     };
     const lost = (event: Event) => {
       event.preventDefault(); unavailable = true; generation++;
+      leaveTour();
       store.retain([]); clear(); publish('unavailable');
     };
+    const onStart = () => { stopSpin(); interrupt(); };
     controls.addEventListener('change', change);
-    controls.addEventListener('start', stopSpin);
+    controls.addEventListener('start', onStart);
     document.addEventListener('visibilitychange', visibility);
     motion.addEventListener('change', reduced);
     canvas.addEventListener('webglcontextlost', lost);
     canvas.addEventListener('keydown', key);
     const observer = new ResizeObserver(fit);
     observer.observe(root);
-    runtime.current = { load, configure, speculate, invalidate, pose, reset, view, zoom, light };
+    runtime.current = { load, configure, speculate, invalidate, pose, reset, view, zoom, light, interrupt, tourView, cancelTourMove: stopMove };
     fit();
     configure();
     return () => {
@@ -545,7 +628,7 @@ export function ModelViewer(props: ModelViewerProps) {
       runtime.current = null;
       store.dispose(); clear(); observer.disconnect();
       controls.removeEventListener('change', change);
-      controls.removeEventListener('start', stopSpin);
+      controls.removeEventListener('start', onStart);
       document.removeEventListener('visibilitychange', visibility);
       motion.removeEventListener('change', reduced);
       canvas.removeEventListener('webglcontextlost', lost);
@@ -573,7 +656,7 @@ export function ModelViewer(props: ModelViewerProps) {
       </p> : null}
       {inspect ? <div className={styles.toolbar} role="toolbar" aria-label="3D model controls">
         {props.media?.labels?.length ? <button type="button" aria-pressed={showLabels} onClick={() => setShowLabels(value => !value)}>Labels</button> : null}
-        <button type="button" aria-pressed={spin} onClick={() => setSpin(value => !value)}>Spin</button>
+        <button type="button" aria-pressed={spin} onClick={() => { runtime.current?.interrupt(); setSpin(value => !value); }}>Spin</button>
         <button type="button" disabled={!ready} aria-label="Natural light" aria-pressed={lighting === 'natural'} onClick={() => runtime.current?.light('natural')}>Natural</button>
         <button type="button" disabled={!ready} aria-label="Raking light" aria-pressed={lighting === 'raking'} onClick={() => runtime.current?.light('raking')}>Raking</button>
         <button type="button" disabled={!ready} aria-label="Reset view" onClick={() => runtime.current?.reset()}>Reset</button>
