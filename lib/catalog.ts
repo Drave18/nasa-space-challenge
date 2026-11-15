@@ -178,19 +178,7 @@ export const CATALOG: MissionEntry[] = [
       credit: 'NASA/Ames/Wendy Stenzel/Daniel Rutter (ACD18-0204-002)',
     },
   },
-  {
-    slug: 'nssdca',
-    file: 'nssdca-home.json',
-    shortName: 'NSSDCA Archive',
-    body: 'Earth · Goddard',
-    recordIds: [],
-    media: {
-      kind: 'image',
-      src: '/images/nssdca.jpg',
-      alt: "Aerial view of NASA's Goddard Space Flight Center",
-      credit: 'NASA Goddard/Bill Hrybyk',
-    },
-  },
+
 ];
 
 export function getEntry(slug: string): MissionEntry | undefined {

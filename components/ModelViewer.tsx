@@ -182,9 +182,9 @@ export function ModelViewer(props: ModelViewerProps) {
     const pose = () => {
       if (!model || latest.current.mode !== 'story') return;
       const p = motion.matches ? 0.5 : progressRef.current;
-      spherical.set(distance * (motion.matches ? 1 : THREE.MathUtils.lerp(1.1, 0.95, p)),
-        THREE.MathUtils.degToRad(THREE.MathUtils.lerp(65, 55, p)),
-        Math.atan2(1.4, 2) + THREE.MathUtils.degToRad(THREE.MathUtils.lerp(-20, 20, p)));
+      spherical.set(distance * (motion.matches ? 1 : THREE.MathUtils.lerp(1.18, 0.88, p)),
+        THREE.MathUtils.degToRad(THREE.MathUtils.lerp(72, 52, p)),
+        Math.atan2(1.4, 2) + THREE.MathUtils.degToRad(THREE.MathUtils.lerp(-45, 55, p)));
       camera.position.setFromSpherical(spherical).add(target);
       camera.lookAt(target);
     };
@@ -234,8 +234,8 @@ export function ModelViewer(props: ModelViewerProps) {
       }
       camera.aspect = w / h;
       camera.clearViewOffset();
-      if (latest.current.mode === 'story' && w >= 900) camera.setViewOffset(w, h, w * 0.18, 0, w, h);
-      const aspect = w >= 900 ? w * 0.60 / h : w / h;
+
+      const aspect = latest.current.mode === 'story' ? w * 0.85 / h : w / h;
       const halfFov = Math.min(THREE.MathUtils.degToRad(camera.fov / 2), Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * aspect));
       distance = radius * 1.2 / Math.sin(halfFov);
       camera.near = maxDim / 100;

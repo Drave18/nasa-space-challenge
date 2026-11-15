@@ -36,8 +36,9 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   const applyProgress = useCallback((progress: number) => {
     latestProgress.current = progress;
     viewer.current?.setStoryProgress(progress);
-    root.current?.style.setProperty('--still-scale', String(motionEnabled.current ? 1 + progress * 0.06 : 1));
-    root.current?.style.setProperty('--still-y', `${motionEnabled.current ? 1.5 - progress * 3 : 0}%`);
+    const backdrop = root.current?.querySelector<HTMLElement>('[data-story-media]');
+    backdrop?.style.setProperty('--still-scale', String(motionEnabled.current ? 1.04 + progress * 0.025 : 1));
+    backdrop?.style.setProperty('--still-y', `${motionEnabled.current ? 0.75 - progress * 1.5 : 0}%`);
   }, []);
   const onStateChange = useCallback((state: ModelLoadState) => {
     setModelState(state);
@@ -45,27 +46,84 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   }, []);
   const onImageReady = useCallback(() => setImageReady(true), []);
 
+  useEffect(() => {
+    const link = root.current?.querySelector<HTMLAnchorElement>('[data-begin-expedition]');
+    const scene = root.current?.querySelector<HTMLElement>('#apollo-11 [data-story-scene]');
+    if (!link || !scene) return;
+    const begin = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (!scene.hasAttribute('data-cinematic')) return;
+      event.preventDefault();
+      const beats = scene.querySelectorAll('[data-beat]').length;
+      const top = scene.getBoundingClientRect().top + window.scrollY;
+      const travel = Math.max(0, scene.offsetHeight - window.innerHeight);
+      history.pushState(null, '', '#apollo-11');
+      window.scrollTo({
+        top: top + travel * 0.3 / beats,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      });
+    };
+    link.addEventListener('click', begin);
+    return () => link.removeEventListener('click', begin);
+  }, []);
+
+  useEffect(() => {
+    const link = root.current?.querySelector<HTMLAnchorElement>('[data-back-to-top]');
+    if (!link) return;
+    const returnToTop = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      history.pushState(null, '', '#top');
+      window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    };
+    link.addEventListener('click', returnToTop);
+    return () => link.removeEventListener('click', returnToTop);
+  }, []);
+
   useGSAP(() => {
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       motionEnabled.current = true;
       const sections = root.current!.querySelectorAll<HTMLElement>('[data-chapter]');
+      const scenes: HTMLElement[] = [];
       sections.forEach((section, index) => {
+        const scene = section.querySelector<HTMLElement>('[data-story-scene]')!;
+        const panels = Array.from(scene.querySelectorAll<HTMLElement>('[data-beat]'));
         const progress = chapterProgress.current[index];
         progress.progress = 0;
-        gsap.to(progress, {
-          progress: 1, ease: 'none',
-          scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: 0.35 },
+        // Keep natural reading flow when text cannot fit the available viewport.
+        const fits = panels.every(panel => panel.offsetHeight <= innerHeight - 160);
+        if (fits) {
+          scene.dataset.cinematic = '';
+          scene.style.setProperty('--beats', String(panels.length));
+          scenes.push(scene);
+        }
+        const timeline = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: scene, start: 'top top', end: 'bottom bottom',
+            scrub: 0.55, invalidateOnRefresh: true,
+          },
           onUpdate: () => { if (index === activeRef.current) applyProgress(progress.progress); },
         });
-      });
-      root.current!.querySelectorAll<HTMLElement>('[data-beat]').forEach(panel => {
-        gsap.fromTo(panel, { y: 24, opacity: 0.35 }, {
-          y: 0, opacity: 1, ease: 'none',
-          scrollTrigger: { trigger: panel, start: 'top 90%', end: 'top 60%', scrub: true },
+        // Camera and captions share one playhead, including reverse scrolling.
+        timeline.to(progress, { progress: 1, duration: panels.length }, 0);
+        if (!fits) return;
+        gsap.set(panels, { autoAlpha: 0 });
+        panels.forEach((panel, beat) => {
+          timeline.addLabel(`passage-${beat}`, beat)
+            .to(panel, { autoAlpha: 1, duration: 0.2, ease: 'sine.out' }, `passage-${beat}`)
+            .to(panel, { autoAlpha: 0, duration: 0.2, ease: 'sine.in' }, beat + 0.8);
         });
       });
-      return () => { motionEnabled.current = false; applyProgress(0.5); };
+      return () => {
+        scenes.forEach(scene => {
+          delete scene.dataset.cinematic;
+          scene.style.removeProperty('--beats');
+        });
+        motionEnabled.current = false;
+        applyProgress(0.5);
+      };
     });
     return () => media.revert();
   }, { scope: root });
@@ -99,6 +157,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   useEffect(() => {
     const sections = Array.from(root.current!.querySelectorAll<HTMLElement>('[data-chapter]'));
     let frame = 0;
+    let refreshFrame = 0;
     let disposed = false;
     const select = () => {
       frame = 0;
@@ -121,7 +180,13 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
       positions.current = sections.map(section => { const box = section.getBoundingClientRect(); return { top: box.top + scrollY, bottom: box.bottom + scrollY }; });
       select();
     };
-    const refresh = () => { measure(); ScrollTrigger.refresh(); };
+    const refresh = () => {
+      if (refreshFrame) return;
+      refreshFrame = requestAnimationFrame(() => {
+        refreshFrame = 0;
+        ScrollTrigger.refresh();
+      });
+    };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(select); };
     const connection = (navigator as Navigator & { connection?: Connection }).connection;
     const connectionChanged = () => {
@@ -142,7 +207,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     ScrollTrigger.addEventListener('refresh', measure);
     void document.fonts.ready.then(() => { if (!disposed) refresh(); });
     return () => {
-      disposed = true; cancelAnimationFrame(frame); observer.disconnect();
+      disposed = true; cancelAnimationFrame(frame); cancelAnimationFrame(refreshFrame); observer.disconnect();
       removeEventListener('scroll', schedule); removeEventListener('resize', refresh);
       connection?.removeEventListener('change', connectionChanged);
       ScrollTrigger.removeEventListener('refresh', measure);
@@ -150,13 +215,12 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     };
   }, [applyProgress]);
 
-  return <div ref={root} className={styles.experience} data-enhanced={enhanced || undefined} data-active-chapter={current?.slug ?? ''} data-image-ready={imageReady || undefined}>
+  return <div ref={root} className={styles.experience} data-enhanced={enhanced || undefined} data-active-chapter={current?.slug ?? ''} data-image-ready={imageReady || undefined} data-media-kind={current?.media.kind}>
     {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={!constrained || allowedSlug === current?.slug} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
     {constrained && current?.media.kind === 'model' && allowedSlug !== current.slug ? <button className={styles.load} onClick={() => setAllowedSlug(current.slug)}>Load 3D model</button> : null}
     <div className={styles.document}>{children}</div>
     <ChapterNav chapters={chapters} activeSlug={current?.slug ?? null} />
     {current ? <div className={styles.credit}>
-      {current.media.credit ? <span>{current.media.credit}</span> : null}
       <span className={styles.mediaState} aria-live="polite">{current.media.kind === 'model' && modelState === 'error' ? 'Image preview · Could not load model' : current.media.kind === 'model' && modelState === 'unavailable' ? 'Image preview · 3D is unavailable on this device' : ''}</span>
     </div> : null}
     <div className={styles.progress} aria-hidden="true"><div ref={progressBar} /></div>

@@ -165,3 +165,26 @@
     font-size: 0.75rem;
   }
 }
+
+.header[data-immersive] {
+  --nav-gutter: clamp(1.25rem, 4vw, 4rem);
+  border: 0;
+  background: linear-gradient(rgba(0,0,0,.35), transparent);
+  height: calc(80px + env(safe-area-inset-top, 0px));
+  pointer-events: none;
+}
+.header[data-immersive] a, .header[data-immersive] details { pointer-events: auto; }
+.header[data-immersive] .nav { grid-template-columns: 1fr auto; }
+.header[data-immersive] .home { font-size: .75rem; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; }
+.header[data-immersive] .current {
+  position: fixed; left: var(--nav-gutter); bottom: 1.5rem;
+  font-size: .7rem; color: var(--muted); text-shadow: 0 1px 8px #000;
+}
+.header[data-immersive] .summary { font-size: .75rem; text-underline-offset: 4px; }
+.header[data-immersive] .chapters { background: #131312; border-radius: 0; }
+.header[data-immersive] .chapter:hover,
+.header[data-immersive] .chapter[aria-current='location'] { background: rgba(255,255,255,.08); }
+@media (max-width: 599px) {
+  .header[data-immersive] .current { flex-direction: row; align-items: baseline; gap: .75rem; }
+  .header[data-immersive] .home { display: block; }
+}

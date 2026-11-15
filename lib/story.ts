@@ -10,6 +10,7 @@ export interface StoryChapter {
   media: Media;
   summary: string;
   focus: { heading: string; text: string } | null;
+  reading: { heading: string; text: string }[];
   facts: Fact[];
   sourceUrl: string;
   fetchedAt: string;
@@ -29,7 +30,6 @@ const headings: Record<string, [string | null, string | null]> = {
   'near-shoemaker': ['What was NEAR Shoemaker?', 'In Depth: NEAR Shoemaker'],
   dawn: [null, null],
   kepler: [null, 'Legacy'],
-  nssdca: [null, null],
 };
 const sentences = new Intl.Segmenter('en', { granularity: 'sentence' });
 function excerpt(slug: string, sections: Section[], heading: string | null): string {
@@ -76,18 +76,53 @@ export function buildStoryChapter({ entry, page, records }: LoadedMission): Stor
   const selection = headings[entry.slug];
   if (!selection) throw new Error(`${entry.slug}: no story heading configuration`);
   const [summaryHeading, focusHeading] = selection;
-  const archiveSummary = "NASA's permanent archive for space science mission data";
-  if (entry.slug === 'nssdca' && !page.sections.some(s => s.heading === null && s.blocks.some(b => b.kind === 'p' && b.text === archiveSummary))) {
-    throw new Error('nssdca: missing archive overview sentence');
+  const summary = excerpt(entry.slug, page.sections, summaryHeading);
+  const focus = focusHeading ? { heading: focusHeading, text: excerpt(entry.slug, page.sections, focusHeading) } : null;
+  const overview = page.sections.find(section => section.heading === summaryHeading)?.blocks
+    .find(block => block.kind === 'p' && block.text.startsWith(summary));
+  const remainder = overview?.kind === 'p' ? overview.text.slice(summary.length).trim() : '';
+  const details = focus ?? (remainder ? { heading: 'The mission', text: remainder } : null);
+  const reading = groupPassages(summary).map(text => ({ heading: 'The mission', text }));
+  if (details && details.text !== summary) {
+    const detailText = details.text.replace(/^This artist concept[^.!?]*[.!?]\s*/i, '');
+    for (const text of groupPassages(detailText)) reading.push({ heading: details.heading, text });
   }
   return {
     slug: entry.slug, title: page.h1, shortName: entry.shortName, body: entry.body, media: entry.media,
-    summary: entry.slug === 'nssdca' ? archiveSummary : excerpt(entry.slug, page.sections, summaryHeading),
-    focus: focusHeading ? { heading: focusHeading, text: excerpt(entry.slug, page.sections, focusHeading) } : null,
+    summary, focus, reading,
     facts: mergeMissionFacts(page, records).slice(0, 4), sourceUrl: page.sourceUrl, fetchedAt: page.fetchedAt,
   };
 }
 
 export function loadStoryChapters(): StoryChapter[] {
   return CATALOG.map(entry => buildStoryChapter(loadMission(entry.slug)!));
+}
+
+// Keep personal initials and month abbreviations attached to their sentence.
+export function storyPassages(text: string): string[] {
+  const passages: string[] = [];
+  let pending = '';
+  for (const { segment } of sentences.segment(text)) {
+    pending += segment;
+    if (/\b(?:[A-Z]|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.\s*$/.test(pending)) continue;
+    passages.push(pending.trim());
+    pending = '';
+  }
+  if (pending.trim()) passages.push(pending.trim());
+  return passages;
+}
+
+// Group complete sentences into readable beats without cutting source text.
+export function groupPassages(text: string, limit = 300): string[] {
+  const groups: string[] = [];
+  let current = '';
+  for (const sentence of storyPassages(text)) {
+    if (current && current.length + sentence.length + 1 > limit) {
+      groups.push(current);
+      current = '';
+    }
+    current = current ? `${current} ${sentence}` : sentence;
+  }
+  if (current) groups.push(current);
+  return groups;
 }
