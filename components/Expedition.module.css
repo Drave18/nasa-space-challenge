@@ -23,7 +23,7 @@
 }
 .heroCopy { position: relative; width: 100%; margin-top: auto; padding-block: 3rem; }
 .eyebrow, .chapterNumber {
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-family: var(--font-mono), monospace;
   font-size: .75rem;
   font-weight: 500;
   line-height: 1.6;
@@ -34,13 +34,13 @@
 .chapterNumber { margin: 0 0 1rem; color: var(--muted); }
 .heroTitle, .chapterTitle {
   margin: 0;
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -.045em;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.035em;
   overflow-wrap: break-word;
   text-wrap: balance;
 }
-.heroTitle { max-width: 20ch; font-size: clamp(2.75rem, 5.5vw, 5.75rem); }
+.heroTitle { max-width: 23ch; font-size: clamp(2.5rem, 5.5vw, 5.75rem); }
 .chapterTitle { max-width: 20ch; font-size: clamp(3rem, 6.5vw, 6.5rem); }
 .subtitle { max-width: 55ch; margin: 1.75rem 0; font-size: clamp(1rem, 1.4vw, 1.25rem); line-height: 1.65; color: var(--muted); }
 .heroCredit { position: relative; max-width: 80ch; margin: 1rem 0 0; color: var(--muted); font-size: .75rem; line-height: 1.6; }
@@ -73,18 +73,20 @@
   max-width: 38ch;
   margin: 0 0 1.5rem;
   font-size: clamp(1.75rem, 2.8vw, 2.75rem);
-  font-weight: 450;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -.025em;
   text-wrap: balance;
 }
 .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; margin: 1rem 0 .5rem; }
 .facts > div { padding-block: .7rem .9rem; border-top: 1px solid var(--border); }
-.facts dt { margin-bottom: .5rem; font-size: .875rem; line-height: 1.5; color: var(--muted); }
+.facts dt { margin-bottom: .5rem; font-family: var(--font-mono), monospace; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; line-height: 1.5; color: var(--muted); }
 .facts dd { margin: 0; font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.5; }
 .journeyLink, .recordLink {
-  display: inline-block;
-  padding-block: .75rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: .5rem;
   font-size: 1rem;
   line-height: 1.6;
   text-underline-offset: .3em;
@@ -135,7 +137,7 @@
 
 .sourceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 2rem 3rem; margin: 3rem 0; }
 .sourceEntry { border-top: 1px solid var(--border); padding-top: 1rem; color: var(--muted); font-size: .875rem; line-height: 1.7; overflow-wrap: anywhere; }
-.sourceEntry h3 { color: var(--fg); font-size: 1.1rem; font-weight: 500; margin: 0 0 .75rem; }
+.sourceEntry h3 { color: var(--fg); font-size: 1.1rem; font-weight: 600; margin: 0 0 .75rem; }
 .sourceEntry p { margin: .5rem 0; }
 .sourceEntry a { color: var(--fg); text-underline-offset: .2em; }
 

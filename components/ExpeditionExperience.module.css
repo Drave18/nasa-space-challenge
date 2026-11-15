@@ -1,6 +1,4 @@
 .experience {
-  --bg: #050505; --fg: #efefea; --muted: #b5b5ad; --accent: #e1e1d7;
-  --border: rgba(255,255,245,.18); --panel: rgba(12,12,11,.85);
   position: relative; isolation: isolate;
 }
 .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: var(--bg); }

@@ -10,6 +10,11 @@
   transition: opacity 250ms linear;
 }
 
+.root canvas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+
 .root[data-model-state='ready'] canvas { opacity: 1; }
 .root[data-mode='story'] { pointer-events: none; }
 .root[data-mode='story'] .progress { bottom: 4rem; }
@@ -24,10 +29,11 @@
   position: absolute;
   transform: translate(-50%, -120%);
   padding: 0.15rem 0.45rem;
-  border: 1px solid rgba(90, 169, 255, 0.6);
+  border: 1px solid rgba(225, 225, 215, 0.55);
   border-radius: 4px;
-  background: rgba(2, 3, 10, 0.75);
+  background: rgba(5, 5, 5, 0.78);
   color: var(--fg);
+  font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
   white-space: nowrap;
 }
@@ -39,28 +45,38 @@
   top: 100%;
   width: 1px;
   height: 8px;
-  background: rgba(90, 169, 255, 0.8);
+  background: rgba(225, 225, 215, 0.8);
 }
-
 
 .toolbar {
   position: absolute;
+  pointer-events: none;
   right: 1rem;
   bottom: 1rem;
+  left: 1rem;
   z-index: 1;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.4rem;
 }
 
 .toolbar button {
-  padding: 0.35rem 0.7rem;
+  min-width: 44px;
+  pointer-events: auto;
+  min-height: 44px;
+  padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--panel);
   color: var(--fg);
   cursor: pointer;
   font-size: 0.8rem;
+  font-weight: 500;
 }
+
+.toolbar button:hover:not(:disabled) { border-color: var(--accent); }
+.toolbar button:disabled { cursor: not-allowed; opacity: 0.45; }
 
 .toolbar button[aria-pressed='true'] {
   border-color: var(--accent);
@@ -76,6 +92,19 @@
   background: var(--panel);
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.root[data-mode='inspect'] .progress { top: 1rem; bottom: auto; }
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {

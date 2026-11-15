@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { MissionArticle } from '@/components/MissionArticle';
+import { MissionReference } from '@/components/MissionReference';
 import { CATALOG, loadMission } from '@/lib/catalog';
 
 export const dynamicParams = false;
@@ -22,6 +22,5 @@ export default async function MissionPage({ params }: Props) {
   const { slug } = await params;
   const mission = loadMission(slug);
   if (!mission) notFound();
-  const { entry, page, records } = mission;
-  return <MissionArticle entry={entry} page={page} records={records} allEntries={CATALOG} />;
+  return <MissionReference mission={mission} />;
 }
