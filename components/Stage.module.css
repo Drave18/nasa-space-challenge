@@ -14,7 +14,7 @@
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
-  max-width: min(46vw, 560px);
+  max-width: min(calc(46vw - 2.5rem), 560px);
   pointer-events: none;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
 }
@@ -72,7 +72,7 @@
   left: 1.25rem;
   bottom: 5.25rem;
   margin: 0;
-  max-width: 50vw;
+  max-width: calc(46vw - 2.5rem);
   font-size: 0.7rem;
   color: var(--muted);
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);

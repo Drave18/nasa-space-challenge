@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Stage } from '@/components/Stage';
+import { MissionArticle } from '@/components/MissionArticle';
 import { CATALOG, loadMission } from '@/lib/catalog';
 
 export const dynamicParams = false;
@@ -23,5 +23,5 @@ export default async function MissionPage({ params }: Props) {
   const mission = loadMission(slug);
   if (!mission) notFound();
   const { entry, page, records } = mission;
-  return <Stage entry={entry} page={page} records={records} allEntries={CATALOG} />;
+  return <MissionArticle entry={entry} page={page} records={records} allEntries={CATALOG} />;
 }
