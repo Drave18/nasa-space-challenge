@@ -81,22 +81,30 @@ export function Expedition() {
               </div>
             </div>
             <div id={`${chapter.slug}-lesson`} className={lessonStyles.lesson}>
+              <nav className={lessonStyles.guide} aria-label={`${chapter.shortName} field guide`}>
+                <ul>
+                  <li><a href={`#${chapter.slug}-journey`}>Trace the journey</a></li>
+                  <li><a href={`#${chapter.slug}-craft`}>Inspect the craft</a></li>
+                  <li><a href={`#${chapter.slug}-learned`}>See what remained</a></li>
+                  <li><a href={`#${chapter.slug}-quiz`}>Take command</a></li>
+                </ul>
+              </nav>
               <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-journey`}>
-                <h3 id={`${chapter.slug}-journey`}>Follow the journey</h3>
+                <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">01</span><h3 id={`${chapter.slug}-journey`} tabIndex={-1}>Follow the journey</h3></div>
                 <p>Choose a moment to see how this mission unfolded.</p>
                 <LessonTimeline milestones={lessons[index].milestones} name={chapter.shortName} />
               </section>
               <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-craft`}>
-                <h3 id={`${chapter.slug}-craft`}>{lessons[index].headings.craft}</h3>
+                <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">02</span><h3 id={`${chapter.slug}-craft`} tabIndex={-1}>{lessons[index].headings.craft}</h3></div>
                 {lessons[index].craft.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
                 {chapter.media.kind === 'model' ? <LessonInspect media={chapter.media} slug={chapter.slug} /> : <figure className={lessonStyles.still}><img src={chapter.media.src} alt={chapter.media.alt} loading="lazy" />{chapter.media.credit && <figcaption>{chapter.media.credit}</figcaption>}</figure>}
               </section>
               <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-learned`}>
-                <h3 id={`${chapter.slug}-learned`}>{lessons[index].headings.learned}</h3>
+                <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">03</span><h3 id={`${chapter.slug}-learned`} tabIndex={-1}>{lessons[index].headings.learned}</h3></div>
                 {lessons[index].learned.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
               </section>
               <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-quiz`}>
-                <h3 id={`${chapter.slug}-quiz`}>Your mission challenge</h3>
+                <div className={lessonStyles.headingGroup} data-reading-reveal><span className={lessonStyles.marker} aria-hidden="true">04</span><h3 id={`${chapter.slug}-quiz`} tabIndex={-1}>Your mission challenge</h3></div>
                 <MissionQuiz name={chapter.shortName} questions={lessons[index].quiz} />
                 <Link className={styles.recordLink} href={`/mission/${chapter.slug}`} prefetch={false}>Explore the full mission <span aria-hidden="true">↗</span></Link>
               </section>

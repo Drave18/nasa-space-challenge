@@ -17,6 +17,9 @@
 
 .root[data-model-state='ready'] canvas { opacity: 1; }
 .root[data-mode='story'] { pointer-events: none; }
+.root[data-mode='inspect'] { --controls-space: 64px; bottom: var(--controls-space); overflow: visible; }
+@media (max-width: 1099px) { .root[data-mode='inspect'] { --controls-space: 112px; } }
+@media (max-width: 599px) { .root[data-mode='inspect'] { --controls-space: 224px; } }
 .root[data-mode='story'] .progress { bottom: 4rem; }
 
 .labels {
@@ -31,7 +34,7 @@
   padding: 0.15rem 0.45rem;
   border: 1px solid rgba(225, 225, 215, 0.55);
   border-radius: 4px;
-  background: rgba(5, 5, 5, 0.78);
+  background: var(--glass-surface), rgba(5, 5, 5, 0.55);
   color: var(--fg);
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
@@ -52,7 +55,7 @@
   position: absolute;
   pointer-events: none;
   right: 1rem;
-  bottom: 1rem;
+  bottom: calc(-1 * var(--controls-space, 0px) + 0.75rem);
   left: 1rem;
   z-index: 1;
   display: flex;
@@ -68,7 +71,9 @@
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: var(--panel);
+  background: var(--glass-surface);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: border-color 180ms ease;
   color: var(--fg);
   cursor: pointer;
   font-size: 0.8rem;
@@ -80,7 +85,9 @@
 
 .toolbar button[aria-pressed='true'] {
   border-color: var(--accent);
-  color: var(--accent);
+  background: rgba(225, 225, 215, 0.16);
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 
 .progress {
@@ -109,4 +116,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .root canvas { transition: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toolbar button { transition: none; }
 }

@@ -1,6 +1,6 @@
 .document {
   --gutter: clamp(1.25rem, 4vw, 5rem);
-  --reading-width: min(76vw, 68rem);
+  --reading-width: min(68vw, 58rem);
   min-width: 0;
   color: var(--fg);
 }
@@ -19,9 +19,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, #050505, rgba(0,0,0,.72) 42%, rgba(0,0,0,.35) 80%);
+  background: linear-gradient(0deg, rgba(2,6,12,.55), rgba(2,6,12,.30) 45%, rgba(2,6,12,.12));
 }
-.heroCopy { position: relative; width: 100%; margin-top: auto; padding-block: 3rem; }
+.heroCopy {
+  position: relative; width: 100%; max-width: 62rem; margin-top: auto; margin-bottom: 2rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--border); border-radius: 20px;
+  background: var(--glass-surface); box-shadow: var(--glass-shadow);
+}
 .eyebrow, .chapterNumber {
   font-family: var(--font-mono), monospace;
   font-size: .75rem;
@@ -55,6 +60,11 @@
   width: var(--reading-width);
   min-width: 0;
   max-width: 100%;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--glass-surface);
+  box-shadow: var(--glass-shadow);
   font-size: 1.125rem;
   overflow-wrap: break-word;
   text-shadow: 0 2px 18px rgba(0,0,0,.8);
@@ -62,8 +72,7 @@
 .brief .panel {
   width: min(100%, 42rem);
   padding: clamp(1rem, 2vw, 1.75rem);
-  background: rgba(5,5,5,.48);
-  border-top: 1px solid var(--border);
+  background: transparent;
 }
 .brief .focusTitle { font-size: clamp(1.5rem, 2vw, 2rem); margin-bottom: 1rem; }
 .summary, .excerpt { margin: 0; max-width: 62ch; text-wrap: pretty; }
@@ -91,8 +100,11 @@
   line-height: 1.6;
   text-underline-offset: .3em;
   text-decoration-thickness: 1px;
+  transition: text-decoration-color 180ms ease;
 }
-.journeyLink span, .recordLink span { display: inline-block; margin-left: .5rem; }
+.journeyLink span, .recordLink span { display: inline-block; margin-left: .5rem; transition: transform 180ms ease; }
+.journeyLink:hover span, .journeyLink:focus-visible span, .recordLink:hover span, .recordLink:focus-visible span { transform: translate(2px, 2px); }
+@media (prefers-reduced-motion: reduce) { .journeyLink, .journeyLink span, .recordLink span { transition: none; } }
 .recordLink { margin-top: 1rem; }
 .sources { max-width: 70ch; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 1rem; line-height: 1.75; color: var(--muted); }
 .sources p { margin: 0 0 1rem; }
@@ -100,7 +112,7 @@
 .fallback { width: var(--reading-width); margin: 0 var(--gutter); }
 .fallback img { display: block; width: 100%; height: auto; }
 .fallback figcaption { margin-top: 1rem; color: var(--muted); font-size: .875rem; overflow-wrap: anywhere; }
-.footer { min-height: 35svh; padding: 5rem var(--gutter) calc(5rem + env(safe-area-inset-bottom, 0px)); background: var(--bg); }
+.footer { min-height: 35svh; padding: 5rem var(--gutter) calc(5rem + env(safe-area-inset-bottom, 0px)); background: transparent; border-top: 1px solid var(--border); }
 .document a:focus-visible, .chapterTitle:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
 
 /* A single sticky reading surface shares its scroll playhead with the model. */
@@ -136,7 +148,7 @@
 }
 
 .sourceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 2rem 3rem; margin: 3rem 0; }
-.sourceEntry { border-top: 1px solid var(--border); padding-top: 1rem; color: var(--muted); font-size: .875rem; line-height: 1.7; overflow-wrap: anywhere; }
+.sourceEntry { padding: 1.25rem; border: 1px solid var(--border); border-radius: 12px; background: var(--glass-surface); box-shadow: var(--glass-shadow); color: var(--muted); font-size: .875rem; line-height: 1.7; overflow-wrap: anywhere; }
 .sourceEntry h3 { color: var(--fg); font-size: 1.1rem; font-weight: 600; margin: 0 0 .75rem; }
 .sourceEntry p { margin: .5rem 0; }
 .sourceEntry a { color: var(--fg); text-underline-offset: .2em; }

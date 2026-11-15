@@ -93,6 +93,13 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
       const container = root.current!;
       const sections = Array.from(container.querySelectorAll<HTMLElement>('[data-chapter]'));
       const sceneOf = (section: HTMLElement) => section.querySelector<HTMLElement>('[data-story-scene]')!;
+      // Reading reveals are created once per context so rebuilds never duplicate them.
+      gsap.utils.toArray<HTMLElement>('[data-reading-reveal]', container).forEach(group => {
+        gsap.from(group, {
+          y: 12, duration: 0.45, ease: 'power2.out', clearProps: 'transform',
+          scrollTrigger: { trigger: group, start: 'top 90%', once: true },
+        });
+      });
       type Anchor = { section: HTMLElement | null; ratio: number; fromBottom: number } | null;
       let timelines: gsap.core.Timeline[] = [];
       let queued = 0;
@@ -119,11 +126,16 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
           const panels = Array.from(scene.querySelectorAll<HTMLElement>('[data-beat]'));
           const progress = chapterProgress.current[index];
           progress.progress = 0;
-          // Keep natural reading flow when text cannot fit the available viewport.
-          const fits = panels.every(panel => panel.offsetHeight <= innerHeight - 160);
-          if (fits) {
-            scene.dataset.cinematic = '';
-            scene.style.setProperty('--beats', String(panels.length));
+          // Tentatively enable the cinematic layout, then keep it only if every panel fits with its beat padding.
+          scene.dataset.cinematic = '';
+          scene.style.setProperty('--beats', String(panels.length));
+          const fits = panels.every(panel => {
+            const beatStyle = getComputedStyle(panel.parentElement!);
+            return panel.offsetHeight + parseFloat(beatStyle.paddingTop) + parseFloat(beatStyle.paddingBottom) <= innerHeight;
+          });
+          if (!fits) {
+            delete scene.dataset.cinematic;
+            scene.style.removeProperty('--beats');
           }
           const timeline = gsap.timeline({
             defaults: { ease: 'none' },
@@ -246,7 +258,10 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     const select = () => {
       frame = 0;
       const center = scrollY + innerHeight / 2;
-      const index = positions.current.findIndex(p => center >= p.top && center < p.bottom);
+      const last = positions.current[positions.current.length - 1];
+      let index = positions.current.findIndex(p => center >= p.top && center < p.bottom);
+      // Past the final chapter the footer keeps its backdrop.
+      if (index === -1 && last && center >= last.bottom) index = positions.current.length - 1;
       if (index !== activeRef.current) {
         activeRef.current = index;
         setActive(index);

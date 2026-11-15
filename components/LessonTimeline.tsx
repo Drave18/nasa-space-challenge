@@ -13,6 +13,7 @@ export function LessonTimeline({ milestones, name }: { milestones: LessonMilesto
       </button>)}
     </div>
     <div className={styles.timelineDetail} aria-live="polite"><p>{milestones[selected].explanation}</p></div>
+    <a className={styles.sourceLink} href={milestones[selected].source} target="_blank" rel="noopener noreferrer">Read the NASA reference <span className={styles.arrow} aria-hidden="true">↗</span></a>
     <noscript><ol>{milestones.map((event, index) => <li key={index}><strong>{event.date}: {event.title}</strong> — {event.explanation}</li>)}</ol></noscript>
   </div>;
 }

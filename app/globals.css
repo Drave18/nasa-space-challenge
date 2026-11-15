@@ -3,7 +3,9 @@
   --fg: #efefea;
   --muted: #b5b5ad;
   --accent: #e1e1d7;
-  --panel: rgba(12, 12, 11, 0.85);
+  --panel: rgba(8, 8, 9, .86);
+  --glass-surface: linear-gradient(160deg, rgba(16, 16, 18, .93), rgba(4, 4, 5, .88));
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 24px 64px rgba(0, 0, 0, .45);
   --border: rgba(255, 255, 245, 0.18);
   color-scheme: dark;
 }

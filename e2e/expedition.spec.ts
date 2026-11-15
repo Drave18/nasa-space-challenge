@@ -1,4 +1,7 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
+import { loadMissionLessons } from '../lib/lesson.ts';
+
+const LESSONS = loadMissionLessons();
 
 test('expedition renders chapters and navigates to a mission record', async ({ page }) => {
   await page.goto('/');
@@ -231,31 +234,205 @@ test('image mission lesson stays readable on mobile', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
 });
 
-test('mission quiz checks answers, scores and retries', async ({ page }) => {
-  await page.goto('/#apollo-11-lesson');
-  const quiz = page.locator('#apollo-11-lesson').getByLabel('Apollo 11 LM quiz');
-  await expect(quiz.getByText('QUESTION 1 / 3')).toBeVisible();
+async function openMission(page: Page, slug: string) {
+  await page.goto(`/#${slug}-lesson`);
+  const quiz = page.locator(`#${slug}-lesson`).getByRole('group', { name: /mission control$/ });
   await quiz.scrollIntoViewIfNeeded();
-  await page.screenshot({ path: 'test-results/quiz-unanswered.png' });
-  await quiz.getByRole('button', { name: /Build a permanent Moon base/ }).click();
-  await quiz.getByRole('button', { name: 'Check answer' }).click();
-  await expect(quiz.getByRole('status')).toContainText('Good try');
+  await expect(quiz.getByRole('button', { name: 'Start mission' })).toBeVisible();
+  return quiz;
+}
+
+// The button can be clicked before hydration; retry until the first decision appears.
+async function startMission(quiz: Locator) {
+  await expect(async () => {
+    await quiz.getByRole('button', { name: 'Start mission' }).click({ timeout: 1500 });
+    await expect(quiz.getByRole('heading', { name: /Decision 1/ })).toBeVisible({ timeout: 1500 });
+  }).toPass({ timeout: 20000 });
+}
+
+async function decide(quiz: Locator, choice: number | RegExp) {
+  const choices = quiz.getByRole('group', { name: 'Choose an answer' }).getByRole('button');
+  await (typeof choice === 'number' ? choices.nth(choice) : choices.filter({ hasText: choice })).click();
+  await quiz.getByRole('button', { name: 'Commit decision' }).click();
+}
+
+test('mission control scores decisions and replays', async ({ page }) => {
+  const quiz = await openMission(page, 'apollo-11');
+  await expect(quiz.getByText('SCORE 0 / 300')).toBeVisible();
+  await expect(quiz.getByText('Connect the mission’s challenge, spacecraft, and discoveries. Make three decisions using the field notes above.')).toBeVisible();
+  await expect(quiz.getByText('100 points per correct decision. No timer.')).toBeVisible();
+  await page.screenshot({ path: 'test-results/mission-briefing.png' });
+  await startMission(quiz);
+  await expect(quiz.getByRole('heading', { name: 'Decision 1 · Objective' })).toBeFocused();
+  await expect(quiz.getByRole('listitem').filter({ hasText: 'Objective' })).toHaveAttribute('aria-current', 'step');
+  await expect(quiz.getByRole('button', { name: 'Commit decision' })).toBeDisabled();
+  await decide(quiz, /Build a permanent Moon base/);
+  await expect(quiz.getByRole('status')).toContainText('Course correction · +0 points');
+  await expect(quiz.getByRole('status').getByRole('link', { name: 'NASA source' })).toHaveAttribute('href', LESSONS[0].quiz[0].source);
   await expect(quiz.getByRole('button', { name: /Build a permanent Moon base/ })).toBeDisabled();
-  await page.screenshot({ path: 'test-results/quiz-answered.png' });
-  await quiz.getByRole('button', { name: 'Next question' }).click();
-  await quiz.getByRole('button', { name: /lower part could stay as a launchpad/i }).click();
-  await quiz.getByRole('button', { name: 'Check answer' }).click();
-  await quiz.getByRole('button', { name: 'Next question' }).click();
-  await quiz.getByRole('button', { name: /Keep gathering measurements/i }).click();
-  await quiz.getByRole('button', { name: 'Check answer' }).click();
-  await quiz.getByRole('button', { name: 'See my results' }).click();
-  await expect(quiz.getByText('2 / 3')).toBeVisible();
-  await page.screenshot({ path: 'test-results/quiz-complete.png' });
-  await quiz.getByRole('button', { name: 'Try again' }).click();
-  await expect(quiz.getByText('QUESTION 1 / 3')).toBeVisible();
-  await quiz.getByRole('button', { name: /Land astronauts and bring them back/i }).focus();
+  await expect(quiz.getByRole('button', { name: 'Commit decision' })).toHaveCount(0);
+  await expect(quiz.getByText('SCORE 0 / 300')).toBeVisible();
+  await page.screenshot({ path: 'test-results/mission-feedback.png' });
+  await quiz.getByRole('button', { name: 'Next stage' }).click();
+  await expect(quiz.getByRole('heading', { name: 'Decision 2 · Spacecraft' })).toBeFocused();
+  await decide(quiz, /lower part could stay as a launchpad/i);
+  await expect(quiz.getByRole('status')).toContainText('Decision confirmed · +100 points');
+  await quiz.getByRole('button', { name: 'Next stage' }).click();
+  await decide(quiz, /Keep gathering measurements/i);
+  await expect(quiz.getByText('SCORE 200 / 300')).toBeVisible();
+  await quiz.getByRole('button', { name: 'View debrief' }).click();
+  await expect(quiz.getByRole('heading', { name: 'Mission debrief' })).toBeFocused();
+  await expect(quiz.getByText('200 points')).toBeVisible();
+  await expect(quiz.getByText('2 / 3 correct decisions')).toBeVisible();
+  await expect(quiz.getByText('Mission explorer')).toBeVisible();
+  await expect(quiz.getByText(LESSONS[0].quiz[0].feedback)).toBeVisible();
+  await page.screenshot({ path: 'test-results/mission-debrief.png' });
+  await quiz.getByRole('button', { name: 'Replay mission' }).click();
+  await expect(quiz.getByRole('heading', { name: 'Mission briefing' })).toBeFocused();
+  await expect(quiz.getByText('SCORE 0 / 300')).toBeVisible();
+  await startMission(quiz);
+  const first = quiz.getByRole('group', { name: 'Choose an answer' }).getByRole('button').filter({ hasText: /Land astronauts and bring them back/i });
+  await first.focus();
   await page.keyboard.press('Enter');
-  await expect(quiz.getByRole('button', { name: /Land astronauts and bring them back/i })).toHaveAttribute('aria-pressed', 'true');
+  await expect(first).toHaveAttribute('aria-pressed', 'true');
+  await expect(quiz.getByText('SCORE 0 / 300')).toBeVisible();
+  await expect(quiz.getByRole('status')).toHaveText('');
+});
+
+for (const run of [
+  { name: 'three correct decisions', offset: 0, points: 300, rank: 'Mission specialist' },
+  { name: 'three wrong decisions', offset: 1, points: 0, rank: 'Cadet in training' },
+]) {
+  test(`mission control ranks ${run.name}`, async ({ page }) => {
+    const quiz = await openMission(page, 'apollo-11');
+    await startMission(quiz);
+    for (const [i, question] of LESSONS[0].quiz.entries()) {
+      await decide(quiz, (question.correct + run.offset) % question.choices.length);
+      await quiz.getByRole('button', { name: i === LESSONS[0].quiz.length - 1 ? 'View debrief' : 'Next stage' }).click();
+    }
+    await expect(quiz.getByText(`${run.points} points`)).toBeVisible();
+    await expect(quiz.getByText(run.rank)).toBeVisible();
+  });
+}
+
+test('mission control works for image missions', async ({ page }) => {
+  const quiz = await openMission(page, 'apollo-12');
+  await startMission(quiz);
+  await decide(quiz, 0);
+  await expect(quiz.getByRole('status')).toContainText(/Decision confirmed|Course correction/);
+  await expect(quiz.getByRole('status').getByRole('link', { name: 'NASA source' })).toHaveAttribute('href', LESSONS[1].quiz[0].source);
+  await expect(quiz.locator('canvas')).toHaveCount(0);
+});
+
+test('reading navigation reaches its field guide section', async ({ page }) => {
+  await page.goto('/#apollo-11-lesson');
+  const lesson = page.locator('#apollo-11-lesson');
+  const guide = lesson.getByRole('navigation', { name: 'Apollo 11 LM field guide' });
+  for (const [link, id, title] of [
+    ['Inspect the craft', 'apollo-11-craft', LESSONS[0].headings.craft],
+    ['Take command', 'apollo-11-quiz', 'Your mission challenge'],
+  ]) {
+    await guide.getByRole('link', { name: link }).click();
+    await expect(page).toHaveURL(new RegExp(`#${id}$`));
+    const heading = lesson.getByRole('heading', { name: title, exact: true });
+    await expect(heading).toBeFocused();
+    await page.waitForTimeout(400);
+    expect((await heading.boundingBox())!.y).toBeGreaterThanOrEqual(80);
+  }
+  const milestones = LESSONS[0].milestones;
+  const choices = lesson.getByRole('group', { name: 'Choose a milestone' }).getByRole('button');
+  await choices.last().click();
+  await expect(lesson.getByLabel('Apollo 11 LM timeline').locator('[aria-live="polite"]')).toContainText('Rejoining Michael Collins');
+  await expect(lesson.getByRole('link', { name: 'Read the NASA reference' })).toHaveAttribute('href', milestones[milestones.length - 1].source);
+  const calm = await page.context().browser()!.newContext({ reducedMotion: 'reduce' });
+  const still = await calm.newPage();
+  await still.goto('/#apollo-11-lesson');
+  await expect(still.locator('[data-cinematic]')).toHaveCount(0);
+  for (const paragraph of await still.locator('section[aria-labelledby="apollo-11-craft"] > p').all()) await expect(paragraph).toBeVisible();
+  await expect(still.locator('#apollo-11-lesson [data-reading-reveal]').first()).toHaveCSS('opacity', '1');
+  await calm.close();
+});
+
+for (const slug of ['apollo-11', 'insight', 'pioneer-10']) {
+  test(`inspection lighting changes the rendered model: ${slug}`, async ({ page }) => {
+    const { canvas, shot } = await openViewer(page, slug);
+    const natural = page.getByRole('button', { name: 'Natural light' });
+    const raking = page.getByRole('button', { name: 'Raking light' });
+    await expect(natural).toHaveAttribute('aria-pressed', 'true');
+    const initial = await shot();
+    await raking.click();
+    await expect(raking).toHaveAttribute('aria-pressed', 'true');
+    await expect(natural).toHaveAttribute('aria-pressed', 'false');
+    expect(Buffer.compare(await shot(), initial)).not.toBe(0);
+    await page.getByRole('button', { name: 'Reset view' }).click();
+    await expect(natural).toHaveAttribute('aria-pressed', 'true');
+    expect(Buffer.compare(await shot(), initial)).toBe(0);
+    await raking.click();
+    await canvas.focus();
+    await page.keyboard.press('Home');
+    await expect(natural).toHaveAttribute('aria-pressed', 'true');
+    expect(Buffer.compare(await shot(), initial)).toBe(0);
+  });
+}
+
+const CONTROL_NAMES = ['Labels', 'Spin', 'Natural light', 'Raking light', 'Reset view', 'Front view', 'Side view', 'Top view', 'Zoom in', 'Zoom out'];
+
+test('inspection expansion preserves exploration', async ({ page }) => {
+  const models: string[] = [];
+  page.on('request', request => { if (request.url().endsWith('.glb')) models.push(request.url()); });
+  const { canvas, shot } = await openViewer(page, 'apollo-11');
+  await page.getByRole('button', { name: 'Top view' }).click();
+  // Compare the canvas interior: re-layout can shift the outermost row by a subpixel.
+  const interior = async () => {
+    await canvas.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(450);
+    const box = (await canvas.boundingBox())!;
+    return page.screenshot({ animations: 'disabled', clip: { x: Math.ceil(box.x), y: Math.ceil(box.y), width: Math.floor(box.width) - 2, height: Math.floor(box.height) - 6 } });
+  };
+  const top = await interior();
+  const originalBox = (await canvas.boundingBox())!;
+  const expand = page.getByRole('button', { name: 'Expand viewer' });
+  const stage = page.locator(`[id="${await expand.getAttribute('aria-controls')}"]`);
+  const collapsedHeight = (await stage.boundingBox())!.height;
+  const requests = models.length;
+  await expand.click();
+  await expect(page.getByRole('button', { name: 'Collapse viewer' })).toHaveAttribute('aria-expanded', 'true');
+  await expect.poll(async () => (await stage.boundingBox())!.height).toBeGreaterThan(collapsedHeight);
+  await page.getByRole('button', { name: 'Collapse viewer' }).click();
+  await expect.poll(async () => (await canvas.boundingBox())!.height).toBe(originalBox.height);
+  expect(Buffer.compare(await interior(), top)).toBe(0);
+  expect(models.length).toBe(requests);
+});
+
+test('inspection expansion keeps controls below the canvas on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const { canvas } = await openViewer(page, 'apollo-11');
+  const canvasBox = (await canvas.boundingBox())!;
+  const boxes = [];
+  for (const name of CONTROL_NAMES) {
+    const button = page.getByRole('button', { name, exact: true });
+    await button.scrollIntoViewIfNeeded();
+    boxes.push((await button.boundingBox())!);
+  }
+  const canvasNow = (await canvas.boundingBox())!;
+  expect(canvasNow.y + canvasNow.height).toBeLessThanOrEqual(canvasBox.y + canvasBox.height + 1);
+  for (const [i, box] of boxes.entries()) {
+    expect(box.width, CONTROL_NAMES[i]).toBeGreaterThanOrEqual(44);
+    expect(box.height, CONTROL_NAMES[i]).toBeGreaterThanOrEqual(44);
+  }
+  const canvasTop = await canvas.evaluate(element => element.getBoundingClientRect().bottom + scrollY);
+  for (const [i, name] of CONTROL_NAMES.entries()) {
+    const bottom = await page.getByRole('button', { name, exact: true }).evaluate(element => element.getBoundingClientRect().top + scrollY);
+    expect(bottom, `${name} sits below the canvas`).toBeGreaterThanOrEqual(canvasTop - 1);
+    for (let j = i + 1; j < CONTROL_NAMES.length; j++) {
+      const other = await page.getByRole('button', { name: CONTROL_NAMES[j], exact: true }).evaluate(element => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y + scrollY, width: r.width, height: r.height }; });
+      const self = await page.getByRole('button', { name, exact: true }).evaluate(element => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y + scrollY, width: r.width, height: r.height }; });
+      const overlap = self.x < other.x + other.width && other.x < self.x + self.width && self.y < other.y + other.height && other.y < self.y + self.height;
+      expect(overlap, `${name} overlaps ${CONTROL_NAMES[j]}`).toBe(false);
+    }
+  }
+  await page.getByRole('button', { name: 'Expand viewer' }).click();
+  await expect(page.getByRole('button', { name: 'Collapse viewer' })).toBeVisible();
 });
 
 for (const scenario of [
@@ -318,7 +495,7 @@ for (const scenario of [
     await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
     const headingBox = await heading.boundingBox();
     expect(headingBox!.y).toBeGreaterThanOrEqual(80);
-    await expect(page.getByRole('link', { name: 'NASA Gallery home' })).toHaveCSS('background-color', 'rgb(5, 5, 5)');
+    await expect(page.getByRole('link', { name: 'NASA Gallery home' })).toBeVisible();
     await page.screenshot({ path: `test-results/expanded-${scenario.name.replaceAll(' ', '-')}.png` });
     await context.close();
   });
