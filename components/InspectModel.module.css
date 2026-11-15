@@ -1,11 +1,15 @@
 .frame {
   border: 1px solid var(--border);
-  background: #070707;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--glass-surface);
+  box-shadow: var(--glass-shadow);
 }
 
 .bar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: 0.25rem 1rem;
   padding: 0.75rem 1rem;
@@ -19,11 +23,32 @@
 .label { color: var(--fg); }
 .hint { color: var(--muted); }
 
+.expand {
+  min-height: 44px;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--glass-surface);
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 180ms ease;
+}
+
+.expand:hover { border-color: var(--accent); }
+
 .stage {
   position: relative;
   height: clamp(320px, 65svh, 720px);
   overflow: hidden;
   background: #030303;
+}
+
+.stage[data-expanded] { height: max(320px, 85svh); }
+
+@media (max-width: 599px) {
+  .stage { height: clamp(480px, 72svh, 720px); }
+  .stage[data-expanded] { height: max(560px, 85svh); }
 }
 
 .poster {
@@ -42,10 +67,14 @@
   min-height: 44px;
   padding: 0.7rem 1.25rem;
   border: 1px solid var(--accent);
-  background: var(--panel);
+  background: var(--glass-surface);
   color: var(--fg);
   cursor: pointer;
   font-weight: 600;
 }
 
 .launch:hover { background: var(--fg); color: var(--bg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .expand { transition: none; }
+}

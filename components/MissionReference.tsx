@@ -52,6 +52,22 @@ export function MissionReference({ mission }: { mission: LoadedMission }) {
           {facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
         </dl>
       )}
+      {records.map(record => <section key={record.id} className={styles.prose} data-reveal>
+        <h2>{record.craft_name} · structured record</h2>
+        <dl className={styles.facts}>
+          <div><dt>Catalog ID</dt><dd>{record.id}</dd></div>
+          <div><dt>Launch date</dt><dd>{record.launch_date ?? record.launch_date_raw ?? 'Not recorded'}</dd></div>
+          <div><dt>Landing site</dt><dd>{record.landing_site ?? 'Not recorded'}</dd></div>
+          <div><dt>Coordinates</dt><dd>{record.landing_coordinates_raw ?? (record.landing_coordinates ? `${record.landing_coordinates.latitude_deg}, ${record.landing_coordinates.longitude_deg}` : 'Not recorded')}</dd></div>
+          <div><dt>Operational status</dt><dd>{record.operational_status}</dd></div>
+          <div><dt>{record.end_of_mission_date_basis === 'last_contact' ? 'Last contact' : 'Mission end'}</dt><dd>{record.end_of_mission_date ?? 'Not recorded'}</dd></div>
+          <div><dt>Extraction status</dt><dd>{record.extraction_status}</dd></div>
+        </dl>
+        {record.operational_status_evidence && <p>Status evidence: {record.operational_status_evidence}</p>}
+        {record.end_of_mission_evidence && <p>End-date evidence: {record.end_of_mission_evidence}</p>}
+        {record.source_errors.map(error => <p key={error.url}>Source error at {error.url}: {error.message}</p>)}
+        <details><summary>Complete structured record</summary><pre className={styles.recordDump}>{JSON.stringify(record, null, 2)}</pre></details>
+      </section>)}
       {page.sections.map((section, index) => (
         <section key={index} className={styles.prose} data-reveal>
           {section.heading === null ? null : section.level <= 2 ? <h2>{section.heading}</h2> : <h3>{section.heading}</h3>}

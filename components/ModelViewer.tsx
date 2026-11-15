@@ -24,6 +24,10 @@ export interface ModelViewerProps {
 }
 
 const GROUND_COLOR = { moon: 0x8a8a86, mars: 0xa5583a } as const;
+const LIGHTS = {
+  natural: { position: [1.2, 1.8, 0.9], intensity: 4.5, environment: 0.35 },
+  raking: { position: [-1.8, 0.55, 1.2], intensity: 3.8, environment: 0.5 },
+} as const;
 
 function regolithTexture(): THREE.CanvasTexture {
   const s = 1024;
@@ -89,6 +93,7 @@ function disposeObject(object: THREE.Object3D, retainedTexture?: THREE.Texture) 
 }
 
 type ViewPreset = 'front' | 'side' | 'top';
+type LightingPreset = 'natural' | 'raking';
 type Runtime = {
   load(media: ModelMedia | null): void;
   configure(): void;
@@ -97,6 +102,7 @@ type Runtime = {
   pose(): void;
   reset(): void;
   view(preset: ViewPreset): void;
+  light(preset: LightingPreset): void;
   zoom(factor: number): void;
 };
 
@@ -112,8 +118,9 @@ export function ModelViewer(props: ModelViewerProps) {
   const [progress, setProgress] = useState<number | null>(0);
   const [spin, setSpin] = useState(false);
   const [showLabels, setShowLabels] = useState(true);
-  const options = useRef({ spin, showLabels });
-  options.current = { spin, showLabels };
+  const [lighting, setLighting] = useState<LightingPreset>('natural');
+  const options = useRef({ spin, showLabels, lighting });
+  options.current = { spin, showLabels, lighting };
 
   useImperativeHandle(props.ref, () => ({
     setStoryProgress(value) {
@@ -159,6 +166,7 @@ export function ModelViewer(props: ModelViewerProps) {
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
+    controls.zoomToCursor = true;
     controls.autoRotateSpeed = 1.2;
     // One-finger vertical drags scroll the page; horizontal drags and pinch reach the controls.
     canvas.style.touchAction = 'pan-y';
@@ -184,6 +192,7 @@ export function ModelViewer(props: ModelViewerProps) {
     let settle = 0;
     let disposed = false;
     let unavailable = false;
+    let lit: LightingPreset | null = null;
     let compiled = false;
     let ready = false;
     let bvhReady = false;
@@ -213,6 +222,18 @@ export function ModelViewer(props: ModelViewerProps) {
     };
     const invalidate = () => {
       if (!frame && !disposed && !unavailable && latest.current.active && !document.hidden && model && compiled) frame = requestAnimationFrame(render);
+    };
+    // Lighting only moves the sun and rescales environment light; shadows regenerate only when the preset changes.
+    const applyLighting = (preset: LightingPreset, force = false) => {
+      if (!model || (!force && lit === preset)) return;
+      lit = preset;
+      const light = LIGHTS[preset];
+      sun.position.set(light.position[0] * maxDim, light.position[1] * maxDim, light.position[2] * maxDim);
+      sun.intensity = light.intensity;
+      scene.environmentIntensity = light.environment;
+      renderer.toneMappingExposure = 1;
+      renderer.shadowMap.needsUpdate = true;
+      invalidate();
     };
     // Occlusion needs triangle picking on the labelled inspect model only; a BVH per unique geometry makes it cheap.
     const prepareBVH = () => {
@@ -381,7 +402,7 @@ export function ModelViewer(props: ModelViewerProps) {
         target.set(0, size.y * 0.5, 0);
         model = object;
         content.add(object);
-        sun.position.set(maxDim * 1.2, maxDim * 1.8, maxDim * 0.9);
+        applyLighting(latest.current.mode === 'inspect' ? options.current.lighting : 'natural', true);
         sun.shadow.normalBias = maxDim * 0.0025;
         const shadow = sun.shadow.camera;
         shadow.left = shadow.bottom = -maxDim;
@@ -424,6 +445,7 @@ export function ModelViewer(props: ModelViewerProps) {
       controls.autoRotate = inspect && options.current.spin;
       labels.hidden = !inspect || !options.current.showLabels;
       labelsDirty = true;
+      applyLighting(inspect ? options.current.lighting : 'natural');
       if (!latest.current.active) { cancelAnimationFrame(frame); frame = 0; }
       else { pose(); invalidate(); }
     };
@@ -437,9 +459,17 @@ export function ModelViewer(props: ModelViewerProps) {
       controls.enableDamping = true;
     };
     const commanded = () => { controls.update(); labelsDirty = true; invalidate(); };
-    const reset = () => {
+    const light = (preset: LightingPreset) => {
       if (!canCommand()) return;
       stopSpin();
+      options.current.lighting = preset;
+      setLighting(preset);
+      applyLighting(preset);
+      invalidate();
+    };
+    const reset = () => {
+      if (!canCommand()) return;
+      light('natural');
       flushInertia(); resetView(); commanded();
     };
     const view = (preset: ViewPreset) => {
@@ -507,7 +537,7 @@ export function ModelViewer(props: ModelViewerProps) {
     canvas.addEventListener('keydown', key);
     const observer = new ResizeObserver(fit);
     observer.observe(root);
-    runtime.current = { load, configure, speculate, invalidate, pose, reset, view, zoom };
+    runtime.current = { load, configure, speculate, invalidate, pose, reset, view, zoom, light };
     fit();
     configure();
     return () => {
@@ -544,10 +574,12 @@ export function ModelViewer(props: ModelViewerProps) {
       {inspect ? <div className={styles.toolbar} role="toolbar" aria-label="3D model controls">
         {props.media?.labels?.length ? <button type="button" aria-pressed={showLabels} onClick={() => setShowLabels(value => !value)}>Labels</button> : null}
         <button type="button" aria-pressed={spin} onClick={() => setSpin(value => !value)}>Spin</button>
-        <button type="button" disabled={!ready} onClick={() => runtime.current?.reset()}>Reset view</button>
-        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('front')}>Front view</button>
-        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('side')}>Side view</button>
-        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('top')}>Top view</button>
+        <button type="button" disabled={!ready} aria-label="Natural light" aria-pressed={lighting === 'natural'} onClick={() => runtime.current?.light('natural')}>Natural</button>
+        <button type="button" disabled={!ready} aria-label="Raking light" aria-pressed={lighting === 'raking'} onClick={() => runtime.current?.light('raking')}>Raking</button>
+        <button type="button" disabled={!ready} aria-label="Reset view" onClick={() => runtime.current?.reset()}>Reset</button>
+        <button type="button" disabled={!ready} aria-label="Front view" onClick={() => runtime.current?.view('front')}>Front</button>
+        <button type="button" disabled={!ready} aria-label="Side view" onClick={() => runtime.current?.view('side')}>Side</button>
+        <button type="button" disabled={!ready} aria-label="Top view" onClick={() => runtime.current?.view('top')}>Top</button>
         <button type="button" disabled={!ready} aria-label="Zoom in" onClick={() => runtime.current?.zoom(0.8)}>+</button>
         <button type="button" disabled={!ready} aria-label="Zoom out" onClick={() => runtime.current?.zoom(1.25)}>−</button>
       </div> : null}

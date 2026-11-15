@@ -1,0 +1,53 @@
+.lesson { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 4rem clamp(1.25rem, 4vw, 5rem) 7rem; background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255, 255, 255, .05), transparent 70%), linear-gradient(180deg, rgba(5, 5, 5, .9), rgba(2, 2, 3, .95)); border-top: 1px solid var(--border); }
+.guide { width: 100%; max-width: 70rem; margin: 0 auto; }
+.guide ul { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.guide a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: .5rem 1rem;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--glass-surface); box-shadow: var(--glass-shadow);
+  color: var(--fg); font: .75rem var(--font-mono), monospace; letter-spacing: .06em; text-transform: uppercase;
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .3em;
+  transition: border-color 180ms ease, text-decoration-color 180ms ease;
+}
+.guide a:hover, .guide a:focus-visible { border-color: var(--chapter-accent, var(--accent)); text-decoration-color: currentColor; }
+.step {
+  width: 100%; max-width: 70rem; margin: 0 auto; scroll-margin-top: 7rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 245, .1); border-top: 2px solid var(--chapter-accent, var(--accent)); border-radius: 16px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .012) 60%), rgba(8, 8, 9, .7); box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
+}
+.headingGroup { display: flex; align-items: baseline; gap: 1rem; margin: 0 0 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--chapter-accent, var(--accent)); }
+.marker { flex: none; color: var(--chapter-accent, var(--accent)); font: .8rem var(--font-mono), monospace; letter-spacing: .1em; }
+.step h3 { font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1.15; margin: 0; scroll-margin-top: 7rem; text-wrap: balance; }
+.step h3:focus-visible { outline-offset: 6px; }
+.step > p { font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.75; max-width: 68ch; text-wrap: pretty; }
+.timeline { margin-top: 1rem; }
+.timelineChoices { display: flex; gap: 0; overflow-x: auto; padding: 1.25rem 0 1rem; position: relative; }
+.timelineChoices button {
+  position: relative; flex: 0 0 min(15rem, 65vw); min-height: 5rem; padding: 1.1rem .75rem .75rem; text-align: left;
+  background: transparent; border: 0; border-top: 2px solid var(--border); color: var(--fg); cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.timelineChoices button::before {
+  content: ''; position: absolute; top: -7px; left: .75rem; width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--border); background: rgba(10, 18, 28, .9); transition: border-color 180ms ease, background-color 180ms ease;
+}
+.timelineChoices button:hover { background: rgba(255, 255, 255, .05); }
+.timelineChoices button[aria-pressed='true'] { border-top-color: var(--chapter-accent, var(--accent)); background: rgba(255, 255, 255, .08); }
+.timelineChoices button[aria-pressed='true']::before { border-color: var(--chapter-accent, var(--accent)); background: var(--chapter-accent, var(--accent)); }
+.timelineChoices span, .timelineChoices strong { display: block; }
+.timelineChoices span { font: .75rem var(--font-mono), monospace; color: var(--muted); margin-bottom: .4rem; }
+.timelineDetail { max-width: 65ch; min-height: 7rem; font-size: 1.15rem; line-height: 1.6; }
+.timelineDetail p { margin: 0 0 .75rem; }
+.sourceLink { display: inline-flex; align-items: center; min-height: 44px; }
+.arrow { display: inline-block; margin-left: .4rem; transition: transform 180ms ease; }
+.sourceLink:hover .arrow, .sourceLink:focus-visible .arrow { transform: translate(2px, -2px); }
+.inspect { margin-top: 1.5rem; }
+.inspect > button { min-height: 44px; padding: .7rem 1rem; border: 1px solid var(--chapter-accent, var(--accent)); background: var(--glass-surface); color: var(--fg); cursor: pointer; }
+.still { max-width: 45rem; margin: 1.5rem 0; }
+.still img { display: block; width: 100%; height: auto; }
+.still figcaption { color: var(--muted); font-size: .85rem; }
+.lesson a { color: var(--fg); text-underline-offset: .2em; }
+.lesson button:focus-visible, .lesson summary:focus-visible, .lesson a:focus-visible { outline: 2px solid var(--chapter-accent, var(--accent)); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .guide a, .timelineChoices button, .timelineChoices button::before, .arrow { transition: none; }
+}
