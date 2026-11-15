@@ -25,10 +25,10 @@ export function Expedition() {
             />
           </div>
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>A RECORD OF EXPLORATION</p>
-            <h1 className={styles.heroTitle}>Abandoned but not Forgotten: NASA&apos;s Discarded Equipment on the Moon and Mars</h1>
-            <p className={styles.subtitle}>{chapters.length} chapters. One journey through NASA’s record of exploration.</p>
-            <a className={styles.journeyLink} href="#apollo-11" data-begin-expedition>Begin the expedition <span aria-hidden="true">↓</span></a>
+            <p className={styles.eyebrow} data-hero-item>A RECORD OF EXPLORATION</p>
+            <h1 className={styles.heroTitle} data-hero-item>Abandoned but not Forgotten: NASA&apos;s Discarded Equipment on the Moon and Mars</h1>
+            <p className={styles.subtitle} data-hero-item>{chapters.length} chapters. One journey through NASA’s record of exploration.</p>
+            <a className={styles.journeyLink} href="#apollo-11" data-begin-expedition data-hero-item>Begin the expedition <span aria-hidden="true">↓</span></a>
           </div>
         </header>
 

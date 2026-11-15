@@ -7,7 +7,7 @@
   height: var(--nav-height);
   padding: env(safe-area-inset-top, 0px) var(--nav-gutter) 0;
   border-bottom: 1px solid var(--border);
-  background: rgba(2, 3, 10, 0.96);
+  background: rgba(5, 5, 5, 0.96);
 }
 
 .nav {
@@ -20,7 +20,8 @@
 
 .home {
   color: var(--fg);
-  font-size: 0.875rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
@@ -49,7 +50,7 @@
 .count,
 .chapterNumber {
   color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;

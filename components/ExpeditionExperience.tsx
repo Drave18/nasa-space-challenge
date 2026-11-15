@@ -84,43 +84,121 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       motionEnabled.current = true;
-      const sections = root.current!.querySelectorAll<HTMLElement>('[data-chapter]');
-      const scenes: HTMLElement[] = [];
-      sections.forEach((section, index) => {
-        const scene = section.querySelector<HTMLElement>('[data-story-scene]')!;
-        const panels = Array.from(scene.querySelectorAll<HTMLElement>('[data-beat]'));
-        const progress = chapterProgress.current[index];
-        progress.progress = 0;
-        // Keep natural reading flow when text cannot fit the available viewport.
-        const fits = panels.every(panel => panel.offsetHeight <= innerHeight - 160);
-        if (fits) {
-          scene.dataset.cinematic = '';
-          scene.style.setProperty('--beats', String(panels.length));
-          scenes.push(scene);
-        }
-        const timeline = gsap.timeline({
-          defaults: { ease: 'none' },
-          scrollTrigger: {
-            trigger: scene, start: 'top top', end: 'bottom bottom',
-            scrub: 0.55, invalidateOnRefresh: true,
-          },
-          onUpdate: () => { if (index === activeRef.current) applyProgress(progress.progress); },
-        });
-        // Camera and captions share one playhead, including reverse scrolling.
-        timeline.to(progress, { progress: 1, duration: panels.length }, 0);
-        if (!fits) return;
-        gsap.set(panels, { autoAlpha: 0 });
-        panels.forEach((panel, beat) => {
-          timeline.addLabel(`passage-${beat}`, beat)
-            .to(panel, { autoAlpha: 1, duration: 0.2, ease: 'sine.out' }, `passage-${beat}`)
-            .to(panel, { autoAlpha: 0, duration: 0.2, ease: 'sine.in' }, beat + 0.8);
-        });
-      });
-      return () => {
-        scenes.forEach(scene => {
+      const container = root.current!;
+      const sections = Array.from(container.querySelectorAll<HTMLElement>('[data-chapter]'));
+      const sceneOf = (section: HTMLElement) => section.querySelector<HTMLElement>('[data-story-scene]')!;
+      type Anchor = { section: HTMLElement | null; ratio: number; fromBottom: number } | null;
+      let timelines: gsap.core.Timeline[] = [];
+      let queued = 0;
+      let first = true;
+      let gone = false;
+      let builtWidth = innerWidth;
+      let builtHeight = innerHeight;
+
+      // Revert to natural flow: kill scenes, then clear data flags and every inline style GSAP wrote.
+      const teardown = () => {
+        for (const timeline of timelines) { timeline.scrollTrigger?.kill(); timeline.kill(); }
+        timelines = [];
+        for (const section of sections) {
+          const scene = sceneOf(section);
           delete scene.dataset.cinematic;
           scene.style.removeProperty('--beats');
+          gsap.set(scene.querySelectorAll('[data-beat]'), { clearProps: 'opacity,visibility,transform' });
+        }
+      };
+      const build = () => {
+        teardown();
+        sections.forEach((section, index) => {
+          const scene = sceneOf(section);
+          const panels = Array.from(scene.querySelectorAll<HTMLElement>('[data-beat]'));
+          const progress = chapterProgress.current[index];
+          progress.progress = 0;
+          // Keep natural reading flow when text cannot fit the available viewport.
+          const fits = panels.every(panel => panel.offsetHeight <= innerHeight - 160);
+          if (fits) {
+            scene.dataset.cinematic = '';
+            scene.style.setProperty('--beats', String(panels.length));
+          }
+          const timeline = gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: {
+              trigger: scene, start: 'top top', end: 'bottom bottom',
+              scrub: 0.55, invalidateOnRefresh: true,
+            },
+            onUpdate: () => { if (index === activeRef.current) applyProgress(progress.progress); },
+          });
+          timelines.push(timeline);
+          // Camera and captions share one playhead, including reverse scrolling.
+          timeline.to(progress, { progress: 1, duration: panels.length }, 0);
+          if (!fits) return;
+          panels.forEach((panel, beat) => {
+            timeline.addLabel(`passage-${beat}`, beat)
+              .fromTo(panel, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: 'power2.out' }, `passage-${beat}`)
+              .to(panel, { autoAlpha: 0, y: -12, duration: 0.2, ease: 'sine.in' }, beat + 0.8);
+          });
         });
+        builtWidth = innerWidth;
+        builtHeight = innerHeight;
+      };
+      // Remember where the reader is inside the document so a layout change cannot move them.
+      const capture = (): Anchor => {
+        const center = scrollY + innerHeight / 2;
+        for (const section of sections) {
+          const box = section.getBoundingClientRect();
+          if (center >= box.top + scrollY && center < box.bottom + scrollY) return { section, ratio: -box.top / box.height, fromBottom: 0 };
+        }
+        const last = sections[sections.length - 1]?.getBoundingClientRect();
+        if (last && center >= last.bottom + scrollY) return { section: null, ratio: 0, fromBottom: document.documentElement.scrollHeight - scrollY };
+        return null;
+      };
+      const restore = (anchor: Anchor) => {
+        if (!anchor) return;
+        if (anchor.section) {
+          const box = anchor.section.getBoundingClientRect();
+          scrollTo({ top: box.top + scrollY + anchor.ratio * box.height, behavior: 'instant' });
+        } else scrollTo({ top: document.documentElement.scrollHeight - anchor.fromBottom, behavior: 'instant' });
+      };
+      let anchor: Anchor | undefined;
+      let tracking = 0;
+      let frozen = false;
+      // The anchor is recorded while scrolling, so a resize reflow cannot corrupt it before the rebuild runs.
+      const track = () => {
+        if (tracking || frozen) return;
+        tracking = requestAnimationFrame(() => { tracking = 0; if (!frozen && !gone) anchor = capture(); });
+      };
+      const rebuild = () => {
+        queued = 0;
+        if (gone) return;
+        const saved = first || anchor === undefined ? capture() : anchor;
+        build();
+        restore(saved);
+        frozen = false;
+        ScrollTrigger.refresh();
+        anchor = capture();
+        if (first) {
+          first = false;
+          const items = container.querySelectorAll('[data-hero-item]');
+          const hash = location.hash;
+          if (scrollY < 4 && (!hash || hash === '#top') && items.length) {
+            gsap.from(items, { opacity: 0, y: 20, duration: 0.7, stagger: 0.08, ease: 'power2.out', clearProps: 'opacity,transform' });
+          }
+        }
+      };
+      const request = () => { if (!queued) queued = requestAnimationFrame(rebuild); };
+      const resized = () => {
+        if (innerWidth !== builtWidth || Math.abs(innerHeight - builtHeight) >= 100) { frozen = true; request(); }
+      };
+      rebuild();
+      addEventListener('resize', resized);
+      addEventListener('scroll', track, { passive: true });
+      void document.fonts.ready.then(() => { if (!gone) request(); });
+      return () => {
+        gone = true;
+        cancelAnimationFrame(queued);
+        cancelAnimationFrame(tracking);
+        removeEventListener('resize', resized);
+        removeEventListener('scroll', track);
+        teardown();
         motionEnabled.current = false;
         applyProgress(0.5);
       };

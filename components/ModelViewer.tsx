@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react';
+import { useEffect, useId, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from 'three-mesh-bvh';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
@@ -78,18 +79,25 @@ function disposeObject(object: THREE.Object3D, retainedTexture?: THREE.Texture) 
       }
     }
   });
-  for (const geometry of geometries) geometry.dispose();
+  for (const geometry of geometries) {
+    if (geometry.boundsTree) disposeBoundsTree.call(geometry);
+    geometry.dispose();
+  }
   for (const material of materials) material.dispose();
   for (const texture of textures) texture.dispose();
   for (const image of images) image.close();
 }
 
+type ViewPreset = 'front' | 'side' | 'top';
 type Runtime = {
   load(media: ModelMedia | null): void;
   configure(): void;
   speculate(src?: string | null): void;
   invalidate(): void;
   pose(): void;
+  reset(): void;
+  view(preset: ViewPreset): void;
+  zoom(factor: number): void;
 };
 
 export function ModelViewer(props: ModelViewerProps) {
@@ -99,6 +107,7 @@ export function ModelViewer(props: ModelViewerProps) {
   const latest = useRef(props);
   latest.current = props;
   const progressRef = useRef(0);
+  const helpId = useId();
   const [state, setState] = useState<ModelLoadState>('idle');
   const [progress, setProgress] = useState<number | null>(0);
   const [spin, setSpin] = useState(false);
@@ -132,7 +141,8 @@ export function ModelViewer(props: ModelViewerProps) {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.shadowMap.autoUpdate = false;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    root.prepend(renderer.domElement);
+    const canvas = renderer.domElement;
+    root.prepend(canvas);
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x02030a);
     const pmrem = new THREE.PMREMGenerator(renderer);
@@ -147,30 +157,43 @@ export function ModelViewer(props: ModelViewerProps) {
     sun.shadow.bias = -0.0004;
     scene.add(sun);
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.autoRotateSpeed = 1.2;
+    // One-finger vertical drags scroll the page; horizontal drags and pinch reach the controls.
+    canvas.style.touchAction = 'pan-y';
     const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
     const content = new THREE.Group();
     scene.add(content);
-    const tags: { el: HTMLSpanElement; p: THREE.Vector3; occluded: boolean }[] = [];
+    const tags: { el: HTMLSpanElement; p: THREE.Vector3; occluded: boolean; checked: boolean }[] = [];
+    const occluders: THREE.Mesh[] = [];
+    const hits: THREE.Intersection[] = [];
     const projection = new THREE.Vector3();
     const direction = new THREE.Vector3();
+    const offset = new THREE.Vector3();
     const spherical = new THREE.Spherical();
+    const orbitSpherical = new THREE.Spherical();
     const ray = new THREE.Raycaster();
+    ray.firstHitOnly = true;
     const size = new THREE.Vector3();
     const target = new THREE.Vector3();
     let model: THREE.Object3D | null = null;
     let current: ModelMedia | null = null;
     let generation = 0;
     let frame = 0;
+    let settle = 0;
     let disposed = false;
     let unavailable = false;
     let compiled = false;
     let ready = false;
+    let bvhReady = false;
+    let needsReset = true;
+    let lastMode = latest.current.mode;
     let distance = 1;
     let maxDim = 1;
     let radius = 1;
+    let width = 0;
+    let height = 0;
     let lastOcclusion = -Infinity;
     let labelsDirty = true;
 
@@ -191,6 +214,34 @@ export function ModelViewer(props: ModelViewerProps) {
     const invalidate = () => {
       if (!frame && !disposed && !unavailable && latest.current.active && !document.hidden && model && compiled) frame = requestAnimationFrame(render);
     };
+    // Occlusion needs triangle picking on the labelled inspect model only; a BVH per unique geometry makes it cheap.
+    const prepareBVH = () => {
+      if (bvhReady || !model || !current?.labels?.length) return;
+      const seen = new Set<THREE.BufferGeometry>();
+      occluders.length = 0;
+      model.traverse(node => {
+        if (!(node instanceof THREE.Mesh)) return;
+        if (!seen.has(node.geometry)) {
+          seen.add(node.geometry);
+          if (!node.geometry.boundsTree) computeBoundsTree.call(node.geometry, { indirect: true });
+        }
+        node.raycast = acceleratedRaycast;
+        occluders.push(node);
+      });
+      bvhReady = true;
+    };
+    const isOccluded = (point: THREE.Vector3) => {
+      direction.copy(point).sub(camera.position);
+      const length = direction.length();
+      ray.far = Math.max(0, length - maxDim * 0.025);
+      ray.set(camera.position, direction.divideScalar(length || 1));
+      for (const mesh of occluders) {
+        hits.length = 0;
+        mesh.raycast(ray, hits);
+        if (hits.length) return true;
+      }
+      return false;
+    };
     const render = (now: number) => {
       frame = 0;
       if (disposed || unavailable || !latest.current.active || document.hidden || !model || !compiled) return;
@@ -202,27 +253,37 @@ export function ModelViewer(props: ModelViewerProps) {
         const occlude = now - lastOcclusion >= 250;
         if (occlude) lastOcclusion = now;
         for (const tag of tags) {
-          if (occlude) {
-            direction.copy(tag.p).sub(camera.position);
-            ray.far = Math.max(0, direction.length() - maxDim * 0.025);
-            ray.set(camera.position, direction.normalize());
-            tag.occluded = ray.intersectObject(model, true).length > 0;
-          }
           projection.copy(tag.p).project(camera);
-          const visible = !tag.occluded && projection.z < 1 && Math.abs(projection.x) < 1 && Math.abs(projection.y) < 1;
-          tag.el.hidden = !visible;
-          if (visible) {
-            tag.el.style.left = `${(projection.x + 1) * root.clientWidth / 2}px`;
-            tag.el.style.top = `${(1 - projection.y) * root.clientHeight / 2}px`;
+          if (!(projection.z < 1 && projection.z > -1 && Math.abs(projection.x) < 1 && Math.abs(projection.y) < 1)) {
+            tag.el.hidden = true;
+            tag.checked = false;
+            continue;
+          }
+          if (occlude || !tag.checked) { tag.occluded = isOccluded(tag.p); tag.checked = true; }
+          tag.el.hidden = tag.occluded;
+          if (!tag.occluded) {
+            tag.el.style.left = `${(projection.x + 1) * width / 2}px`;
+            tag.el.style.top = `${(1 - projection.y) * height / 2}px`;
           }
         }
-        labelsDirty = false;
+        // A throttled pass leaves occlusion stale; schedule a final one so labels are exact at rest.
+        labelsDirty = !occlude;
+        if (labelsDirty && !settle) {
+          settle = window.setTimeout(() => { settle = 0; invalidate(); }, Math.max(0, 250 - (now - lastOcclusion)) + 16);
+        }
       }
       if (inspect && (changed || controls.autoRotate)) invalidate();
+    };
+    const resetView = () => {
+      camera.position.set(1.4, 0.75, 2).normalize().multiplyScalar(distance).add(target);
+      controls.target.copy(target);
+      controls.update();
+      needsReset = false;
     };
     const fit = () => {
       const w = root.clientWidth, h = root.clientHeight;
       if (!w || !h) return;
+      width = w; height = h;
       renderer.setPixelRatio(Math.min(devicePixelRatio, w < 900 ? 1.25 : 1.5));
       renderer.setSize(w, h);
       const shadowSize = w < 900 ? 1024 : 2048;
@@ -241,19 +302,21 @@ export function ModelViewer(props: ModelViewerProps) {
       camera.near = maxDim / 100;
       camera.far = Math.max(maxDim * 50, distance * 4);
       camera.updateProjectionMatrix();
-      camera.position.set(1.4, 0.75, 2).normalize().multiplyScalar(distance).add(target);
-      controls.target.copy(target);
       controls.minDistance = maxDim * 0.6;
       controls.maxDistance = Math.max(maxDim * 6, distance * 2);
       controls.maxPolarAngle = current?.ground ? Math.PI * 0.52 : Math.PI;
-      controls.update();
+      // Resizing keeps a user's inspect pose; only the first fit after a load (or story→inspect) resets it.
+      if (needsReset && model) resetView();
+      else controls.update();
       pose();
       labelsDirty = true;
       invalidate();
     };
     const clear = () => {
       cancelAnimationFrame(frame); frame = 0;
-      compiled = ready = false;
+      clearTimeout(settle); settle = 0;
+      compiled = ready = bvhReady = false;
+      occluders.length = 0;
       disposeObject(content, texture);
       content.clear();
       model = null;
@@ -264,10 +327,25 @@ export function ModelViewer(props: ModelViewerProps) {
       store.retain([current?.src, src].filter((url): url is string => Boolean(url)));
       if (src && !unavailable) void store.prefetch(src).catch(() => {});
     };
+    const describe = () => {
+      const inspect = latest.current.mode === 'inspect';
+      if (inspect && current) {
+        canvas.tabIndex = 0;
+        canvas.setAttribute('role', 'application');
+        canvas.setAttribute('aria-roledescription', '3D model viewer');
+        canvas.setAttribute('aria-label', current.alt);
+        canvas.setAttribute('aria-describedby', helpId);
+      } else {
+        canvas.removeAttribute('tabindex');
+        for (const name of ['role', 'aria-roledescription', 'aria-label', 'aria-describedby']) canvas.removeAttribute(name);
+      }
+    };
     const load = (media: ModelMedia | null) => {
       const token = ++generation;
       clear();
       current = media;
+      needsReset = true;
+      describe();
       store.retain([media?.src, latest.current.prefetchSrc].filter((url): url is string => Boolean(url)));
       setProgress(0);
       if (unavailable) { publish('unavailable'); return; }
@@ -320,8 +398,9 @@ export function ModelViewer(props: ModelViewerProps) {
           const el = document.createElement('span');
           el.className = styles.tag; el.textContent = label.t; el.hidden = true;
           labels.append(el);
-          tags.push({ el, p: new THREE.Vector3(...label.p), occluded: false });
+          tags.push({ el, p: new THREE.Vector3(...label.p), occluded: false, checked: false });
         }
+        if (latest.current.mode === 'inspect') prepareBVH();
         fit();
         renderer.shadowMap.needsUpdate = true;
         await renderer.compileAsync(scene, camera);
@@ -337,6 +416,10 @@ export function ModelViewer(props: ModelViewerProps) {
     };
     const configure = () => {
       const inspect = latest.current.mode === 'inspect';
+      if (inspect && lastMode !== 'inspect') needsReset = true;
+      lastMode = latest.current.mode;
+      if (inspect) { prepareBVH(); if (needsReset && model) resetView(); }
+      describe();
       controls.enabled = inspect && latest.current.active;
       controls.autoRotate = inspect && options.current.spin;
       labels.hidden = !inspect || !options.current.showLabels;
@@ -346,6 +429,64 @@ export function ModelViewer(props: ModelViewerProps) {
     };
     const change = () => { labelsDirty = true; invalidate(); };
     const stopSpin = () => { options.current.spin = false; controls.autoRotate = false; setSpin(false); };
+    const canCommand = () => ready && !disposed && latest.current.mode === 'inspect';
+    // Drop any damping inertia from a previous drag so a command lands exactly where it says.
+    const flushInertia = () => {
+      controls.enableDamping = false;
+      controls.update();
+      controls.enableDamping = true;
+    };
+    const commanded = () => { controls.update(); labelsDirty = true; invalidate(); };
+    const reset = () => {
+      if (!canCommand()) return;
+      stopSpin();
+      flushInertia(); resetView(); commanded();
+    };
+    const view = (preset: ViewPreset) => {
+      if (!canCommand()) return;
+      stopSpin();
+      flushInertia();
+      if (preset === 'front') direction.set(0, 0, 1);
+      else if (preset === 'side') direction.set(1, 0, 0);
+      else direction.set(0, 1, 0.02);
+      camera.position.copy(direction.normalize().multiplyScalar(distance)).add(controls.target);
+      commanded();
+    };
+    const zoom = (factor: number) => {
+      if (!canCommand()) return;
+      stopSpin();
+      flushInertia();
+      offset.copy(camera.position).sub(controls.target);
+      offset.setLength(THREE.MathUtils.clamp(offset.length() * factor, controls.minDistance, controls.maxDistance));
+      camera.position.copy(controls.target).add(offset);
+      commanded();
+    };
+    const orbit = (theta: number, phi: number) => {
+      stopSpin();
+      flushInertia();
+      offset.copy(camera.position).sub(controls.target);
+      orbitSpherical.setFromVector3(offset);
+      orbitSpherical.theta += theta;
+      orbitSpherical.phi = THREE.MathUtils.clamp(orbitSpherical.phi + phi, Math.max(controls.minPolarAngle, 0.01), Math.min(controls.maxPolarAngle, Math.PI - 0.01));
+      offset.setFromSpherical(orbitSpherical);
+      camera.position.copy(controls.target).add(offset);
+      commanded();
+    };
+    const key = (event: KeyboardEvent) => {
+      if (!canCommand() || event.ctrlKey || event.metaKey || event.altKey) return;
+      const step = THREE.MathUtils.degToRad(10);
+      switch (event.key) {
+        case 'ArrowLeft': orbit(-step, 0); break;
+        case 'ArrowRight': orbit(step, 0); break;
+        case 'ArrowUp': orbit(0, -step); break;
+        case 'ArrowDown': orbit(0, step); break;
+        case '+': case '=': zoom(0.8); break;
+        case '-': case '_': zoom(1.25); break;
+        case 'Home': reset(); break;
+        default: return;
+      }
+      event.preventDefault();
+    };
     const visibility = () => {
       if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
       else invalidate();
@@ -362,12 +503,11 @@ export function ModelViewer(props: ModelViewerProps) {
     controls.addEventListener('start', stopSpin);
     document.addEventListener('visibilitychange', visibility);
     motion.addEventListener('change', reduced);
-    renderer.domElement.addEventListener('webglcontextlost', lost);
+    canvas.addEventListener('webglcontextlost', lost);
+    canvas.addEventListener('keydown', key);
     const observer = new ResizeObserver(fit);
     observer.observe(root);
-    runtime.current = { load, configure, speculate, invalidate, pose };
-    options.current.spin = !motion.matches;
-    setSpin(!motion.matches);
+    runtime.current = { load, configure, speculate, invalidate, pose, reset, view, zoom };
     fit();
     configure();
     return () => {
@@ -378,10 +518,11 @@ export function ModelViewer(props: ModelViewerProps) {
       controls.removeEventListener('start', stopSpin);
       document.removeEventListener('visibilitychange', visibility);
       motion.removeEventListener('change', reduced);
-      renderer.domElement.removeEventListener('webglcontextlost', lost);
+      canvas.removeEventListener('webglcontextlost', lost);
+      canvas.removeEventListener('keydown', key);
       controls.dispose(); texture.dispose();
       sun.shadow.map?.dispose(); environment.dispose(); pmrem.dispose();
-      renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove();
+      renderer.dispose(); renderer.forceContextLoss(); canvas.remove();
     };
   }, []);
 
@@ -389,15 +530,26 @@ export function ModelViewer(props: ModelViewerProps) {
   useEffect(() => { runtime.current?.configure(); }, [props.mode, props.active, spin, showLabels]);
   useEffect(() => { runtime.current?.speculate(props.prefetchSrc); }, [props.prefetchSrc, props.media]);
 
+  const inspect = props.mode === 'inspect' && props.media;
+  const ready = state === 'ready';
   return (
     <div ref={rootRef} className={styles.root} data-model-state={state} data-mode={props.mode}>
       <div ref={labelsRef} className={styles.labels} aria-hidden="true" />
+      {inspect ? <p id={helpId} className={styles.srOnly}>
+        Drag to orbit, scroll or pinch to zoom. With this viewer focused, arrow keys orbit, plus and minus zoom, Home resets the view.
+      </p> : null}
       {state !== 'ready' && state !== 'idle' ? <p className={styles.progress} role={state === 'error' ? 'alert' : 'status'}>
         {state === 'unavailable' ? '3D is unavailable on this device' : state === 'error' ? 'Could not load model' : state === 'preparing' ? 'Preparing 3D…' : `Loading 3D model${progress === null ? '…' : ` ${progress}%`}`}
       </p> : null}
-      {props.mode === 'inspect' && props.media ? <div className={styles.toolbar}>
-        {props.media.labels ? <button type="button" aria-pressed={showLabels} onClick={() => setShowLabels(value => !value)}>Labels</button> : null}
+      {inspect ? <div className={styles.toolbar} role="toolbar" aria-label="3D model controls">
+        {props.media?.labels?.length ? <button type="button" aria-pressed={showLabels} onClick={() => setShowLabels(value => !value)}>Labels</button> : null}
         <button type="button" aria-pressed={spin} onClick={() => setSpin(value => !value)}>Spin</button>
+        <button type="button" disabled={!ready} onClick={() => runtime.current?.reset()}>Reset view</button>
+        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('front')}>Front view</button>
+        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('side')}>Side view</button>
+        <button type="button" disabled={!ready} onClick={() => runtime.current?.view('top')}>Top view</button>
+        <button type="button" disabled={!ready} aria-label="Zoom in" onClick={() => runtime.current?.zoom(0.8)}>+</button>
+        <button type="button" disabled={!ready} aria-label="Zoom out" onClick={() => runtime.current?.zoom(1.25)}>−</button>
       </div> : null}
     </div>
   );

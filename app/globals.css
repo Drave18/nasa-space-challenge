@@ -1,10 +1,10 @@
 :root {
-  --bg: #02030a;
-  --fg: #e8ecf3;
-  --muted: #9aa4b5;
-  --accent: #5aa9ff;
-  --panel: rgba(8, 12, 24, 0.82);
-  --border: rgba(255, 255, 255, 0.12);
+  --bg: #050505;
+  --fg: #efefea;
+  --muted: #b5b5ad;
+  --accent: #e1e1d7;
+  --panel: rgba(12, 12, 11, 0.85);
+  --border: rgba(255, 255, 245, 0.18);
   color-scheme: dark;
 }
 
@@ -14,18 +14,45 @@ body {
   height: 100%;
   background: var(--bg);
   color: var(--fg);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-body), system-ui, sans-serif;
+  line-height: 1.6;
 }
 
 * {
   box-sizing: border-box;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+pre,
+code {
+  font-family: var(--font-mono), monospace;
+}
+
 a {
   color: var(--accent);
 }
 
-button {
+button,
+input,
+select,
+textarea {
   font: inherit;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
