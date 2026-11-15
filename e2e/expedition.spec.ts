@@ -9,6 +9,7 @@ test('expedition renders chapters and navigates to a mission record', async ({ p
   await page.goto(href!);
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Back to the expedition' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /structured record/i }).first()).toBeAttached();
 });
 
 test('model mission record offers lazy inspect control', async ({ page }) => {
@@ -185,3 +186,140 @@ test('homepage: chapter hash lands in its chapter and the page does not overflow
   await expect(page.locator('[data-active-chapter]')).toHaveAttribute('data-active-chapter', 'insight');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
 });
+
+test('homepage has expanded paragraphs, timeline, quiz and model inspection', async ({ page }) => {
+  await page.goto('/#apollo-11-lesson');
+  const lesson = page.locator('#apollo-11-lesson');
+  await expect(page.locator('#apollo-11 h3').filter({ hasText: 'Could people land and return?' })).toBeAttached();
+  await expect(lesson.getByText('Funding Agency')).toHaveCount(0);
+  await expect(lesson.getByText('Complete captured page text')).toHaveCount(0);
+  const choices = lesson.getByRole('group', { name: 'Choose a milestone' }).getByRole('button');
+  await choices.last().click();
+  await expect(choices.last()).toHaveAttribute('aria-pressed', 'true');
+  await expect(lesson.getByLabel('Apollo 11 LM timeline').locator('[aria-live="polite"]')).toContainText('Rejoining Michael Collins');
+  await expect(lesson.locator('section[aria-labelledby="apollo-11-craft"] > p')).toHaveCount(2);
+  await expect(lesson.locator('section[aria-labelledby="apollo-11-learned"] > p')).toHaveCount(2);
+  await lesson.getByRole('button', { name: 'Explore the 3D spacecraft' }).click();
+  await expect(lesson.getByRole('button', { name: 'Close inspection' })).toBeVisible();
+  await expect(lesson.locator('canvas')).toBeVisible();
+  await lesson.getByRole('button', { name: 'Close inspection' }).click();
+  await lesson.getByRole('heading', { name: 'A two-part Moon elevator' }).scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'test-results/expanded-lesson-desktop.png' });
+  await expect(lesson.getByRole('link', { name: 'Explore the full mission' })).toHaveAttribute('href', '/mission/apollo-11');
+});
+
+test('homepage lesson remains readable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/#apollo-11-lesson');
+  const lesson = page.locator('#apollo-11-lesson');
+  await expect(page.getByRole('heading', { name: 'Could people land and return?' })).toBeAttached();
+  await expect(lesson.locator('noscript ol li').first()).toBeAttached();
+  await lesson.locator('noscript details summary').first().click();
+  await expect(lesson.locator('noscript details[open] p').first()).toBeVisible();
+  await context.close();
+});
+
+test('image mission lesson stays readable on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#apollo-12-lesson');
+  const lesson = page.locator('#apollo-12-lesson');
+  await expect(lesson.getByRole('heading', { name: 'Intrepid’s clever return trip' })).toBeVisible();
+  await expect(lesson.locator('figure img')).toBeVisible();
+  await lesson.getByRole('heading', { name: 'Intrepid’s clever return trip' }).scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'test-results/expanded-lesson-mobile.png', fullPage: false });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+});
+
+test('mission quiz checks answers, scores and retries', async ({ page }) => {
+  await page.goto('/#apollo-11-lesson');
+  const quiz = page.locator('#apollo-11-lesson').getByLabel('Apollo 11 LM quiz');
+  await expect(quiz.getByText('QUESTION 1 / 3')).toBeVisible();
+  await quiz.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'test-results/quiz-unanswered.png' });
+  await quiz.getByRole('button', { name: /Build a permanent Moon base/ }).click();
+  await quiz.getByRole('button', { name: 'Check answer' }).click();
+  await expect(quiz.getByRole('status')).toContainText('Good try');
+  await expect(quiz.getByRole('button', { name: /Build a permanent Moon base/ })).toBeDisabled();
+  await page.screenshot({ path: 'test-results/quiz-answered.png' });
+  await quiz.getByRole('button', { name: 'Next question' }).click();
+  await quiz.getByRole('button', { name: /lower part could stay as a launchpad/i }).click();
+  await quiz.getByRole('button', { name: 'Check answer' }).click();
+  await quiz.getByRole('button', { name: 'Next question' }).click();
+  await quiz.getByRole('button', { name: /Keep gathering measurements/i }).click();
+  await quiz.getByRole('button', { name: 'Check answer' }).click();
+  await quiz.getByRole('button', { name: 'See my results' }).click();
+  await expect(quiz.getByText('2 / 3')).toBeVisible();
+  await page.screenshot({ path: 'test-results/quiz-complete.png' });
+  await quiz.getByRole('button', { name: 'Try again' }).click();
+  await expect(quiz.getByText('QUESTION 1 / 3')).toBeVisible();
+  await quiz.getByRole('button', { name: /Land astronauts and bring them back/i }).focus();
+  await page.keyboard.press('Enter');
+  await expect(quiz.getByRole('button', { name: /Land astronauts and bring them back/i })).toHaveAttribute('aria-pressed', 'true');
+});
+
+for (const scenario of [
+  { name: 'desktop', width: 1440, height: 900, reducedMotion: false, javaScriptEnabled: true },
+  { name: 'mobile', width: 390, height: 844, reducedMotion: false, javaScriptEnabled: true },
+  { name: 'short viewport', width: 844, height: 390, reducedMotion: false, javaScriptEnabled: true },
+  { name: 'reduced motion', width: 390, height: 844, reducedMotion: true, javaScriptEnabled: true },
+  { name: 'without JavaScript', width: 390, height: 844, reducedMotion: false, javaScriptEnabled: false },
+]) {
+  test(`homepage expanded copy stays readable: ${scenario.name}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      viewport: { width: scenario.width, height: scenario.height },
+      javaScriptEnabled: scenario.javaScriptEnabled,
+      reducedMotion: scenario.reducedMotion ? 'reduce' : 'no-preference',
+    });
+    const page = await context.newPage();
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    // Allow the existing scroll enhancement to measure the loaded fonts.
+    if (scenario.javaScriptEnabled) await page.waitForTimeout(500);
+    const chapters = page.locator('[data-chapter]');
+    await expect(chapters).toHaveCount(13);
+    if (scenario.name === 'desktop' || scenario.name === 'mobile') {
+      await expect(page.locator('[data-hero-item]').last()).toHaveCSS('opacity', '1');
+      await page.locator('main > header').screenshot({ path: `test-results/expanded-hero-${scenario.name}.png` });
+    }
+    for (const chapter of await chapters.all()) {
+      const slug = await chapter.getAttribute('id');
+      for (const section of ['craft', 'learned']) {
+        const paragraphs = chapter.locator(`section[aria-labelledby="${slug}-${section}"] > p`);
+        await expect(paragraphs).toHaveCount(2);
+        for (const paragraph of await paragraphs.all()) {
+          const dimensions = await paragraph.evaluate(element => ({
+            width: element.clientWidth, height: element.clientHeight,
+            scrollWidth: element.scrollWidth, scrollHeight: element.scrollHeight,
+          }));
+          expect(dimensions.scrollWidth, `${slug} ${section} width`).toBeLessThanOrEqual(dimensions.width + 1);
+          expect(dimensions.scrollHeight, `${slug} ${section} height`).toBeLessThanOrEqual(dimensions.height + 1);
+          await expect(paragraph).toBeVisible();
+        }
+      }
+      const panel = chapter.locator('[data-beat="reading"]');
+      const scene = chapter.locator('[data-story-scene]');
+      if (await scene.getAttribute('data-cinematic') !== null) {
+        const fits = await panel.evaluate(element => {
+          const beat = element.parentElement!;
+          const style = getComputedStyle(beat);
+          return element.clientHeight + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) <= beat.clientHeight + 1;
+        });
+        expect(fits, `${slug}: cinematic text must fit inside stage padding`).toBe(true);
+      } else {
+        await expect(panel).toBeVisible();
+      }
+    }
+    if (scenario.reducedMotion || !scenario.javaScriptEnabled || scenario.height < 400) {
+      await expect(page.locator('[data-cinematic]')).toHaveCount(0);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    const heading = page.locator('#apollo-11-craft');
+    await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    const headingBox = await heading.boundingBox();
+    expect(headingBox!.y).toBeGreaterThanOrEqual(80);
+    await expect(page.getByRole('link', { name: 'NASA Gallery home' })).toHaveCSS('background-color', 'rgb(5, 5, 5)');
+    await page.screenshot({ path: `test-results/expanded-${scenario.name.replaceAll(' ', '-')}.png` });
+    await context.close();
+  });
+}

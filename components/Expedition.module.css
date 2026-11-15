@@ -19,7 +19,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, #050505, rgba(0,0,0,.4) 42%, transparent 80%);
+  background: linear-gradient(0deg, #050505, rgba(0,0,0,.72) 42%, rgba(0,0,0,.35) 80%);
 }
 .heroCopy { position: relative; width: 100%; margin-top: auto; padding-block: 3rem; }
 .eyebrow, .chapterNumber {

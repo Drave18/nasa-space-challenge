@@ -1,0 +1,17 @@
+.lesson { padding: 4rem clamp(1.25rem, 4vw, 5rem) 7rem; background: rgba(5,5,5,.9); }
+.step { max-width: 70rem; margin: 0 auto 5rem; scroll-margin-top: 7rem; }
+.step h3 { font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1.15; margin: 0 0 1rem; scroll-margin-top: 7rem; }
+.step > p { font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.75; max-width: 68ch; }
+.timelineChoices { display: flex; gap: .75rem; overflow-x: auto; padding: 1rem 0; }
+.timelineChoices button { flex: 0 0 min(15rem, 65vw); min-height: 5rem; padding: .75rem; text-align: left; background: var(--panel); border: 1px solid var(--border); border-radius: 3px; color: var(--fg); cursor: pointer; }
+.timelineChoices button[aria-pressed='true'] { border-color: var(--chapter-accent, var(--accent)); background: #292c30; }
+.timelineChoices span, .timelineChoices strong { display: block; }
+.timelineChoices span { font: .75rem var(--font-mono), monospace; color: var(--muted); margin-bottom: .4rem; }
+.timelineDetail { max-width: 65ch; min-height: 7rem; font-size: 1.15rem; line-height: 1.6; }
+.inspect { margin-top: 1.5rem; }
+.inspect > button { min-height: 44px; padding: .7rem 1rem; border: 1px solid var(--chapter-accent, var(--accent)); background: var(--panel); color: var(--fg); cursor: pointer; }
+.still { max-width: 45rem; margin: 1.5rem 0; }
+.still img { display: block; width: 100%; height: auto; }
+.still figcaption { color: var(--muted); font-size: .85rem; }
+.lesson a { color: var(--fg); text-underline-offset: .2em; }
+.lesson button:focus-visible, .lesson summary:focus-visible, .lesson a:focus-visible { outline: 2px solid var(--chapter-accent, var(--accent)); outline-offset: 3px; }

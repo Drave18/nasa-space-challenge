@@ -181,6 +181,12 @@
   position: fixed; left: var(--nav-gutter); bottom: 1.5rem;
   font-size: .7rem; color: var(--muted); text-shadow: 0 1px 8px #000;
 }
+.header[data-immersive] .home,
+.header[data-immersive] .current {
+  width: fit-content;
+  padding: .4rem .6rem;
+  background: #050505;
+}
 .header[data-immersive] .summary { font-size: .75rem; text-underline-offset: 4px; }
 .header[data-immersive] .chapters { background: #131312; border-radius: 0; }
 .header[data-immersive] .chapter:hover,

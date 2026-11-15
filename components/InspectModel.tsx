@@ -6,8 +6,8 @@ import type { ModelLoadState } from './ModelViewer';
 import { ModelViewerLoader } from './ModelViewerLoader';
 import styles from './InspectModel.module.css';
 
-export function InspectModel({ media }: { media: Extract<Media, { kind: 'model' }> }) {
-  const [open, setOpen] = useState(false);
+export function InspectModel({ media, initialOpen = false }: { media: Extract<Media, { kind: 'model' }>; initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
   const [state, setState] = useState<ModelLoadState>('idle');
   const [visible, setVisible] = useState(true);
   const stage = useRef<HTMLDivElement>(null);

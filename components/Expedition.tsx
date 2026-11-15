@@ -1,11 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { loadStoryChapters } from '@/lib/story';
+import { loadMissionLessons } from '@/lib/lesson';
 import { ExpeditionExperience, type ChapterDescriptor } from './ExpeditionExperience';
+import { LessonTimeline } from './LessonTimeline';
+import { LessonInspect } from './LessonInspect';
+import { MissionQuiz } from './MissionQuiz';
 import styles from './Expedition.module.css';
+import lessonStyles from './Lesson.module.css';
 
 export function Expedition() {
   const chapters = loadStoryChapters();
+  const lessons = loadMissionLessons();
   const descriptors: ChapterDescriptor[] = chapters.map(({ slug, shortName, body, media }) => ({
     slug, shortName, body, media,
   }));
@@ -27,7 +33,7 @@ export function Expedition() {
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow} data-hero-item>A RECORD OF EXPLORATION</p>
             <h1 className={styles.heroTitle} data-hero-item>Abandoned but not Forgotten: NASA&apos;s Discarded Equipment on the Moon and Mars</h1>
-            <p className={styles.subtitle} data-hero-item>{chapters.length} chapters. One journey through NASA’s record of exploration.</p>
+            <p className={styles.subtitle} data-hero-item>{chapters.length} chapters trace a journey from the Moon and Mars to asteroids, the outer planets, and the search for worlds around other stars. Discover the challenges these missions faced, the machines built to meet them, and what their observations revealed. Long after crews depart or signals fall silent, the equipment, returned samples, and recorded data preserve a history of exploration that scientists can continue to study.</p>
             <a className={styles.journeyLink} href="#apollo-11" data-begin-expedition data-hero-item>Begin the expedition <span aria-hidden="true">↓</span></a>
           </div>
         </header>
@@ -63,35 +69,37 @@ export function Expedition() {
                   </figure>
                 </noscript>
 
-                {chapter.reading.map((passage, passageIndex) => (
-                  <div key={passageIndex} className={`${styles.beat} ${styles.narrative}`}>
-                    <div className={styles.panel} data-beat="reading">
-                      <p className={styles.eyebrow}>{passage.heading}</p>
-                      <p className={styles.summary}>{passage.text}</p>
-                    </div>
-                  </div>
-                ))}
-
-                <div className={`${styles.beat} ${styles.brief}`}>
-                  <div className={styles.panel} data-beat="brief">
-                    <h3 className={styles.focusTitle}>Mission brief</h3>
-                    {chapter.facts.length > 0 ? (
-                      <dl className={styles.facts}>
-                        {chapter.facts.map(fact => (
-                          <div key={fact.label}>
-                            <dt>{fact.label}</dt>
-                            <dd>{fact.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : <p className={styles.excerpt}>{chapter.summary}</p>}
-                    <Link className={styles.recordLink} href={`/mission/${chapter.slug}`} prefetch={false}>
-                      Read the full mission record <span aria-hidden="true">↗</span>
-                    </Link>
+                <div className={`${styles.beat} ${styles.narrative}`}>
+                  <div className={styles.panel} data-beat="reading">
+                    <p className={styles.eyebrow}>THE CHALLENGE</p>
+                    <h3 className={styles.focusTitle}>{lessons[index].headings.idea}</h3>
+                    <p className={styles.summary}>{lessons[index].idea}</p>
+                    <a className={styles.recordLink} href={`#${chapter.slug}-lesson`}>Keep exploring <span aria-hidden="true">↓</span></a>
                   </div>
                 </div>
 
               </div>
+            </div>
+            <div id={`${chapter.slug}-lesson`} className={lessonStyles.lesson}>
+              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-journey`}>
+                <h3 id={`${chapter.slug}-journey`}>Follow the journey</h3>
+                <p>Choose a moment to see how this mission unfolded.</p>
+                <LessonTimeline milestones={lessons[index].milestones} name={chapter.shortName} />
+              </section>
+              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-craft`}>
+                <h3 id={`${chapter.slug}-craft`}>{lessons[index].headings.craft}</h3>
+                {lessons[index].craft.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
+                {chapter.media.kind === 'model' ? <LessonInspect media={chapter.media} slug={chapter.slug} /> : <figure className={lessonStyles.still}><img src={chapter.media.src} alt={chapter.media.alt} loading="lazy" />{chapter.media.credit && <figcaption>{chapter.media.credit}</figcaption>}</figure>}
+              </section>
+              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-learned`}>
+                <h3 id={`${chapter.slug}-learned`}>{lessons[index].headings.learned}</h3>
+                {lessons[index].learned.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
+              </section>
+              <section className={lessonStyles.step} aria-labelledby={`${chapter.slug}-quiz`}>
+                <h3 id={`${chapter.slug}-quiz`}>Your mission challenge</h3>
+                <MissionQuiz name={chapter.shortName} questions={lessons[index].quiz} />
+                <Link className={styles.recordLink} href={`/mission/${chapter.slug}`} prefetch={false}>Explore the full mission <span aria-hidden="true">↗</span></Link>
+              </section>
             </div>
           </section>
         ))}
@@ -100,10 +108,13 @@ export function Expedition() {
           <p className={styles.eyebrow}>NASA MISSION GALLERY</p>
           <h2 className={styles.focusTitle}>Sources &amp; credits</h2>
           <div className={styles.sourceGrid}>
-            {chapters.map(chapter => (
+            {chapters.map((chapter, index) => (
               <section key={chapter.slug} className={styles.sourceEntry}>
                 <h3>{chapter.shortName}</h3>
                 <p><a href={chapter.sourceUrl} target="_blank" rel="noopener noreferrer">NASA mission record ↗</a> · Fetched <time dateTime={chapter.fetchedAt}>{chapter.fetchedAt.slice(0, 10)}</time></p>
+                {Array.from(new Set([...Object.values(lessons[index].sources), ...lessons[index].milestones.map(moment => moment.source)]))
+                  .filter(url => url !== chapter.sourceUrl)
+                  .map((url, sourceIndex) => <p key={url}><a href={url} target="_blank" rel="noopener noreferrer">Additional NASA reference {sourceIndex + 1} ↗</a></p>)}
                 {chapter.media.credit && <p>{chapter.media.credit}</p>}
                 {chapter.slug === 'apollo-11' && <p><a href="/models/optimized/apollo-11-license.txt">Model attribution and license</a></p>}
               </section>

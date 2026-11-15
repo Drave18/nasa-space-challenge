@@ -32,7 +32,13 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   const [enhanced, setEnhanced] = useState(false);
   const [modelState, setModelState] = useState<ModelLoadState>('idle');
   const [imageReady, setImageReady] = useState(false);
+  const [inspecting, setInspecting] = useState<string | null>(null);
   const current = chapters[active];
+  useEffect(() => {
+    const update = (event: Event) => setInspecting((event as CustomEvent<string | null>).detail);
+    window.addEventListener('lesson-inspect', update);
+    return () => window.removeEventListener('lesson-inspect', update);
+  }, []);
   const applyProgress = useCallback((progress: number) => {
     latestProgress.current = progress;
     viewer.current?.setStoryProgress(progress);
@@ -294,7 +300,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   }, [applyProgress]);
 
   return <div ref={root} className={styles.experience} data-enhanced={enhanced || undefined} data-active-chapter={current?.slug ?? ''} data-image-ready={imageReady || undefined} data-media-kind={current?.media.kind}>
-    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={!constrained || allowedSlug === current?.slug} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
+    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={inspecting !== current?.slug && (!constrained || allowedSlug === current?.slug)} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
     {constrained && current?.media.kind === 'model' && allowedSlug !== current.slug ? <button className={styles.load} onClick={() => setAllowedSlug(current.slug)}>Load 3D model</button> : null}
     <div className={styles.document}>{children}</div>
     <ChapterNav chapters={chapters} activeSlug={current?.slug ?? null} />
