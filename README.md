@@ -2,6 +2,16 @@
 
 **Live demo:** https://nasa-space-challenge-alpha.vercel.app
 
+**Team CaribeShip** · Challenge: [Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars](https://www.spaceappschallenge.org/2026/challenges/nasas-discarded-equipment-storytelling/)
+
+## Demo video
+
+[![Abandoned but not Forgotten, project demo on YouTube](https://img.youtube.com/vi/pr9UK7pEAp4/maxresdefault.jpg)](https://youtu.be/pr9UK7pEAp4)
+
+Watch on YouTube: https://youtu.be/pr9UK7pEAp4
+
+## Overview
+
 An interactive expedition through NASA's Moon and Mars surface missions. Each mission has a guided chapter, a 3D model to inspect, a decision-based "mission control" quiz, and a full reference page built from NASA's own archive text.
 
 ## Summary
@@ -62,7 +72,7 @@ AI coding assistants were used during development, for example for code generati
 
 ## Team
 
-Built by the repository contributors for the NASA Space Apps Challenge.
+Team CaribeShip: Estiven Mejia Gueto and David Mejia Rebolledo, for the NASA Space Apps Challenge.
 
 ## Acknowledgements
 
