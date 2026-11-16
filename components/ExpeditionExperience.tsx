@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Lenis from 'lenis';
 import type { Media } from '@/lib/catalog';
 import type { ModelLoadState, ModelViewerHandle } from './ModelViewer';
 import { ChapterNav } from './ChapterNav';
@@ -14,6 +15,7 @@ export interface ChapterDescriptor { slug: string; shortName: string; body: stri
 type ChapterPosition = { top: number; bottom: number };
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+const mixProgress = (state: { progress: number; lesson: number }) => (state.progress + state.lesson) / 2;
 
 export function ExpeditionExperience({ chapters, children }: { chapters: ChapterDescriptor[]; children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
@@ -21,7 +23,8 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   const progressBar = useRef<HTMLDivElement>(null);
   const positions = useRef<ChapterPosition[]>([]);
   const activeRef = useRef(-1);
-  const chapterProgress = useRef(chapters.map(() => ({ progress: 0 })));
+  // `scene` is the cinematic scrub, `lesson` continues it while the reading cards scroll past.
+  const chapterProgress = useRef(chapters.map(() => ({ progress: 0, lesson: 0 })));
   const latestProgress = useRef(0);
   const motionEnabled = useRef(false);
   const considerPrefetch = useRef<() => void>(() => {});
@@ -39,6 +42,11 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     window.addEventListener('lesson-inspect', update);
     return () => window.removeEventListener('lesson-inspect', update);
   }, []);
+  useEffect(() => {
+    if (inspecting === null) return;
+    setPrefetchSrc(null);
+    setModelState('idle');
+  }, [inspecting]);
   const applyProgress = useCallback((progress: number) => {
     latestProgress.current = progress;
     viewer.current?.setStoryProgress(progress);
@@ -86,6 +94,21 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     return () => link.removeEventListener('click', returnToTop);
   }, []);
 
+  // Inertial smooth scrolling driven by GSAP's ticker so ScrollTrigger scrubs stay in step.
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95 });
+    lenis.on('scroll', ScrollTrigger.update);
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+    return () => {
+      gsap.ticker.remove(tick);
+      gsap.ticker.lagSmoothing(500, 33);
+      lenis.destroy();
+    };
+  }, []);
+
   useGSAP(() => {
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
@@ -93,6 +116,17 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
       const container = root.current!;
       const sections = Array.from(container.querySelectorAll<HTMLElement>('[data-chapter]'));
       const sceneOf = (section: HTMLElement) => section.querySelector<HTMLElement>('[data-story-scene]')!;
+      // After the cinematic scene the model keeps orbiting for the whole lesson, so it never freezes mid-scroll.
+      sections.forEach((section, index) => {
+        const lesson = section.querySelector<HTMLElement>('[id$="-lesson"]');
+        const state = chapterProgress.current[index];
+        if (!lesson) return;
+        gsap.to(state, {
+          lesson: 1, ease: 'none',
+          scrollTrigger: { trigger: lesson, start: 'top bottom', end: 'bottom bottom', scrub: 0.8, invalidateOnRefresh: true },
+          onUpdate: () => { if (index === activeRef.current) applyProgress(mixProgress(state)); },
+        });
+      });
       // Reading reveals are created once per context so rebuilds never duplicate them.
       gsap.utils.toArray<HTMLElement>('[data-reading-reveal]', container).forEach(group => {
         gsap.from(group, {
@@ -143,7 +177,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
               trigger: scene, start: 'top top', end: 'bottom bottom',
               scrub: 0.55, invalidateOnRefresh: true,
             },
-            onUpdate: () => { if (index === activeRef.current) applyProgress(progress.progress); },
+            onUpdate: () => { if (index === activeRef.current) applyProgress(mixProgress(progress)); },
           });
           timelines.push(timeline);
           // Camera and captions share one playhead, including reverse scrolling.
@@ -198,7 +232,8 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
           const items = container.querySelectorAll('[data-hero-item]');
           const hash = location.hash;
           if (scrollY < 4 && (!hash || hash === '#top') && items.length) {
-            gsap.from(items, { opacity: 0, y: 20, duration: 0.7, stagger: 0.08, ease: 'power2.out', clearProps: 'opacity,transform' });
+            // The logo preloader owns the first ~2.7s; start the hero reveal as its curtain lifts.
+            gsap.from(items, { opacity: 0, y: 20, duration: 0.7, stagger: 0.08, delay: Math.max(0, 2.2 - performance.now() / 1000), ease: 'power2.out', clearProps: 'opacity,transform' });
           }
         }
       };
@@ -228,7 +263,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     let cancelQueued: (() => void) | null = null;
     let queued = false;
     const consider = () => {
-      if (activeRef.current !== active) return;
+      if (activeRef.current !== active || inspecting !== null) return;
       const bounds = positions.current[active];
       const progress = bounds ? (scrollY - bounds.top) / Math.max(1, bounds.bottom - bounds.top - innerHeight) : 0;
       const next = chapters[active + 1]?.media;
@@ -248,7 +283,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     considerPrefetch.current = consider;
     consider();
     return () => { cancelQueued?.(); considerPrefetch.current = () => {}; };
-  }, [active, chapters, constrained, current, imageReady, modelState]);
+  }, [active, chapters, constrained, current, imageReady, inspecting, modelState]);
 
   useEffect(() => {
     const sections = Array.from(root.current!.querySelectorAll<HTMLElement>('[data-chapter]'));
@@ -269,7 +304,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
         setImageReady(false);
         setPrefetchSrc(null);
         setAllowedSlug(null);
-        applyProgress(motionEnabled.current ? chapterProgress.current[index]?.progress ?? 0 : 0.5);
+        applyProgress(motionEnabled.current && chapterProgress.current[index] ? mixProgress(chapterProgress.current[index]) : motionEnabled.current ? 0 : 0.5);
       }
       const max = document.documentElement.scrollHeight - innerHeight;
       if (progressBar.current) progressBar.current.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
@@ -315,7 +350,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   }, [applyProgress]);
 
   return <div ref={root} className={styles.experience} data-enhanced={enhanced || undefined} data-active-chapter={current?.slug ?? ''} data-image-ready={imageReady || undefined} data-media-kind={current?.media.kind}>
-    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={inspecting !== current?.slug && (!constrained || allowedSlug === current?.slug)} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
+    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={inspecting !== current?.slug && (!constrained || allowedSlug === current?.slug)} suspended={inspecting !== null} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
     {constrained && current?.media.kind === 'model' && allowedSlug !== current.slug ? <button className={styles.load} onClick={() => setAllowedSlug(current.slug)}>Load 3D model</button> : null}
     <div className={styles.document}>{children}</div>
     <ChapterNav chapters={chapters} activeSlug={current?.slug ?? null} />

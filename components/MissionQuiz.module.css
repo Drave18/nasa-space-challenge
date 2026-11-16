@@ -3,10 +3,7 @@
   --good: #7fe0a0; --bad: #ff8f8f;
   position: relative; max-width: 54rem; padding: clamp(1.1rem, 3.5vw, 2.25rem);
   border: 1px solid rgba(255, 255, 245, .14); border-radius: 18px; overflow: hidden;
-  background:
-    radial-gradient(ellipse 70% 60% at 100% 0%, rgba(255, 255, 255, .07), transparent 65%),
-    linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px) 0 0 / 100% 28px,
-    linear-gradient(160deg, #0d0d10, #030304);
+  background: transparent;
   box-shadow: 0 24px 70px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(255, 255, 255, .03);
 }
 .quiz::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--quiz-accent), transparent 80%); }
@@ -72,3 +69,14 @@
 @keyframes pop { 0% { transform: scale(.2); opacity: 0; } 70% { transform: scale(1.25); } 100% { transform: scale(1); opacity: 1; } }
 @media (max-width: 599px) { .stage { padding: .5rem; font-size: .62rem; gap: .35rem; } .stageMark { display: none; } .choice { gap: .75rem; } .resultTag { display: none; } }
 @media (prefers-reduced-motion: reduce) { .stage, .choice, .action { transition: none; animation: none; } .choice[data-result] { animation: none; } .medal span { animation: none !important; } .choice:hover:not(:disabled), .action:hover:not(:disabled) { transform: none; } }
+/* Flat, compact game surfaces */
+.quiz, .scoreBox, .stage, .objectives li, .choice, .letter, .feedback:not([data-empty]), .action { border-radius: 3px; }
+.quiz { max-width: 46rem; box-shadow: none; }
+.choice { min-height: 54px; }
+.letter { flex-basis: 2.1rem; height: 2.1rem; }
+.phase { font-size: clamp(1.2rem, 1.8vw, 1.6rem); }
+.prompt { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+.score { font-size: 2.5rem; }
+.medal { font-size: 2rem; }
+.rank { font-size: clamp(1.3rem, 2vw, 1.7rem); }
+.action { min-height: 46px; }

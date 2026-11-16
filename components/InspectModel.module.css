@@ -1,9 +1,6 @@
 .frame {
   border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--glass-surface);
-  box-shadow: var(--glass-shadow);
+  background: var(--surface);
 }
 
 .bar {
@@ -27,8 +24,7 @@
   min-height: 44px;
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--glass-surface);
+  background: var(--surface);
   color: var(--fg);
   cursor: pointer;
   font: inherit;
@@ -39,7 +35,7 @@
 
 .stage {
   position: relative;
-  height: clamp(320px, 65svh, 720px);
+  height: clamp(300px, 56svh, 600px);
   overflow: hidden;
   background: #030303;
 }
@@ -47,7 +43,7 @@
 .stage[data-expanded] { height: max(320px, 85svh); }
 
 @media (max-width: 599px) {
-  .stage { height: clamp(480px, 72svh, 720px); }
+  .stage { height: clamp(440px, 66svh, 640px); }
   .stage[data-expanded] { height: max(560px, 85svh); }
 }
 
@@ -67,7 +63,7 @@
   min-height: 44px;
   padding: 0.7rem 1.25rem;
   border: 1px solid var(--accent);
-  background: var(--glass-surface);
+  background: var(--surface);
   color: var(--fg);
   cursor: pointer;
   font-weight: 600;
@@ -77,4 +73,70 @@
 
 @media (prefers-reduced-motion: reduce) {
   .expand { transition: none; }
+}
+
+.tour {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+  padding: 1rem;
+  border-top: 1px solid var(--accent);
+  background: transparent;
+}
+
+.tourStart,
+.tourButtons button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: 0.72rem var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease;
+}
+
+.tourStart:hover:not(:disabled),
+.tourButtons button:hover:not(:disabled) { border-color: var(--accent); }
+.tourStart:disabled,
+.tourButtons button:disabled { opacity: 0.4; cursor: default; }
+.tourStart:focus-visible,
+.tourButtons button:focus-visible,
+.tourSource:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.tourMeta {
+  display: flex;
+  gap: 1rem;
+  font: 0.72rem var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tourTitle {
+  margin: 0;
+  font: 700 1.1rem/1.2 var(--font-display), sans-serif;
+}
+
+.tourTitle:focus-visible { outline: none; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+.tourBody { margin: 0; max-width: 60ch; font-size: 0.95rem; line-height: 1.6; }
+.tourSource { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.85rem; color: var(--fg); }
+.tourButtons { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tourStart, .tourButtons button { transition: none; }
 }

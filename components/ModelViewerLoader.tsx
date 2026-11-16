@@ -11,3 +11,7 @@ const ModelViewer = dynamic(() => import('./ModelViewer').then((m) => m.ModelVie
 export function ModelViewerLoader(props: ModelViewerProps) {
   return <ModelViewer {...props} />;
 }
+
+export function preloadModelViewer(): Promise<void> {
+  return import('./ModelViewer').then(() => undefined);
+}

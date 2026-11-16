@@ -11,11 +11,12 @@ export interface StoryMediaProps {
   viewerRef: Ref<ModelViewerHandle>;
   prefetchSrc?: string | null;
   allowModel: boolean;
+  suspended?: boolean;
   onStateChange: (state: ModelLoadState) => void;
   onImageReady: () => void;
 }
 
-export function StoryMedia({ media, viewerRef, prefetchSrc, allowModel, onStateChange, onImageReady }: StoryMediaProps) {
+export function StoryMedia({ media, viewerRef, prefetchSrc, allowModel, suspended = false, onStateChange, onImageReady }: StoryMediaProps) {
   const [mounted, setMounted] = useState(false);
   const image = useRef<HTMLImageElement>(null);
   const model = media?.kind === 'model' && allowModel ? media : null;
@@ -29,7 +30,7 @@ export function StoryMedia({ media, viewerRef, prefetchSrc, allowModel, onStateC
   }, [media, onImageReady]);
   return <div className={styles.backdrop} aria-hidden={!media} data-story-media={media?.src ?? ''}>
     {media ? <img ref={image} key={media.src} className={`${styles.preview} ${media.kind === 'model' ? styles.modelPreview : ''}`} data-story-image={media.kind === 'image' ? '' : undefined} src={media.kind === 'model' ? media.poster : media.src} alt={media.alt} loading="lazy" decoding="async" /> : null}
-    {mounted ? <ModelViewerLoader ref={viewerRef} media={model} mode="story" active={Boolean(model)} prefetchSrc={prefetchSrc} onStateChange={onStateChange} /> : null}
+    {mounted && !suspended ? <ModelViewerLoader ref={viewerRef} media={model} mode="story" active={Boolean(model)} prefetchSrc={prefetchSrc} onStateChange={onStateChange} /> : null}
     <div className={styles.shade} />
   </div>;
 }
