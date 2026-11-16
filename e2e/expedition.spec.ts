@@ -684,3 +684,121 @@ test('journey timeline: mobile has no horizontal overflow', async ({ browser }) 
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
   await context.close();
 });
+
+const saveDataScript = () => {
+  Object.defineProperty(navigator, 'connection', {
+    configurable: true,
+    value: { saveData: true, effectiveType: '4g', addEventListener() {}, removeEventListener() {} },
+  });
+};
+
+test.describe('mobile model performance', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test('mobile model performance: viewer code warms before Inspect, the model does not', async ({ page }) => {
+    const models: string[] = [];
+    const scripts: string[] = [];
+    page.on('request', request => {
+      if (request.url().endsWith('.glb')) models.push(request.url());
+      if (request.resourceType() === 'script') scripts.push(request.url());
+    });
+    await page.goto('/mission/apollo-11');
+    const inspect = page.getByRole('button', { name: 'Inspect model' });
+    await inspect.scrollIntoViewIfNeeded();
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(500);
+    expect(models).toHaveLength(0);
+    await expect(page.locator('canvas')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Take a tour' })).toHaveCount(0);
+    const before = scripts.length;
+    await launchViewer(page);
+    await expect(page.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+    // next/dynamic adds only its own tiny loadable stub chunk; the viewer and three.js chunks were already warm.
+    expect(scripts.length - before).toBeLessThanOrEqual(1);
+    expect(models).toHaveLength(1);
+    await expect(page.getByRole('button', { name: 'Take a tour' })).toBeEnabled();
+  });
+
+  test('mobile model performance: Save-Data never warms the viewer or loads a model', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+    await context.addInitScript(saveDataScript);
+    const page = await context.newPage();
+    const models: string[] = [];
+    const scripts: string[] = [];
+    page.on('request', request => {
+      if (request.url().endsWith('.glb')) models.push(request.url());
+      if (request.resourceType() === 'script') scripts.push(request.url());
+    });
+    await page.goto('/mission/apollo-11');
+    await page.getByRole('button', { name: 'Inspect model' }).scrollIntoViewIfNeeded();
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(500);
+    const before = scripts.length;
+    expect(models).toHaveLength(0);
+    await launchViewer(page);
+    await expect(page.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+    expect(scripts.length).toBeGreaterThan(before);
+    await page.goto('/#apollo-11');
+    await expect(page.getByRole('button', { name: 'Load 3D model' })).toBeVisible();
+    await page.waitForTimeout(500);
+    expect(models).toHaveLength(1);
+    await context.close();
+  });
+
+  test('mobile model performance: hashed GLB is immutable and reloads from the browser cache', async ({ page }) => {
+    const headers: Record<string, string> = {};
+    page.on('response', async response => {
+      const url = new URL(response.url());
+      if (url.pathname.endsWith('.glb') || url.pathname.endsWith('manifest.json')) headers[url.pathname] = response.headers()['cache-control'] ?? '';
+    });
+    const glbTransfers = () => page.evaluate(() => performance.getEntriesByType('resource')
+      .filter(entry => entry.name.endsWith('.glb'))
+      .map(entry => ({ name: entry.name, transfer: (entry as PerformanceResourceTiming).transferSize, body: (entry as PerformanceResourceTiming).encodedBodySize })));
+    await openViewer(page, 'insight');
+    const first = await glbTransfers();
+    expect(first).toHaveLength(1);
+    expect(first[0].transfer).toBeGreaterThan(first[0].body);
+    expect(new URL(first[0].name).pathname).toMatch(/^\/models\/optimized\/insight\.[a-f0-9]{16}\.glb$/);
+    expect(headers[new URL(first[0].name).pathname]).toBe('public, max-age=31536000, immutable');
+    await page.reload();
+    await launchViewer(page);
+    await expect(page.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+    const second = await glbTransfers();
+    expect(second).toHaveLength(1);
+    expect(second[0].transfer).toBe(0);
+    await expect(page.getByRole('button', { name: 'Take a tour' })).toBeEnabled();
+    const manifest = await page.request.get('/models/optimized/manifest.json');
+    expect(manifest.headers()['cache-control'] ?? '').not.toContain('immutable');
+  });
+
+  test('mobile model performance: homepage inspector replaces the story viewer and restores it', async ({ page }) => {
+    await page.goto('/#apollo-11-lesson');
+    const lesson = page.locator('#apollo-11-lesson');
+    await expect(page.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+    await expect(page.locator('canvas')).toHaveCount(1);
+    const bodies = () => page.evaluate(() => performance.getEntriesByType('resource')
+      .filter(entry => entry.name.includes('/apollo-11.') && entry.name.endsWith('.glb') && (entry as PerformanceResourceTiming).transferSize > (entry as PerformanceResourceTiming).encodedBodySize).length);
+    const initial = await bodies();
+    for (let round = 0; round < 2; round++) {
+      await lesson.getByRole('button', { name: 'Explore the 3D spacecraft' }).scrollIntoViewIfNeeded();
+      await lesson.getByRole('button', { name: 'Explore the 3D spacecraft' }).click();
+      await expect(lesson.locator('canvas')).toBeAttached();
+      await expect(page.locator('canvas')).toHaveCount(1);
+      await expect(lesson.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+      await lesson.getByRole('button', { name: 'Close inspection' }).click();
+      await expect(lesson.locator('canvas')).toHaveCount(0);
+      await expect(page.locator('canvas')).toHaveCount(1);
+      await expect(page.locator('[data-model-state="ready"]')).toBeAttached({ timeout: 60000 });
+    }
+    expect(await bodies()).toBeLessThanOrEqual(Math.max(initial, 1));
+  });
+
+  test('mobile model performance: a failed GLB never enables the tour', async ({ page }) => {
+    await page.route('**/models/optimized/*.glb', route => route.abort());
+    await page.goto('/mission/apollo-11');
+    await launchViewer(page);
+    await expect(page.getByText('Could not load model')).toBeVisible();
+    await expect(page.locator('[data-model-state="ready"]')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Take a tour' })).toHaveCount(0);
+  });
+});

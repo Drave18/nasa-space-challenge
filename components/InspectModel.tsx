@@ -4,7 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import type { Media } from '@/lib/catalog';
 import type { ModelTour } from '@/lib/model-tour';
 import type { ModelLoadState, ModelViewerHandle } from './ModelViewer';
-import { ModelViewerLoader } from './ModelViewerLoader';
+import { ModelViewerLoader, preloadModelViewer } from './ModelViewerLoader';
 import styles from './InspectModel.module.css';
 
 export function InspectModel({ media, initialOpen = false, tour }: { media: Extract<Media, { kind: 'model' }>; initialOpen?: boolean; tour?: ModelTour }) {
@@ -29,6 +29,20 @@ export function InspectModel({ media, initialOpen = false, tour }: { media: Extr
     return () => observer.disconnect();
   }, []);
 
+  // Warm the viewer code (never the model) shortly before the control scrolls into view.
+  useEffect(() => {
+    const element = stage.current;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (!element || typeof IntersectionObserver === 'undefined') return;
+    if (connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType ?? '')) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      void preloadModelViewer().catch(() => {});
+    }, { rootMargin: '300px 0px' });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => { if (state !== 'ready') setTourIndex(null); }, [state]);
   useEffect(() => {
     const target = pendingFocus.current === 'stop' ? stopHeading.current : pendingFocus.current === 'start' ? startButton.current : null;

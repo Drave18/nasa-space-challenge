@@ -36,7 +36,10 @@ const LIGHTS = {
   raking: { position: [-1.8, 0.55, 1.2], intensity: 3.8, environment: 0.5 },
 } as const;
 
-function regolithTexture(): THREE.CanvasTexture {
+let regolithCanvas: HTMLCanvasElement | null = null;
+
+function regolithPixels(): HTMLCanvasElement {
+  if (regolithCanvas) return regolithCanvas;
   const s = 1024;
   const c = document.createElement('canvas');
   c.width = c.height = s;
@@ -64,7 +67,11 @@ function regolithTexture(): THREE.CanvasTexture {
     g.arc(x, y, r, 0, 7);
     g.fill();
   }
-  const t = new THREE.CanvasTexture(c);
+  return regolithCanvas = c;
+}
+
+function regolithTexture(): THREE.CanvasTexture {
+  const t = new THREE.CanvasTexture(regolithPixels());
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.repeat.set(10, 10);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -170,7 +177,7 @@ export function ModelViewer(props: ModelViewerProps) {
     room.dispose();
     scene.environment = environment.texture;
     scene.environmentIntensity = 0.35;
-    const texture = regolithTexture();
+    let texture: THREE.CanvasTexture | null = null;
     const sun = new THREE.DirectionalLight(0xfff4e0, 4.5);
     sun.castShadow = true;
     sun.shadow.bias = -0.0004;
@@ -381,7 +388,7 @@ export function ModelViewer(props: ModelViewerProps) {
       clearTimeout(settle); settle = 0;
       compiled = ready = bvhReady = false;
       occluders.length = 0;
-      disposeObject(content, texture);
+      disposeObject(content, texture ?? undefined);
       content.clear();
       model = null;
       for (const tag of tags) tag.el.remove();
@@ -454,6 +461,7 @@ export function ModelViewer(props: ModelViewerProps) {
         shadow.near = maxDim / 100; shadow.far = maxDim * 6;
         shadow.updateProjectionMatrix();
         if (media.ground) {
+          texture ??= regolithTexture();
           const ground = new THREE.Mesh(new THREE.CircleGeometry(maxDim * 20, 64).rotateX(-Math.PI / 2),
             new THREE.MeshStandardMaterial({ color: GROUND_COLOR[media.ground], map: texture, bumpMap: texture, bumpScale: maxDim / 60, roughness: 1, metalness: 0 }));
           ground.receiveShadow = true;
@@ -633,7 +641,7 @@ export function ModelViewer(props: ModelViewerProps) {
       motion.removeEventListener('change', reduced);
       canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('keydown', key);
-      controls.dispose(); texture.dispose();
+      controls.dispose(); texture?.dispose();
       sun.shadow.map?.dispose(); environment.dispose(); pmrem.dispose();
       renderer.dispose(); renderer.forceContextLoss(); canvas.remove();
     };

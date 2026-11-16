@@ -42,6 +42,11 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     window.addEventListener('lesson-inspect', update);
     return () => window.removeEventListener('lesson-inspect', update);
   }, []);
+  useEffect(() => {
+    if (inspecting === null) return;
+    setPrefetchSrc(null);
+    setModelState('idle');
+  }, [inspecting]);
   const applyProgress = useCallback((progress: number) => {
     latestProgress.current = progress;
     viewer.current?.setStoryProgress(progress);
@@ -258,7 +263,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     let cancelQueued: (() => void) | null = null;
     let queued = false;
     const consider = () => {
-      if (activeRef.current !== active) return;
+      if (activeRef.current !== active || inspecting !== null) return;
       const bounds = positions.current[active];
       const progress = bounds ? (scrollY - bounds.top) / Math.max(1, bounds.bottom - bounds.top - innerHeight) : 0;
       const next = chapters[active + 1]?.media;
@@ -278,7 +283,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
     considerPrefetch.current = consider;
     consider();
     return () => { cancelQueued?.(); considerPrefetch.current = () => {}; };
-  }, [active, chapters, constrained, current, imageReady, modelState]);
+  }, [active, chapters, constrained, current, imageReady, inspecting, modelState]);
 
   useEffect(() => {
     const sections = Array.from(root.current!.querySelectorAll<HTMLElement>('[data-chapter]'));
@@ -345,7 +350,7 @@ export function ExpeditionExperience({ chapters, children }: { chapters: Chapter
   }, [applyProgress]);
 
   return <div ref={root} className={styles.experience} data-enhanced={enhanced || undefined} data-active-chapter={current?.slug ?? ''} data-image-ready={imageReady || undefined} data-media-kind={current?.media.kind}>
-    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={inspecting !== current?.slug && (!constrained || allowedSlug === current?.slug)} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
+    {enhanced ? <StoryMedia media={current?.media ?? null} viewerRef={viewer} prefetchSrc={prefetchSrc} allowModel={inspecting !== current?.slug && (!constrained || allowedSlug === current?.slug)} suspended={inspecting !== null} onStateChange={onStateChange} onImageReady={onImageReady} /> : null}
     {constrained && current?.media.kind === 'model' && allowedSlug !== current.slug ? <button className={styles.load} onClick={() => setAllowedSlug(current.slug)}>Load 3D model</button> : null}
     <div className={styles.document}>{children}</div>
     <ChapterNav chapters={chapters} activeSlug={current?.slug ?? null} />
