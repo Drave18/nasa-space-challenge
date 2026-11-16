@@ -9,3 +9,12 @@ tsconfig.tsbuildinfo
 test-results/
 playwright-report/
 .vercel
+
+# video build intermediates
+video/.capture/
+video/renders/
+video/snapshots/
+
+# presentation media (not part of the repo)
+Voice Lines for video presentation/
+video/
