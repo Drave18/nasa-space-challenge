@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { loadMissionLessons } from '../lib/lesson.ts';
+import { loadMission } from '../lib/catalog.ts';
 
 const LESSONS = loadMissionLessons();
 
@@ -12,7 +13,85 @@ test('expedition renders chapters and navigates to a mission record', async ({ p
   await page.goto(href!);
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Back to the expedition' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: /structured record/i }).first()).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Technical records' })).toBeAttached();
+  const first = href!.replace('/mission/', '');
+  const record = loadMission(first)!.records[0];
+  await expect(page.getByText(`${record.craft_name} · ${record.id}`, { exact: true }).first()).toBeAttached();
+});
+
+const norm = (text: string) => text.replace(/\s+/g, ' ').trim();
+
+test('mission article: narrative is complete, regrouped, and ordered', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const mission = loadMission('apollo-15')!;
+  await page.goto('/mission/apollo-15');
+  for (const [index, section] of mission.page.sections.entries()) {
+    const body = page.locator(`section[aria-labelledby="mission-section-${index}"]`);
+    await expect(body).toBeAttached();
+    const expected = section.blocks.flatMap(block => block.kind === 'p' ? [norm(block.text)] : []).filter(Boolean).join(' ');
+    const rendered = norm((await body.locator('p').allTextContents()).join(' '));
+    expect(rendered).toBe(expected);
+    for (const block of section.blocks) {
+      if (block.kind !== 'p') continue;
+      const text = norm(block.text);
+      if (text.length > 700) {
+        expect(await body.locator('p').filter({ hasText: text.slice(0, 40) }).first().textContent()).not.toBe(block.text);
+        expect(norm((await body.locator('p').filter({ hasText: text.slice(0, 40) }).first().textContent()) ?? '').length).toBeLessThan(text.length);
+      }
+    }
+  }
+  await expect(page.getByText('Source:')).toBeAttached();
+  await page.goto('/mission/apollo-11');
+  await expect(page.getByText('Neil A. Armstrong').first()).toBeAttached();
+});
+
+test('mission article: technical records are optional disclosures after the narrative', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const mission = loadMission('mars-pathfinder')!;
+  await page.goto('/mission/mars-pathfinder');
+  const heading = page.getByRole('heading', { name: 'Technical records' });
+  await expect(heading).toBeAttached();
+  const after = await page.evaluate(() => {
+    const sections = [...document.querySelectorAll('section[aria-labelledby^="mission-section-"]')];
+    const tech = document.querySelector('section[aria-labelledby="technical-records-heading"]')!;
+    return !!(sections[sections.length - 1].compareDocumentPosition(tech) & Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+  expect(after).toBe(true);
+  expect(mission.records.length).toBeGreaterThan(1);
+  for (const record of mission.records) {
+    const summary = page.getByText(`${record.craft_name} · ${record.id}`, { exact: true });
+    const details = page.locator('details', { has: summary }).first();
+    await expect(details).not.toHaveAttribute('open', /.*/);
+    await summary.focus();
+    await page.keyboard.press('Enter');
+    await expect(details.getByText('Catalog ID')).toBeVisible();
+    await expect(details.getByText(record.id, { exact: true }).first()).toBeVisible();
+    await details.getByText('Complete structured record').click();
+    await expect(details.locator('pre')).toContainText(`"id": "${record.id}"`);
+    await summary.focus();
+    await page.keyboard.press('Enter');
+    await expect(details.getByText('Catalog ID')).toBeHidden();
+  }
+});
+
+test('mission article: no-record and table missions render cleanly', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const dawn = loadMission('dawn')!;
+  await page.goto('/mission/dawn');
+  await expect(page.getByRole('heading', { name: 'Technical records' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
+  const firstParagraph = dawn.page.sections[0].blocks.find(block => block.kind === 'p');
+  if (firstParagraph?.kind === 'p') {
+    await expect(page.locator('section[aria-labelledby="mission-section-0"]')).toContainText(norm(firstParagraph.text).slice(0, 60));
+  }
+  await page.goto('/mission/pioneer-10');
+  await expect(page.locator('table').first()).toBeVisible();
+  await expect(page.locator('th[scope="row"]').first()).toBeVisible();
+  const links = page.getByText('Links & sources');
+  await links.click();
+  await expect(page.locator('details', { has: links }).locator('li').first()).toBeVisible();
+  await page.getByText('Full page text').click();
+  await expect(page.locator('footer pre')).toBeVisible();
 });
 
 test('model mission record offers lazy inspect control', async ({ page }) => {
